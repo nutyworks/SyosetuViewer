@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/mobile_navigation"
+	app:startDestination="@+id/navigation_novel_list">
+
+	<fragment
+		android:id="@+id/navigation_novel_list"
+		android:name="me.nutyworks.syosetuviewerv2.ui.novellist.NovelListFragment"
+		android:label="@string/title_novel_list"
+		tools:layout="@layout/fragment_novel_list" />
+
+	<fragment
+		android:id="@+id/navigation_dashboard"
+		android:name="me.nutyworks.syosetuviewerv2.ui.dashboard.DashboardFragment"
+		android:label="@string/title_dashboard"
+		tools:layout="@layout/fragment_dashboard" />
+
+	<fragment
+		android:id="@+id/navigation_notifications"
+		android:name="me.nutyworks.syosetuviewerv2.ui.notifications.NotificationsFragment"
+		android:label="@string/title_notifications"
+		tools:layout="@layout/fragment_notifications" />
+</navigation>
