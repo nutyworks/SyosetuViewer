@@ -1,21 +1,22 @@
 package me.nutyworks.syosetuviewerv2.ui.novellist
 
 import android.app.Application
-import android.provider.Settings
 import android.util.Log
-import android.view.View
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableInt
+import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.nutyworks.syosetuviewerv2.adapter.NovelDetailAdapter
 import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelEntity
 import me.nutyworks.syosetuviewerv2.data.NovelEntityRepository
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
+import narou4j.Narou
+import narou4j.entities.NovelBody
 import java.lang.IllegalArgumentException
 import java.net.ProtocolException
 
@@ -33,10 +34,22 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val mNovels = mRepository.novels
     private var mRecentlyDeletedNovel: NovelEntity? = null
-    private var selectedNovel: NovelEntity? = null
+    val selectedNovel = ObservableField<NovelEntity>()
+    val selectedNovelBody = ObservableField<List<NovelBody>>().apply {
+        GlobalScope.launch {
+            test()
+        }
+    }
+
+    suspend fun test() {
+        withContext(Dispatchers.IO) {
+            selectedNovelBody.set(Narou().getNovelBodyAll("n4154fl"))
+        }
+    }
 
     val novels: LiveData<List<NovelEntity>> get() = mNovels
-    val adapter = NovelListAdapter(this)
+    val novelListAdapter = NovelListAdapter(this)
+    val novelDetailAdapter = NovelDetailAdapter(this)
     val recyclerViewIsVisible = ObservableBoolean(false)
     val notExistsIsVisible = ObservableBoolean(true)
 
@@ -44,13 +57,13 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
     val snackBarNetworkFailEvent = SingleLiveEvent<Void>()
     val snackBarInvalidNcodeEvent = SingleLiveEvent<Void>()
     val novelDeleteEvent = SingleLiveEvent<Void>()
-    val startNovelDetailEvent = SingleLiveEvent<Void>()
+    val startNovelDetailFragmentEvent = SingleLiveEvent<Void>()
 
     fun onNovelClick(novel: NovelEntity) {
         Log.d(TAG, novel.toString())
 
-        startNovelDetailEvent.call()
-        selectedNovel = novel
+        selectedNovel.set(novel)
+        startNovelDetailFragmentEvent.call()
     }
 
     fun onNovelAddClick() {
@@ -59,7 +72,7 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun notifyAdapterForUpdate() {
         Log.i(TAG, "notifyAdapterForUpdate called, novels = ${novels.value}")
-        adapter.notifyDataSetChanged()
+        novelListAdapter.notifyDataSetChanged()
     }
 
     fun insertNovel(ncode: String) {

@@ -9,8 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.snackbar.Snackbar
 import me.nutyworks.syosetuviewerv2.R
@@ -33,9 +32,9 @@ class NovelListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentNovelListBinding.inflate(layoutInflater, container, false)
-        mViewModel.adapter.context = requireContext()
+        mViewModel.novelListAdapter.context = requireContext()
 
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(mViewModel.adapter))
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(mViewModel.novelListAdapter))
         itemTouchHelper.attachToRecyclerView(binding.rvNovelList)
 
         binding.viewModel = mViewModel
@@ -91,6 +90,11 @@ class NovelListFragment : Fragment() {
         Snackbar.make(mRoot, "Novel deleted.", Snackbar.LENGTH_LONG)
             .setAction("Undo") { undoDelete() }
             .show()
+    }
+
+    private fun startNovelDetailFragment() {
+        view?.findNavController()?.navigate(
+            NovelListFragmentDirections.actionFragmentNovelListToFragmentNovelDetail())
     }
 
     private fun undoDelete() {

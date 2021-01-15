@@ -1,18 +1,15 @@
 package me.nutyworks.syosetuviewerv2
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.activity.viewModels
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import me.nutyworks.syosetuviewerv2.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import me.nutyworks.syosetuviewerv2.ui.novellist.NovelListViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -37,5 +34,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_novel_list, R.id.navigation_dashboard, R.id.navigation_notifications))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.i(TAG, "Back button pressed")
+        super.onBackPressed()
+
+        return super.onOptionsItemSelected(item)
     }
 }

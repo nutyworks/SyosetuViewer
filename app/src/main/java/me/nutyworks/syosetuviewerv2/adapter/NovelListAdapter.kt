@@ -41,7 +41,7 @@ class NovelListAdapter(private val viewModel: NovelListViewModel) :
 
         fun bind(viewModel: NovelListViewModel, position: Int) {
             binding.viewModel = viewModel
-            binding.novel = viewModel.novels.value?.get(position)
+            binding.position = position
         }
     }
 }

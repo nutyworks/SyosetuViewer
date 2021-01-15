@@ -9,7 +9,18 @@
 		android:id="@+id/navigation_novel_list"
 		android:name="me.nutyworks.syosetuviewerv2.ui.novellist.NovelListFragment"
 		android:label="@string/title_novel_list"
-		tools:layout="@layout/fragment_novel_list" />
+		tools:layout="@layout/fragment_novel_list" >
+		<action
+			android:id="@+id/action_fragment_novel_list_to_fragment_novel_detail"
+			app:popUpToInclusive="true"
+			app:destination="@id/navigation_novel_detail" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/navigation_novel_detail"
+		android:name="me.nutyworks.syosetuviewerv2.ui.NovelDetailFragment"
+		android:label="Novel Details"
+		tools:layout="@layout/fragment_novel_detail" />
 
 	<fragment
 		android:id="@+id/navigation_dashboard"
