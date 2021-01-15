@@ -4,16 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface NovelEntityDao {
+interface NovelDao {
 
     @Query("SELECT * FROM novels ORDER BY ncode ASC")
-    fun getAll(): LiveData<List<NovelEntity>>
+    fun getAll(): LiveData<List<Novel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(novel: NovelEntity)
+    suspend fun insert(novel: Novel)
 
     @Delete
-    suspend fun delete(novel: NovelEntity)
+    suspend fun delete(novel: Novel)
 
     @Query("DELETE FROM novels")
     suspend fun deleteAll()

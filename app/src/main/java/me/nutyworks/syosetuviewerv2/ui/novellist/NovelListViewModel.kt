@@ -12,11 +12,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.adapter.NovelDetailAdapter
 import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
-import me.nutyworks.syosetuviewerv2.data.NovelEntity
+import me.nutyworks.syosetuviewerv2.data.Novel
+import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.NovelEntityRepository
+import me.nutyworks.syosetuviewerv2.network.Narou
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
-import narou4j.Narou
-import narou4j.entities.NovelBody
 import java.lang.IllegalArgumentException
 import java.net.ProtocolException
 
@@ -33,21 +33,11 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
     private val mRepository = NovelEntityRepository(application)
 
     private val mNovels = mRepository.novels
-    private var mRecentlyDeletedNovel: NovelEntity? = null
-    val selectedNovel = ObservableField<NovelEntity>()
-    val selectedNovelBody = ObservableField<List<NovelBody>>().apply {
-        GlobalScope.launch {
-            test()
-        }
-    }
+    private var mRecentlyDeletedNovel: Novel? = null
+    val selectedNovel = ObservableField<Novel>()
+    val selectedNovelBodies = ObservableField<List<NovelBody>>()
 
-    suspend fun test() {
-        withContext(Dispatchers.IO) {
-            selectedNovelBody.set(Narou().getNovelBodyAll("n4154fl"))
-        }
-    }
-
-    val novels: LiveData<List<NovelEntity>> get() = mNovels
+    val novels: LiveData<List<Novel>> get() = mNovels
     val novelListAdapter = NovelListAdapter(this)
     val novelDetailAdapter = NovelDetailAdapter(this)
     val recyclerViewIsVisible = ObservableBoolean(false)
@@ -59,7 +49,7 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
     val novelDeleteEvent = SingleLiveEvent<Void>()
     val startNovelDetailFragmentEvent = SingleLiveEvent<Void>()
 
-    fun onNovelClick(novel: NovelEntity) {
+    fun onNovelClick(novel: Novel) {
         Log.d(TAG, novel.toString())
 
         selectedNovel.set(novel)
@@ -93,7 +83,7 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun deleteNovel(novel: NovelEntity) {
+    fun deleteNovel(novel: Novel) {
         GlobalScope.launch {
             mRepository.deleteNovel(novel)
         }

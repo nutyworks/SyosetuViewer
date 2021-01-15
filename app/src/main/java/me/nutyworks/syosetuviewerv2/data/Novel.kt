@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "novels")
-data class NovelEntity(
+data class Novel(
     @PrimaryKey @NonNull val ncode: String,
     val title: String,
     val translatedTitle: String,

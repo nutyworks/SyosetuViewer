@@ -1,14 +1,11 @@
 package me.nutyworks.syosetuviewerv2.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.databinding.RowChapterItemBinding
 import me.nutyworks.syosetuviewerv2.databinding.RowEpisodeItemBinding
-import me.nutyworks.syosetuviewerv2.databinding.RowNovelItemBinding
 import me.nutyworks.syosetuviewerv2.ui.novellist.NovelListViewModel
 import java.lang.IllegalStateException
 
@@ -21,7 +18,7 @@ class NovelDetailAdapter(private val viewModel: NovelListViewModel)
     }
 
     override fun getItemViewType(position: Int): Int =
-        when (viewModel.selectedNovelBody.get()?.get(position)?.isChapter) {
+        when (viewModel.selectedNovelBodies.get()?.get(position)?.isChapter) {
             true -> CHAPTER
             else -> EPISODE
         }

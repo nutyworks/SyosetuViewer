@@ -22,7 +22,6 @@ class NovelListFragment : Fragment() {
         private val TAG = NovelListFragment::class.simpleName
     }
 
-    //    private val mViewModel by lazy { ViewModelProvider(this).get(NovelListViewModel::class.java) }
     private val mViewModel: NovelListViewModel by activityViewModels()
     private val mRoot: View by lazy { activity?.findViewById(android.R.id.content)!! }
 
