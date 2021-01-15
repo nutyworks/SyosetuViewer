@@ -2,6 +2,7 @@ package me.nutyworks.syosetuviewerv2.data
 
 import android.app.Application
 import android.util.Log
+import com.nutyworks.syosetuviewer.translator.PapagoRequester
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import narou4j.Narou
@@ -25,7 +26,10 @@ class NovelEntityRepository constructor(
         Log.i(TAG, "insertNovel called with ncode $ncode")
         withContext(Dispatchers.IO) {
             mNarou.getNovel(ncode).let { novel ->
-                NovelEntity(ncode, novel.title, "asdf", novel.writer)
+                NovelEntity(ncode,
+                            novel.title,
+                            PapagoRequester.request(novel.title),
+                            novel.writer)
             }.let { novelEntity ->
                 insertNovel(novelEntity)
             }
