@@ -5,4 +5,6 @@
 	<string name="title_notifications">Notifications</string>
 	<string name="novel_not_exists">Novel does not exists.</string>
 	<string name="add_novel">Add a novel</string>
+	<string name="enter_ncode">Enter a ncode</string>
+	<string name="enter_ncode_description">https://ncode.syosetu.com/&lt;ncode&gt;</string>
 </resources>

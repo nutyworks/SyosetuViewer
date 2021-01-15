@@ -1,6 +1,7 @@
 package me.nutyworks.syosetuviewerv2.ui.novellist
 
 import android.app.Application
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableBoolean
@@ -27,13 +28,10 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
         private val TAG = NovelListViewModel::class.simpleName
     }
 
-    private val mRepository = NovelEntityRepository(application).also {
-        GlobalScope.launch {
-            it.deleteAll()
-        }
-    }
+    private val mRepository = NovelEntityRepository(application)
 
     private val mNovels = mRepository.novels
+    private var mRecentlyDeletedNovel: NovelEntity? = null
 
     val novels: LiveData<List<NovelEntity>> get() = mNovels
     val adapter = NovelListAdapter(this)
@@ -42,6 +40,7 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
 
     val dialogControlEvent = SingleLiveEvent<Void>()
     val snackBarNetworkFailEvent = SingleLiveEvent<Void>()
+    val novelDeleteEvent = SingleLiveEvent<Void>()
 
     fun onClick(novel: NovelEntity) {
         Log.d(TAG, novel.toString())
@@ -49,17 +48,6 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun onNovelAddClick() {
         dialogControlEvent.call()
-
-        GlobalScope.launch {
-            try {
-                insertNovel(listOf("n9433gn", "n1777ge", "n1992gr", "n7787eq").random())
-            } catch (e: ProtocolException) {
-                Log.w(TAG, "ProtocolException occurred")
-                withContext(Dispatchers.Main) {
-                    snackBarNetworkFailEvent.call()
-                }
-            }
-        }
     }
 
     fun notifyAdapterForUpdate() {
@@ -67,5 +55,37 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
         adapter.notifyDataSetChanged()
     }
 
-    private suspend fun insertNovel(ncode: String) = mRepository.insertNovel(ncode)
+    fun insertNovel(ncode: String) {
+        GlobalScope.launch {
+            try {
+                mRepository.insertNovel(ncode)
+            } catch (e: ProtocolException) {
+                Log.w(TAG, "ProtocolException occurred while fetching syosetu.com")
+                withContext(Dispatchers.Main) {
+                    snackBarNetworkFailEvent.call()
+                }
+            }
+        }
+    }
+
+    fun deleteNovel(novel: NovelEntity) {
+        GlobalScope.launch {
+            mRepository.deleteNovel(novel)
+        }
+    }
+
+    fun deleteNovelIndex(position: Int) {
+        val novel = mNovels.value?.get(position) ?: return
+        mRecentlyDeletedNovel = novel
+        deleteNovel(novel)
+        novelDeleteEvent.call()
+    }
+
+    fun undoDelete() {
+        GlobalScope.launch {
+            mRecentlyDeletedNovel?.let {
+                mRepository.insertNovel(it)
+            }
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package me.nutyworks.syosetuviewerv2.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -11,6 +12,7 @@ import me.nutyworks.syosetuviewerv2.ui.novellist.NovelListViewModel
 class NovelListAdapter(private val viewModel: NovelListViewModel) :
     RecyclerView.Adapter<NovelListAdapter.NovelViewHolder>() {
 
+    lateinit var context: Context
     override fun getItemViewType(position: Int): Int = R.layout.row_novel_item
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NovelViewHolder {
@@ -27,6 +29,10 @@ class NovelListAdapter(private val viewModel: NovelListViewModel) :
 
     override fun getItemCount(): Int {
         return viewModel.novels.value?.size ?: 0
+    }
+
+    fun deleteItem(position: Int) {
+        viewModel.deleteNovelIndex(position)
     }
 
     class NovelViewHolder(

@@ -26,7 +26,7 @@ class NovelEntityRepository constructor(
         Log.i(TAG, "insertNovel called with ncode $ncode")
         withContext(Dispatchers.IO) {
             mNarou.getNovel(ncode).let { novel ->
-                NovelEntity(ncode,
+                NovelEntity(novel.ncode,
                             novel.title,
                             PapagoRequester.request(novel.title),
                             novel.writer)
