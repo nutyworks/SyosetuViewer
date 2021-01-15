@@ -34,7 +34,7 @@ class NovelListAdapter(private val viewModel: NovelListViewModel) :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(viewModel: NovelListViewModel, position: Int) {
-            binding.rowNovelItemViewModel = viewModel
+            binding.viewModel = viewModel
             binding.novel = viewModel.novels.value?.get(position)
         }
     }

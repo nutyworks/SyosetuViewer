@@ -5,17 +5,20 @@
     <data>
         <variable
             name="novel"
-            type="me.nutyworks.syosetuviewerv2.data.INovel" />
+            type="me.nutyworks.syosetuviewerv2.data.NovelEntity" />
 
         <variable
-            name="rowNovelItemViewModel"
+            name="viewModel"
             type="me.nutyworks.syosetuviewerv2.ui.novellist.NovelListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> rowNovelItemViewModel.onClick(novel)}"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{() -> viewModel.onClick(novel)}"
         android:padding="8dp">
 
         <TextView
