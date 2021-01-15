@@ -45,15 +45,18 @@ class NovelListFragment : Fragment() {
     }
 
     private fun setupListUiUpdate() {
-        mViewModel.novels.observe(viewLifecycleOwner) {
-            mViewModel.notifyAdapterForUpdate()
-            mViewModel.notExistsIsVisible.set(it.isEmpty())
-            mViewModel.recyclerViewIsVisible.set(it.isNotEmpty())
+        with(mViewModel) {
+            novels.observe(viewLifecycleOwner) {
+                notifyAdapterForUpdate()
+                notExistsIsVisible.set(it.isEmpty())
+                recyclerViewIsVisible.set(it.isNotEmpty())
+            }
+            dialogControlEvent.observe(viewLifecycleOwner) { showDialogAddNovel() }
+            snackBarNetworkFailEvent.observe(viewLifecycleOwner) { showNetworkFailSnackbar() }
+            snackBarInvalidNcodeEvent.observe(viewLifecycleOwner) { showInvalidNcodeSnackbar() }
+            novelDeleteEvent.observe(viewLifecycleOwner) { showUndoSnackbar() }
+            startNovelDetailFragmentEvent.observe(viewLifecycleOwner) { startNovelDetailFragment() }
         }
-        mViewModel.dialogControlEvent.observe(viewLifecycleOwner) { showDialogAddNovel() }
-        mViewModel.snackBarNetworkFailEvent.observe(viewLifecycleOwner) { showNetworkFailSnackbar() }
-        mViewModel.snackBarInvalidNcodeEvent.observe(viewLifecycleOwner) { showInvalidNcodeSnackbar() }
-        mViewModel.novelDeleteEvent.observe(viewLifecycleOwner) { showUndoSnackbar() }
     }
 
     private fun showNetworkFailSnackbar() {
