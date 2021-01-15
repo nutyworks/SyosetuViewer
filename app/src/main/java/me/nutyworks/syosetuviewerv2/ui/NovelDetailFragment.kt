@@ -23,6 +23,16 @@ class NovelDetailFragment : Fragment() {
 
         binding.viewModel = mViewModel
 
+        setupListUiUpdate()
+
         return binding.root
+    }
+
+    private fun setupListUiUpdate() {
+        with(mViewModel) {
+            selectedNovelBodies.observe(viewLifecycleOwner) {
+                notifyDetailAdapterForUpdate()
+            }
+        }
     }
 }

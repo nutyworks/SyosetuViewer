@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.databinding.RowChapterItemBinding
 import me.nutyworks.syosetuviewerv2.databinding.RowEpisodeItemBinding
 import me.nutyworks.syosetuviewerv2.ui.novellist.NovelListViewModel
@@ -13,12 +14,12 @@ class NovelDetailAdapter(private val viewModel: NovelListViewModel)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
-        private const val CHAPTER = 0
-        private const val EPISODE = 1
+        private const val CHAPTER = R.layout.row_chapter_item
+        private const val EPISODE = R.layout.row_episode_item
     }
 
     override fun getItemViewType(position: Int): Int =
-        when (viewModel.selectedNovelBodies.get()?.get(position)?.isChapter) {
+        when (viewModel.selectedNovelBodies.value?.get(position)?.isChapter) {
             true -> CHAPTER
             else -> EPISODE
         }
@@ -46,10 +47,10 @@ class NovelDetailAdapter(private val viewModel: NovelListViewModel)
 
         return when (viewType) {
             CHAPTER -> ChapterViewHolder(
-                DataBindingUtil.inflate(layoutInflater, viewType, parent, false)
+                DataBindingUtil.inflate(layoutInflater, viewType, parent, false) as RowChapterItemBinding
             )
             EPISODE -> EpisodeViewHolder(
-                DataBindingUtil.inflate(layoutInflater, viewType, parent, false)
+                DataBindingUtil.inflate(layoutInflater, viewType, parent, false) as RowEpisodeItemBinding
             )
             else -> throw IllegalStateException("viewType is neither CHAPTER nor EPISODE")
         }
@@ -65,6 +66,6 @@ class NovelDetailAdapter(private val viewModel: NovelListViewModel)
     }
 
     override fun getItemCount(): Int {
-        return viewModel.novels.value?.size ?: 0
+        return viewModel.selectedNovelBodies.value?.size ?: 0
     }
 }

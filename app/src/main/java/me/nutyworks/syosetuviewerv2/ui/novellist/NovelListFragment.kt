@@ -45,7 +45,7 @@ class NovelListFragment : Fragment() {
     private fun setupListUiUpdate() {
         with(mViewModel) {
             novels.observe(viewLifecycleOwner) {
-                notifyAdapterForUpdate()
+                notifyListAdapterForUpdate()
                 notExistsIsVisible.set(it.isEmpty())
                 recyclerViewIsVisible.set(it.isNotEmpty())
             }

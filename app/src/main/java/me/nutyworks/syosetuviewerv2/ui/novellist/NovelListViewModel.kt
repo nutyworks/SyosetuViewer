@@ -6,6 +6,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,10 +35,11 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val mNovels = mRepository.novels
     private var mRecentlyDeletedNovel: Novel? = null
+    private val mSelectedNovelBodies = MutableLiveData<List<NovelBody>>()
     val selectedNovel = ObservableField<Novel>()
-    val selectedNovelBodies = ObservableField<List<NovelBody>>()
 
     val novels: LiveData<List<Novel>> get() = mNovels
+    val selectedNovelBodies: LiveData<List<NovelBody>> get() = mSelectedNovelBodies
     val novelListAdapter = NovelListAdapter(this)
     val novelDetailAdapter = NovelDetailAdapter(this)
     val recyclerViewIsVisible = ObservableBoolean(false)
@@ -54,15 +56,29 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
 
         selectedNovel.set(novel)
         startNovelDetailFragmentEvent.call()
+
+        GlobalScope.launch {
+            Narou.getNovelBodies(novel.ncode).let {
+                withContext(Dispatchers.Main) {
+                    mSelectedNovelBodies.value = it
+                    Log.i(TAG, it.toString())
+                }
+            }
+        }
     }
 
     fun onNovelAddClick() {
         dialogControlEvent.call()
     }
 
-    fun notifyAdapterForUpdate() {
-        Log.i(TAG, "notifyAdapterForUpdate called, novels = ${novels.value}")
+    fun notifyListAdapterForUpdate() {
+        Log.i(TAG, "notifyListAdapterForUpdate called, novels = ${novels.value}")
         novelListAdapter.notifyDataSetChanged()
+    }
+
+    fun notifyDetailAdapterForUpdate() {
+        Log.i(TAG, "notifyDetailAdapterForUpdate called, novelbodies = ${selectedNovelBodies.value}")
+        novelDetailAdapter.notifyDataSetChanged()
     }
 
     fun insertNovel(ncode: String) {
