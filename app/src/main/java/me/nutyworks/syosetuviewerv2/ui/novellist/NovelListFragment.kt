@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.snackbar.Snackbar
@@ -21,7 +23,8 @@ class NovelListFragment : Fragment() {
         private val TAG = NovelListFragment::class.simpleName
     }
 
-    private val mViewModel by lazy { ViewModelProvider(this).get(NovelListViewModel::class.java) }
+    //    private val mViewModel by lazy { ViewModelProvider(this).get(NovelListViewModel::class.java) }
+    private val mViewModel: NovelListViewModel by activityViewModels()
     private val mRoot: View by lazy { activity?.findViewById(android.R.id.content)!! }
 
     override fun onCreateView(
@@ -49,12 +52,18 @@ class NovelListFragment : Fragment() {
         }
         mViewModel.dialogControlEvent.observe(viewLifecycleOwner) { showDialogAddNovel() }
         mViewModel.snackBarNetworkFailEvent.observe(viewLifecycleOwner) { showNetworkFailSnackbar() }
+        mViewModel.snackBarInvalidNcodeEvent.observe(viewLifecycleOwner) { showInvalidNcodeSnackbar() }
         mViewModel.novelDeleteEvent.observe(viewLifecycleOwner) { showUndoSnackbar() }
     }
 
     private fun showNetworkFailSnackbar() {
         Log.i(TAG, "showNetworkFailSnackbar called")
         Snackbar.make(mRoot, "Failed to get novel, please try again.", Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun showInvalidNcodeSnackbar() {
+        Log.i(TAG, "showNetworkFailSnackbar called")
+        Snackbar.make(mRoot, "Invalid ncode, please try again.", Snackbar.LENGTH_LONG).show()
     }
 
     private fun showDialogAddNovel() {

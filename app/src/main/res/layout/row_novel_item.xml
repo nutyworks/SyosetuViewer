@@ -18,7 +18,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{() -> viewModel.onClick(novel)}"
+        android:onClick="@{() -> viewModel.onNovelClick(novel)}"
         android:padding="8dp">
 
         <TextView

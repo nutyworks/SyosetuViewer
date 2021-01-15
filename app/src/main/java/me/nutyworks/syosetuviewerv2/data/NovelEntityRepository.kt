@@ -6,6 +6,7 @@ import com.nutyworks.syosetuviewer.translator.PapagoRequester
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import narou4j.Narou
+import java.lang.IllegalArgumentException
 
 class NovelEntityRepository constructor(
     application: Application
@@ -26,6 +27,7 @@ class NovelEntityRepository constructor(
         Log.i(TAG, "insertNovel called with ncode $ncode")
         withContext(Dispatchers.IO) {
             mNarou.getNovel(ncode).let { novel ->
+                novel.ncode ?: throw IllegalArgumentException("Invalid ncode")
                 NovelEntity(novel.ncode,
                             novel.title,
                             PapagoRequester.request(novel.title),

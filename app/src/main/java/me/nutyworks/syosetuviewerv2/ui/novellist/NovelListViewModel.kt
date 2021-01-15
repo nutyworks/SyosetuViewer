@@ -16,6 +16,7 @@ import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelEntity
 import me.nutyworks.syosetuviewerv2.data.NovelEntityRepository
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
+import java.lang.IllegalArgumentException
 import java.net.ProtocolException
 
 class NovelListViewModel(application: Application) : AndroidViewModel(application) {
@@ -32,6 +33,7 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val mNovels = mRepository.novels
     private var mRecentlyDeletedNovel: NovelEntity? = null
+    private var selectedNovel: NovelEntity? = null
 
     val novels: LiveData<List<NovelEntity>> get() = mNovels
     val adapter = NovelListAdapter(this)
@@ -40,10 +42,15 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
 
     val dialogControlEvent = SingleLiveEvent<Void>()
     val snackBarNetworkFailEvent = SingleLiveEvent<Void>()
+    val snackBarInvalidNcodeEvent = SingleLiveEvent<Void>()
     val novelDeleteEvent = SingleLiveEvent<Void>()
+    val startNovelDetailEvent = SingleLiveEvent<Void>()
 
-    fun onClick(novel: NovelEntity) {
+    fun onNovelClick(novel: NovelEntity) {
         Log.d(TAG, novel.toString())
+
+        startNovelDetailEvent.call()
+        selectedNovel = novel
     }
 
     fun onNovelAddClick() {
@@ -63,6 +70,11 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
                 Log.w(TAG, "ProtocolException occurred while fetching syosetu.com")
                 withContext(Dispatchers.Main) {
                     snackBarNetworkFailEvent.call()
+                }
+            } catch (e: IllegalArgumentException) {
+                Log.w(TAG, "Invalid ncode passed")
+                withContext(Dispatchers.Main) {
+                    snackBarInvalidNcodeEvent.call()
                 }
             }
         }
