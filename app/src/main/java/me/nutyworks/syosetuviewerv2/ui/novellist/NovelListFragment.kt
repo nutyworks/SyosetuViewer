@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.snackbar.Snackbar
 import me.nutyworks.syosetuviewerv2.R
@@ -35,6 +37,10 @@ class NovelListFragment : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(mViewModel.novelListAdapter))
         itemTouchHelper.attachToRecyclerView(binding.rvNovelList)
+
+        binding.rvNovelList.apply {
+            addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
+        }
 
         binding.viewModel = mViewModel
         setupListUiUpdate()
@@ -93,7 +99,8 @@ class NovelListFragment : Fragment() {
 
     private fun startNovelDetailFragment() {
         view?.findNavController()?.navigate(
-            NovelListFragmentDirections.actionFragmentNovelListToFragmentNovelDetail())
+            NovelListFragmentDirections.actionFragmentNovelListToFragmentNovelDetail()
+        )
 
         with(mViewModel) {
             detailRecyclerviewIsVisible.set(false)

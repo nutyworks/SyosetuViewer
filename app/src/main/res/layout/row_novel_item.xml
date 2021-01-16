@@ -19,7 +19,8 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{() -> viewModel.onNovelClick(viewModel.novels[position])}"
-        android:padding="8dp">
+        android:padding="12dp"
+>
 
         <TextView
             android:id="@+id/tv_novel_title"
