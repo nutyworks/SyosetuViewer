@@ -1,6 +1,7 @@
 package me.nutyworks.syosetuviewerv2.ui.novellist
 
 import android.app.Application
+import android.content.Intent
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -147,6 +148,17 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
             mRecentlyDeletedNovel?.let {
                 mRepository.insertNovel(it)
             }
+        }
+    }
+
+    fun handleSendText(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+            Log.i(TAG, "received from sharing, $it")
+
+            """https://ncode.syosetu.com/([Nn]\d{4}[A-Za-z]{1,2})(?:/?.*)""".toRegex()
+                .matchEntire(it)?.groups?.get(1)?.value?.let { ncode ->
+                    insertNovel(ncode)
+                } ?: snackBarInvalidNcodeEvent.call()
         }
     }
 }

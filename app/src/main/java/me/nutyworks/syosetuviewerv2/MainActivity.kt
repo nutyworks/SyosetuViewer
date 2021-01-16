@@ -40,6 +40,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                if (intent.type == "text/plain") {
+                    mViewModel.handleSendText(intent)
+                }
+            }
+        }
+
         with(mViewModel) {
             startNovelViewerActivityEvent.observe(this@MainActivity) { startNovelViewerActivity() }
         }
