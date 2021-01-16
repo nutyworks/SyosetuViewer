@@ -28,6 +28,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="vertical"
             android:visibility="@{viewModel.mainTextIsVisible ? View.VISIBLE : View.GONE}"
             app:setAdapter="@{viewModel.novelViewerAdapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
