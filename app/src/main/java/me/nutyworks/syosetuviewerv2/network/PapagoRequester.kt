@@ -33,7 +33,7 @@ object PapagoRequester {
             mDeviceId.toString(),
             "ja", "ko",
             source
-        ).execute().body()?.translatedText ?: throw IOException("Couldn't get translated data.")
+        ).execute().body()?.translatedText ?: ""
     }
 
     private fun generateAuthorizationToken(timestamp: Long): String {
