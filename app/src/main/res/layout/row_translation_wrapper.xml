@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="me.nutyworks.syosetuviewerv2.data.TranslationWrapper" />
+
         <variable
             name="viewModel"
             type="me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel" />
@@ -18,7 +20,7 @@
         android:padding="16dp">
 
         <TextView
-            android:text="@{viewModel.novelMainText[position].translated}"
+            android:text="@{viewModel.novelMainText[position].text}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

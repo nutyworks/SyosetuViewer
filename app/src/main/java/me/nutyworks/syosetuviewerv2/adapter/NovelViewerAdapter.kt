@@ -6,13 +6,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import me.nutyworks.syosetuviewerv2.R
-import me.nutyworks.syosetuviewerv2.databinding.RowNovelItemBinding
 import me.nutyworks.syosetuviewerv2.databinding.RowTranslationWrapperBinding
 import me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel
-import me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel
 
 class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
     RecyclerView.Adapter<NovelViewerAdapter.TranslationWrapperViewHolder>() {
+
+    companion object {
+        private const val TAG = "NovelViewerAdapter"
+    }
 
     lateinit var context: Context
     override fun getItemViewType(position: Int): Int = R.layout.row_translation_wrapper
@@ -27,6 +29,12 @@ class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
 
     override fun onBindViewHolder(holder: TranslationWrapperViewHolder, position: Int) {
         holder.bind(viewModel, position)
+
+        holder.binding.root.setOnLongClickListener {
+            viewModel.toggleTextLanguageType(position)
+            holder.binding.invalidateAll()
+            true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -34,7 +42,7 @@ class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
     }
 
     class TranslationWrapperViewHolder(
-        private val binding: RowTranslationWrapperBinding,
+        val binding: RowTranslationWrapperBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(viewModel: NovelViewerViewModel, position: Int) {

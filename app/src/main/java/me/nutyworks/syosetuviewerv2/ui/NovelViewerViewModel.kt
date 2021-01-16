@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.NovelViewerActivity
 import me.nutyworks.syosetuviewerv2.adapter.NovelViewerAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelViewerRepository
+import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 import kotlin.properties.Delegates
 
@@ -52,5 +53,15 @@ class NovelViewerViewModel : ViewModel() {
     fun notifyAdapterForUpdate() {
         Log.i(TAG, "notifyAdapterForUpdate called")
         novelViewerAdapter.notifyDataSetChanged()
+    }
+
+    fun toggleTextLanguageType(position: Int) {
+        novelMainText.value?.let {
+            it[position].viewType = when (it[position].viewType) {
+                TranslationWrapper.ORIGINAL -> TranslationWrapper.TRANSLATED
+                TranslationWrapper.TRANSLATED -> TranslationWrapper.ORIGINAL
+                else -> TranslationWrapper.TRANSLATED
+            }
+        }
     }
 }
