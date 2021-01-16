@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
 
-class SwipeToDeleteCallback(private val mAdapter: NovelListAdapter)
-    : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+class SwipeToDeleteCallback(private val mAdapter: NovelListAdapter) :
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val mIcon =
         ContextCompat.getDrawable(mAdapter.context, R.drawable.ic_baseline_delete_forever_24)!!

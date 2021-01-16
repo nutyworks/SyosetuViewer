@@ -8,10 +8,9 @@ import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.databinding.RowChapterItemBinding
 import me.nutyworks.syosetuviewerv2.databinding.RowEpisodeItemBinding
 import me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel
-import java.lang.IllegalStateException
 
-class NovelDetailAdapter(private val viewModel: NovelViewModel)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NovelDetailAdapter(private val viewModel: NovelViewModel) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val CHAPTER = R.layout.row_chapter_item

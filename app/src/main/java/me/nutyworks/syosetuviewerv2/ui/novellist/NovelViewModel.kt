@@ -22,12 +22,12 @@ import org.jsoup.HttpStatusException
 
 class NovelViewModel(application: Application) : AndroidViewModel(application) {
 
-    init {
-        Log.i(TAG, "$TAG initialized!")
-    }
-
     companion object {
         private val TAG = NovelViewModel::class.simpleName
+    }
+
+    init {
+        Log.i(TAG, "$TAG initialized!")
     }
 
     private val mRepository = NovelEntityRepository(application)

@@ -19,7 +19,10 @@ class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
     lateinit var context: Context
     override fun getItemViewType(position: Int): Int = R.layout.row_translation_wrapper
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TranslationWrapperViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TranslationWrapperViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: RowTranslationWrapperBinding =
             DataBindingUtil.inflate(layoutInflater, viewType, parent, false)

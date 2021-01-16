@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="position"
             type="Integer" />
@@ -19,8 +20,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{() -> viewModel.onNovelClick(viewModel.novels[position])}"
-        android:padding="12dp"
->
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/tv_novel_title"

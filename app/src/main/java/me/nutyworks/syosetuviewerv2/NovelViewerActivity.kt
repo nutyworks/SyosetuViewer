@@ -1,9 +1,8 @@
 package me.nutyworks.syosetuviewerv2
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import me.nutyworks.syosetuviewerv2.databinding.ActivityNovelViewerBinding
 import me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel
 
@@ -16,7 +15,7 @@ class NovelViewerActivity : AppCompatActivity() {
         private const val TAG = "NovelViewerActivity"
     }
 
-    private val mViewModel : NovelViewerViewModel by viewModels()
+    private val mViewModel: NovelViewerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

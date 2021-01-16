@@ -15,16 +15,16 @@ class NovelViewerRepository {
     val novelMainText = MutableLiveData<List<TranslationWrapper>>(listOf())
 
     suspend fun fetchEpisode(ncode: String, index: Int) {
-            Narou.getNovelBody(ncode, index).map { TranslationWrapper(it) }.also { l ->
-                bulkTranslator {
-                    l.forEach {
-                        it.original translateTo it::translated
-                    }
-                }.run()
-            }.let {
-                withContext(Dispatchers.Main) {
-                    novelMainText.value = it
+        Narou.getNovelBody(ncode, index).map { TranslationWrapper(it) }.also { l ->
+            bulkTranslator {
+                l.forEach {
+                    it.original translateTo it::translated
                 }
+            }.run()
+        }.let {
+            withContext(Dispatchers.Main) {
+                novelMainText.value = it
             }
         }
+    }
 }

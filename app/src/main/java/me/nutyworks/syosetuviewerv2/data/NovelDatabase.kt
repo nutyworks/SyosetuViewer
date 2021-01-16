@@ -13,7 +13,8 @@ abstract class NovelDatabase : RoomDatabase() {
     companion object {
 
         // For Singleton instantiation
-        @Volatile private var instance: NovelDatabase? = null
+        @Volatile
+        private var instance: NovelDatabase? = null
 
         fun getInstance(context: Context): NovelDatabase {
             return instance ?: synchronized(this) {

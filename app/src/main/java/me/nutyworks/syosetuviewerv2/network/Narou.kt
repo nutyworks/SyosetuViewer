@@ -4,7 +4,6 @@ import com.nutyworks.syosetuviewer.translator.PapagoRequester
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import org.jsoup.Jsoup
-import java.lang.IllegalArgumentException
 
 object Narou {
 
@@ -23,15 +22,18 @@ object Narou {
 
     fun getNovelBodies(ncode: String): List<NovelBody> =
         Jsoup.connect("https://ncode.syosetu.com/$ncode").get().run {
-            val novelBodyRegex = """(?:<div class="chapter_title">\s*(.+?)\s*</div>|<dl class="novel_sublist2">[\s\S]*?<dd class="subtitle">[\s\S]*?<a href="/.+?/(\d+)/">(.+?)</a>)""".toRegex()
+            val novelBodyRegex =
+                """(?:<div class="chapter_title">\s*(.+?)\s*</div>|<dl class="novel_sublist2">[\s\S]*?<dd class="subtitle">[\s\S]*?<a href="/.+?/(\d+)/">(.+?)</a>)""".toRegex()
 
             novelBodyRegex.findAll(select(".index_box").html()).map { result ->
                 result.groups[1]?.let {
                     return@map NovelBody(it.value, true, 0)
                 }
-                result.groups[3]?.let { title -> result.groups[2]?.let { index ->
-                    return@map NovelBody(title.value, false, index.value.toInt())
-                }}
+                result.groups[3]?.let { title ->
+                    result.groups[2]?.let { index ->
+                        return@map NovelBody(title.value, false, index.value.toInt())
+                    }
+                }
 
                 throw IllegalStateException("Novel body is neither chapter nor episode.")
             }.toList()
