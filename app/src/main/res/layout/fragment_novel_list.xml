@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="@{viewModel.listRecyclerViewIsVisible ? View.VISIBLE : View.GONE}"
+            android:overScrollMode="never"
             app:setAdapter="@{viewModel.novelListAdapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="15"

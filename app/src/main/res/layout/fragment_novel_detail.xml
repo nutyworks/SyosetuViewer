@@ -54,6 +54,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 app:setAdapter="@{viewModel.novelDetailAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:overScrollMode="never"
                 android:visibility="@{viewModel.detailRecyclerviewIsVisible ? View.VISIBLE : View.GONE}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
