@@ -47,7 +47,7 @@ class NovelListFragment : Fragment() {
             novels.observe(viewLifecycleOwner) {
                 notifyListAdapterForUpdate()
                 notExistsIsVisible.set(it.isEmpty())
-                recyclerViewIsVisible.set(it.isNotEmpty())
+                listRecyclerViewIsVisible.set(it.isNotEmpty())
             }
             dialogControlEvent.observe(viewLifecycleOwner) { showDialogAddNovel() }
             snackBarNetworkFailEvent.observe(viewLifecycleOwner) { showNetworkFailSnackbar() }
@@ -94,6 +94,12 @@ class NovelListFragment : Fragment() {
     private fun startNovelDetailFragment() {
         view?.findNavController()?.navigate(
             NovelListFragmentDirections.actionFragmentNovelListToFragmentNovelDetail())
+
+        with(mViewModel) {
+            detailRecyclerviewIsVisible.set(false)
+            loadingProgressBarIsVisible.set(true)
+            Log.i(TAG, "${detailRecyclerviewIsVisible.get()}")
+        }
     }
 
     private fun undoDelete() {

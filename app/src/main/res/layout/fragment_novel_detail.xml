@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="me.nutyworks.syosetuviewerv2.ui.novellist.NovelListViewModel" />
@@ -52,8 +54,22 @@
             <androidx.recyclerview.widget.RecyclerView
                 app:setAdapter="@{viewModel.novelDetailAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:visibility="@{viewModel.detailRecyclerviewIsVisible ? View.VISIBLE : View.GONE}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/pb_loading"
+                    android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.network.Narou
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
+import me.nutyworks.syosetuviewerv2.utilities.NcodeValidator
 
 class NovelEntityRepository constructor(
     application: Application
@@ -23,6 +24,7 @@ class NovelEntityRepository constructor(
     val novels = mNovelEntityDao.getAll()
 
     suspend fun fetchSelectedNovelBodies(ncode: String) {
+        Log.i(TAG, "fetchSelectedNovelBodies called with ncode $ncode")
         Narou.getNovelBodies(ncode).let { bodies ->
             bulkTranslator {
                 bodies.forEach {
@@ -39,6 +41,8 @@ class NovelEntityRepository constructor(
     suspend fun insertNovel(novel: Novel) = mNovelEntityDao.insert(novel)
 
     suspend fun insertNovel(ncode: String) {
+        NcodeValidator.validate(ncode)
+
         Log.i(TAG, "insertNovel called with ncode $ncode")
         withContext(Dispatchers.IO) {
             Narou.getNovel(ncode).let { novel ->

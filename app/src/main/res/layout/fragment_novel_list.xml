@@ -22,7 +22,7 @@
             android:id="@+id/rv_novel_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.recyclerViewIsVisible ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.listRecyclerViewIsVisible ? View.VISIBLE : View.GONE}"
             app:setAdapter="@{viewModel.novelListAdapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="15"

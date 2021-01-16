@@ -16,6 +16,8 @@ import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.NovelEntityRepository
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
+import me.nutyworks.syosetuviewerv2.utilities.ValidatorException
+import org.jsoup.HttpStatusException
 import java.lang.IllegalArgumentException
 import java.net.ProtocolException
 
@@ -40,14 +42,19 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
     val selectedNovelBodies: LiveData<List<NovelBody>> get() = mSelectedNovelBodies
     val novelListAdapter = NovelListAdapter(this)
     val novelDetailAdapter = NovelDetailAdapter(this)
-    val recyclerViewIsVisible = ObservableBoolean(false)
+
+    val listRecyclerViewIsVisible = ObservableBoolean(false)
     val notExistsIsVisible = ObservableBoolean(true)
+
+    val detailRecyclerviewIsVisible = ObservableBoolean(false)
+    val loadingProgressBarIsVisible = ObservableBoolean(false)
 
     val dialogControlEvent = SingleLiveEvent<Void>()
     val snackBarNetworkFailEvent = SingleLiveEvent<Void>()
     val snackBarInvalidNcodeEvent = SingleLiveEvent<Void>()
     val novelDeleteEvent = SingleLiveEvent<Void>()
     val startNovelDetailFragmentEvent = SingleLiveEvent<Void>()
+    val novelDetailFetchFinishEvent = SingleLiveEvent<Void>()
 
     fun onNovelClick(novel: Novel) {
         Log.d(TAG, novel.toString())
@@ -55,7 +62,12 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
         selectedNovel.set(novel)
         startNovelDetailFragmentEvent.call()
 
-        GlobalScope.launch { mRepository.fetchSelectedNovelBodies(novel.ncode) }
+        GlobalScope.launch {
+            mRepository.fetchSelectedNovelBodies(novel.ncode)
+            withContext(Dispatchers.Main) {
+                novelDetailFetchFinishEvent.call()
+            }
+        }
     }
 
     fun onNovelAddClick() {
@@ -76,13 +88,13 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
         GlobalScope.launch {
             try {
                 mRepository.insertNovel(ncode)
-            } catch (e: ProtocolException) {
-                Log.w(TAG, "ProtocolException occurred while fetching syosetu.com")
+            } catch (e: ValidatorException) {
+                Log.w(TAG, "Novel insert failed", e)
                 withContext(Dispatchers.Main) {
-                    snackBarNetworkFailEvent.call()
+                    snackBarInvalidNcodeEvent.call()
                 }
-            } catch (e: IllegalArgumentException) {
-                Log.w(TAG, "Invalid ncode passed")
+            } catch (e: HttpStatusException) {
+                Log.w(TAG, "Novel insert failed", e)
                 withContext(Dispatchers.Main) {
                     snackBarInvalidNcodeEvent.call()
                 }

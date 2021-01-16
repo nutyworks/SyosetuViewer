@@ -4,6 +4,7 @@ import com.nutyworks.syosetuviewer.translator.PapagoRequester
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import org.jsoup.Jsoup
+import java.lang.IllegalArgumentException
 
 object Narou {
 
