@@ -18,6 +18,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> viewModel.onEpisodeClick(position)}"
         android:padding="16dp">
         
         <TextView

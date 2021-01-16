@@ -72,6 +72,10 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         dialogControlEvent.call()
     }
 
+    fun onEpisodeClick(position: Int) {
+        Log.i(TAG, "episode clicked ${selectedNovelBodies.value?.get(position)}")
+    }
+
     fun notifyListAdapterForUpdate() {
         Log.i(TAG, "notifyListAdapterForUpdate called, novels = ${novels.value}")
         novelListAdapter.notifyDataSetChanged()
