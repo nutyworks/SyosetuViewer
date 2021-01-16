@@ -48,7 +48,7 @@ fun bulkTranslator(bulkTranslator: BulkTranslator.() -> Unit): BulkTranslator {
     return BulkTranslator().apply(bulkTranslator)
 }
 
-class BulkStringTranslator {
+object BulkStringTranslator {
 
     fun translate(str: String): String {
         Log.d("BulkSTranslator", "got translate request of string length ${str.length}")

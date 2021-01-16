@@ -1,5 +1,6 @@
 package me.nutyworks.syosetuviewerv2
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -34,6 +35,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_novel_list, R.id.navigation_dashboard, R.id.navigation_notifications))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        with(mViewModel) {
+            startNovelViewerActivityEvent.observe(this@MainActivity) { startNovelViewerActivity() }
+        }
+    }
+
+    private fun startNovelViewerActivity() {
+        startActivity(Intent(this, NovelViewerActivity::class.java).apply {
+            Log.i(TAG, mViewModel.selectedNovel.get()?.ncode.toString())
+            Log.i(TAG, mViewModel.selectedEpisode.get()?.index.toString())
+            putExtra(NovelViewerActivity.EXTRA_NCODE, mViewModel.selectedNovel.get()?.ncode)
+            putExtra(NovelViewerActivity.EXTRA_INDEX, mViewModel.selectedEpisode.get()?.index)
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

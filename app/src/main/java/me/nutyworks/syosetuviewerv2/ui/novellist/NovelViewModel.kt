@@ -51,8 +51,12 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     val snackBarNetworkFailEvent = SingleLiveEvent<Void>()
     val snackBarInvalidNcodeEvent = SingleLiveEvent<Void>()
     val novelDeleteEvent = SingleLiveEvent<Void>()
+
     val startNovelDetailFragmentEvent = SingleLiveEvent<Void>()
     val novelDetailFetchFinishEvent = SingleLiveEvent<Void>()
+
+    val startNovelViewerActivityEvent = SingleLiveEvent<Void>()
+    val selectedEpisode = ObservableField<NovelBody>()
 
     fun onNovelClick(novel: Novel) {
         Log.d(TAG, novel.toString())
@@ -74,6 +78,8 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onEpisodeClick(position: Int) {
         Log.i(TAG, "episode clicked ${selectedNovelBodies.value?.get(position)}")
+        selectedEpisode.set(selectedNovelBodies.value?.get(position))
+        startNovelViewerActivityEvent.call()
     }
 
     fun notifyListAdapterForUpdate() {
