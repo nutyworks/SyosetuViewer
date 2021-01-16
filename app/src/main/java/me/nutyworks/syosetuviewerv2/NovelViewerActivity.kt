@@ -33,7 +33,11 @@ class NovelViewerActivity : AppCompatActivity() {
 
     private fun setupUiUpdate() {
         with(mViewModel) {
-            mainTextUpdateEvent.observe(this@NovelViewerActivity) { notifyAdapterForUpdate() }
+            mainTextUpdateEvent.observe(this@NovelViewerActivity) {
+                mainTextIsVisible.set(true)
+                loadingProgressBarIsVisible.set(false)
+                notifyAdapterForUpdate()
+            }
         }
     }
 }

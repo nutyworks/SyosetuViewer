@@ -1,6 +1,8 @@
 package me.nutyworks.syosetuviewerv2.ui
 
 import android.content.Intent
+import android.util.Log
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,6 +30,9 @@ class NovelViewerViewModel : ViewModel() {
 
     val mainTextUpdateEvent = SingleLiveEvent<Void>()
 
+    val mainTextIsVisible = ObservableBoolean(false)
+    val loadingProgressBarIsVisible = ObservableBoolean(true)
+
     fun init(intent: Intent) {
         ncode = intent.getStringExtra(NovelViewerActivity.EXTRA_NCODE)!!
         index = intent.getIntExtra(NovelViewerActivity.EXTRA_INDEX, 0)
@@ -45,6 +50,7 @@ class NovelViewerViewModel : ViewModel() {
     }
 
     fun notifyAdapterForUpdate() {
+        Log.i(TAG, "notifyAdapterForUpdate called")
         novelViewerAdapter.notifyDataSetChanged()
     }
 }

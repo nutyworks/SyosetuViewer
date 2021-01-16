@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel" />
@@ -17,9 +19,16 @@
         android:orientation="vertical"
         tools:context=".NovelViewerActivity">
 
+        <ProgressBar
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="@{viewModel.mainTextIsVisible ? View.VISIBLE : View.GONE}"
             app:setAdapter="@{viewModel.novelViewerAdapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
