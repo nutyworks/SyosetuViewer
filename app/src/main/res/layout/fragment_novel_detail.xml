@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.novellist.NovelListViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

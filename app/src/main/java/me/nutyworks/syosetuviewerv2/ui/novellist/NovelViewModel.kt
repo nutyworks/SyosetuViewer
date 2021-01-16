@@ -18,17 +18,15 @@ import me.nutyworks.syosetuviewerv2.data.NovelEntityRepository
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 import me.nutyworks.syosetuviewerv2.utilities.ValidatorException
 import org.jsoup.HttpStatusException
-import java.lang.IllegalArgumentException
-import java.net.ProtocolException
 
-class NovelListViewModel(application: Application) : AndroidViewModel(application) {
+class NovelViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         Log.i(TAG, "$TAG initialized!")
     }
 
     companion object {
-        private val TAG = NovelListViewModel::class.simpleName
+        private val TAG = NovelViewModel::class.simpleName
     }
 
     private val mRepository = NovelEntityRepository(application)

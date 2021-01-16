@@ -22,7 +22,7 @@ class NovelListFragment : Fragment() {
         private val TAG = NovelListFragment::class.simpleName
     }
 
-    private val mViewModel: NovelListViewModel by activityViewModels()
+    private val mViewModel: NovelViewModel by activityViewModels()
     private val mRoot: View by lazy { activity?.findViewById(android.R.id.content)!! }
 
     override fun onCreateView(

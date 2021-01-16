@@ -7,9 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.databinding.RowNovelItemBinding
-import me.nutyworks.syosetuviewerv2.ui.novellist.NovelListViewModel
+import me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel
 
-class NovelListAdapter(private val viewModel: NovelListViewModel) :
+class NovelListAdapter(private val viewModel: NovelViewModel) :
     RecyclerView.Adapter<NovelListAdapter.NovelViewHolder>() {
 
     lateinit var context: Context
@@ -39,7 +39,7 @@ class NovelListAdapter(private val viewModel: NovelListViewModel) :
         private val binding: RowNovelItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(viewModel: NovelListViewModel, position: Int) {
+        fun bind(viewModel: NovelViewModel, position: Int) {
             binding.viewModel = viewModel
             binding.position = position
         }

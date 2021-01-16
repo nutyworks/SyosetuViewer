@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.databinding.RowChapterItemBinding
 import me.nutyworks.syosetuviewerv2.databinding.RowEpisodeItemBinding
-import me.nutyworks.syosetuviewerv2.ui.novellist.NovelListViewModel
+import me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel
 import java.lang.IllegalStateException
 
-class NovelDetailAdapter(private val viewModel: NovelListViewModel)
+class NovelDetailAdapter(private val viewModel: NovelViewModel)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -27,7 +27,7 @@ class NovelDetailAdapter(private val viewModel: NovelListViewModel)
     class ChapterViewHolder(
         private val binding: RowChapterItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(viewModel: NovelListViewModel, position: Int) {
+        fun bind(viewModel: NovelViewModel, position: Int) {
             binding.viewModel = viewModel
             binding.position = position
         }
@@ -36,7 +36,7 @@ class NovelDetailAdapter(private val viewModel: NovelListViewModel)
     class EpisodeViewHolder(
         private val binding: RowEpisodeItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(viewModel: NovelListViewModel, position: Int) {
+        fun bind(viewModel: NovelViewModel, position: Int) {
             binding.viewModel = viewModel
             binding.position = position
         }
