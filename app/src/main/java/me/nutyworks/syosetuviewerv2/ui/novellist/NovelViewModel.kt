@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.adapter.NovelDetailAdapter
 import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.data.Novel
@@ -80,6 +81,8 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         Log.i(TAG, "episode clicked ${selectedNovelBodies.value?.get(position)}")
         selectedEpisode.set(selectedNovelBodies.value?.get(position))
         startNovelViewerActivityEvent.call()
+        markAsRead(selectedNovel.get()!!, selectedEpisode.get()!!.index)
+        novelDetailAdapter.notifyItemChanged(position)
     }
 
     fun notifyListAdapterForUpdate() {
@@ -90,6 +93,22 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     fun notifyDetailAdapterForUpdate() {
         Log.i(TAG, "notifyDetailAdapterForUpdate called")
         novelDetailAdapter.notifyDataSetChanged()
+    }
+
+    private fun markAsRead(novel: Novel, index: Int) {
+        Log.i(TAG, "marked as read ${novel.title}/$index")
+        if (novel.readIndexes.split(",").contains(index.toString())) return
+
+        novel.readIndexes += "$index,"
+        GlobalScope.launch {
+            mRepository.insertNovel(novel)
+        }
+    }
+
+    fun isEpisodeMarkedAsRead(position: Int): Boolean {
+        val index = selectedNovelBodies.value!![position].index
+
+        return selectedNovel.get()!!.readIndexes.split(",").contains(index.toString())
     }
 
     fun insertNovel(ncode: String) {
