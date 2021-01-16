@@ -33,7 +33,10 @@ object PapagoRequester {
             mDeviceId.toString(),
             "ja", "ko",
             source
-        ).execute().body()?.translatedText ?: ""
+        ).execute().body()?.translatedText
+            ?.replace("&lt;", "<")
+            ?.replace("&gt;", ">")
+            ?.replace("&amp;", "&") ?: ""
     }
 
     private fun generateAuthorizationToken(timestamp: Long): String {
