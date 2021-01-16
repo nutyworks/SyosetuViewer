@@ -6,7 +6,6 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -16,7 +15,6 @@ import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.NovelEntityRepository
-import me.nutyworks.syosetuviewerv2.network.Narou
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 import java.lang.IllegalArgumentException
 import java.net.ProtocolException
@@ -35,7 +33,7 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val mNovels = mRepository.novels
     private var mRecentlyDeletedNovel: Novel? = null
-    private val mSelectedNovelBodies = MutableLiveData<List<NovelBody>>()
+    private val mSelectedNovelBodies = mRepository.selectedNovelBodies
     val selectedNovel = ObservableField<Novel>()
 
     val novels: LiveData<List<Novel>> get() = mNovels
@@ -57,14 +55,7 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
         selectedNovel.set(novel)
         startNovelDetailFragmentEvent.call()
 
-        GlobalScope.launch {
-            Narou.getNovelBodies(novel.ncode).let {
-                withContext(Dispatchers.Main) {
-                    mSelectedNovelBodies.value = it
-                    Log.i(TAG, it.toString())
-                }
-            }
-        }
+        GlobalScope.launch { mRepository.fetchSelectedNovelBodies(novel.ncode) }
     }
 
     fun onNovelAddClick() {
@@ -77,7 +68,7 @@ class NovelListViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun notifyDetailAdapterForUpdate() {
-        Log.i(TAG, "notifyDetailAdapterForUpdate called, novelbodies = ${selectedNovelBodies.value}")
+        Log.i(TAG, "notifyDetailAdapterForUpdate called")
         novelDetailAdapter.notifyDataSetChanged()
     }
 

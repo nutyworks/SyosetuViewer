@@ -2,11 +2,12 @@ package me.nutyworks.syosetuviewerv2.data
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.nutyworks.syosetuviewer.translator.PapagoRequester
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.network.Narou
-import java.lang.IllegalArgumentException
+import me.nutyworks.syosetuviewerv2.network.bulkTranslator
 
 class NovelEntityRepository constructor(
     application: Application
@@ -16,9 +17,24 @@ class NovelEntityRepository constructor(
         private const val TAG = "NovelEntityRepository"
     }
 
+    val selectedNovelBodies = MutableLiveData<List<NovelBody>>(listOf())
     private val db = NovelDatabase.getInstance(application)
     private val mNovelEntityDao = db.novelDao()
     val novels = mNovelEntityDao.getAll()
+
+    suspend fun fetchSelectedNovelBodies(ncode: String) {
+        Narou.getNovelBodies(ncode).let { bodies ->
+            bulkTranslator {
+                bodies.forEach {
+                    it.body translateTo it::translatedBody
+                }
+            }.run()
+
+            withContext(Dispatchers.Main) {
+                selectedNovelBodies.value = bodies
+            }
+        }
+    }
 
     suspend fun insertNovel(novel: Novel) = mNovelEntityDao.insert(novel)
 

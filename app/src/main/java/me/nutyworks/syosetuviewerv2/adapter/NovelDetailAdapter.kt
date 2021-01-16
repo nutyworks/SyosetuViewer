@@ -47,10 +47,10 @@ class NovelDetailAdapter(private val viewModel: NovelListViewModel)
 
         return when (viewType) {
             CHAPTER -> ChapterViewHolder(
-                DataBindingUtil.inflate(layoutInflater, viewType, parent, false) as RowChapterItemBinding
+                DataBindingUtil.inflate(layoutInflater, viewType, parent, false)
             )
             EPISODE -> EpisodeViewHolder(
-                DataBindingUtil.inflate(layoutInflater, viewType, parent, false) as RowEpisodeItemBinding
+                DataBindingUtil.inflate(layoutInflater, viewType, parent, false)
             )
             else -> throw IllegalStateException("viewType is neither CHAPTER nor EPISODE")
         }
