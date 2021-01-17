@@ -12,11 +12,16 @@ object Narou {
     fun getNovel(ncode: String): Novel =
         Jsoup.connect("https://ncode.syosetu.com/$ncode").get().run {
             val title = select(".novel_title").html()
+            val writer = select(".novel_writername > a").html().let {
+                if (it.isNullOrEmpty()) select(".novel_writername").html()
+                    .replace("作者：", "") else it
+            }
+
             Novel(
                 ncode,
                 title,
                 PapagoRequester.request(title),
-                select(".novel_writername > a").html()
+                writer
             )
         }
 
