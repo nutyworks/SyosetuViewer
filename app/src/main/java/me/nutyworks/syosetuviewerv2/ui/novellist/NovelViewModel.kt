@@ -11,12 +11,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.adapter.NovelDetailAdapter
 import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
-import me.nutyworks.syosetuviewerv2.data.NovelEntityRepository
+import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 import me.nutyworks.syosetuviewerv2.utilities.ValidatorException
 import org.jsoup.HttpStatusException
@@ -31,7 +30,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         Log.i(TAG, "$TAG initialized!")
     }
 
-    private val mRepository = NovelEntityRepository(application)
+    private val mRepository = NovelRepository.getInstance(application)
 
     private val mNovels = mRepository.novels
     private var mRecentlyDeletedNovel: Novel? = null
@@ -97,12 +96,8 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun markAsRead(novel: Novel, index: Int) {
-        Log.i(TAG, "marked as read ${novel.title}/$index")
-        if (novel.readIndexes.split(",").contains(index.toString())) return
-
-        novel.readIndexes += "$index,"
         GlobalScope.launch {
-            mRepository.insertNovel(novel)
+            mRepository.markAsRead(novel, index)
         }
     }
 

@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.NovelViewerActivity
 import me.nutyworks.syosetuviewerv2.adapter.NovelViewerAdapter
-import me.nutyworks.syosetuviewerv2.data.NovelViewerRepository
+import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 import kotlin.properties.Delegates
@@ -24,7 +24,7 @@ class NovelViewerViewModel : ViewModel() {
     lateinit var ncode: String
     var index by Delegates.notNull<Int>()
 
-    private val mRepository = NovelViewerRepository()
+    private val mRepository = NovelRepository.getInstance()
 
     val novelMainText = mRepository.novelMainText
     val novelViewerAdapter = NovelViewerAdapter(this)

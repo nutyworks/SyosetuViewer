@@ -9,16 +9,33 @@ import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.network.Narou
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
 import me.nutyworks.syosetuviewerv2.utilities.NcodeValidator
+import java.lang.IllegalStateException
 
-class NovelEntityRepository constructor(
+class NovelRepository private constructor(
     application: Application
 ) {
 
     companion object {
         private const val TAG = "NovelEntityRepository"
+        private var instance: NovelRepository? = null
+
+        fun getInstance(): NovelRepository {
+            return instance ?: throw IllegalStateException("Instance is null")
+        }
+
+        fun getInstance(application: Application): NovelRepository {
+            if (instance == null) {
+                synchronized(this) {
+                    instance = NovelRepository(application)
+                }
+            }
+
+            return instance ?: throw IllegalStateException("Instance is null")
+        }
     }
 
     val selectedNovelBodies = MutableLiveData<List<NovelBody>>(listOf())
+    val novelMainText = MutableLiveData<List<TranslationWrapper>>(listOf())
     private val db = NovelDatabase.getInstance(application)
     private val mNovelEntityDao = db.novelDao()
     val novels = mNovelEntityDao.getAll()
@@ -60,4 +77,25 @@ class NovelEntityRepository constructor(
 
     suspend fun deleteNovel(novel: Novel) = mNovelEntityDao.delete(novel)
     suspend fun deleteAll() = mNovelEntityDao.deleteAll()
+
+    suspend fun markAsRead(novel: Novel, index: Int) {
+        if (novel.readIndexes.split(",").contains(index.toString())) return
+
+        novel.readIndexes += "$index,"
+        insertNovel(novel)
+    }
+
+    suspend fun fetchEpisode(ncode: String, index: Int) {
+        Narou.getNovelBody(ncode, index).map { TranslationWrapper(it) }.also { l ->
+            bulkTranslator {
+                l.forEach {
+                    it.original translateTo it::translated
+                }
+            }.run()
+        }.let {
+            withContext(Dispatchers.Main) {
+                novelMainText.value = it
+            }
+        }
+    }
 }
