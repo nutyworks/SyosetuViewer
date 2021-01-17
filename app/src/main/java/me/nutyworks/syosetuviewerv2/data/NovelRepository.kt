@@ -9,7 +9,6 @@ import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.network.Narou
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
 import me.nutyworks.syosetuviewerv2.utilities.NcodeValidator
-import java.lang.IllegalStateException
 
 class NovelRepository private constructor(
     application: Application
@@ -83,6 +82,11 @@ class NovelRepository private constructor(
 
         novel.readIndexes += "$index,"
         insertNovel(novel)
+    }
+
+    suspend fun markAsRead(ncode: String, index: Int) {
+        val novel = novels.value?.find { it.ncode == ncode } ?: return
+        markAsRead(novel, index)
     }
 
     suspend fun fetchEpisode(ncode: String, index: Int) {

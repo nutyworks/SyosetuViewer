@@ -7,4 +7,5 @@
     <string name="add_novel">Add a novel</string>
     <string name="enter_ncode">Enter a ncode</string>
     <string name="enter_ncode_description">https://ncode.syosetu.com/&lt;ncode&gt;</string>
+    <string name="next">Next</string>
 </resources>

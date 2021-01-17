@@ -53,6 +53,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun onResume() {
+        super.onResume()
+
+        // TODO heavy task; need to be optimized
+        mViewModel.novelDetailAdapter.notifyDataSetChanged()
+    }
+
     private fun startNovelViewerActivity() {
         startActivity(Intent(this, NovelViewerActivity::class.java).apply {
             Log.i(TAG, mViewModel.selectedNovel.get()?.ncode.toString())

@@ -1,5 +1,6 @@
 package me.nutyworks.syosetuviewerv2
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +38,17 @@ class NovelViewerActivity : AppCompatActivity() {
                 loadingProgressBarIsVisible.set(false)
                 notifyAdapterForUpdate()
             }
+            startNextEpisodeViewerEvent.observe(this@NovelViewerActivity) {
+                startNextEpisodeViewer()
+            }
         }
+    }
+
+    private fun startNextEpisodeViewer() {
+        startActivity(Intent(this, NovelViewerActivity::class.java).apply {
+            putExtra(EXTRA_NCODE, mViewModel.ncode)
+            putExtra(EXTRA_INDEX, mViewModel.index + 1)
+        })
+        finish()
     }
 }

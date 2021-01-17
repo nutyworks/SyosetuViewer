@@ -34,6 +34,8 @@ class NovelViewerViewModel : ViewModel() {
     val mainTextIsVisible = ObservableBoolean(false)
     val loadingProgressBarIsVisible = ObservableBoolean(true)
 
+    val startNextEpisodeViewerEvent = SingleLiveEvent<Void>()
+
     fun init(intent: Intent) {
         ncode = intent.getStringExtra(NovelViewerActivity.EXTRA_NCODE)!!
         index = intent.getIntExtra(NovelViewerActivity.EXTRA_INDEX, 0)
@@ -62,6 +64,13 @@ class NovelViewerViewModel : ViewModel() {
                 TranslationWrapper.TRANSLATED -> TranslationWrapper.ORIGINAL
                 else -> TranslationWrapper.TRANSLATED
             }
+        }
+    }
+
+    fun onNextEpisodeClick() {
+        startNextEpisodeViewerEvent.call()
+        GlobalScope.launch {
+            mRepository.markAsRead(ncode, index + 1)
         }
     }
 }
