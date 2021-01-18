@@ -31,7 +31,7 @@ object PapagoRequester {
             timestamp,
             mDeviceId.toString(),
             "ja", "ko",
-            source
+            source.replace("(・)", "")
         ).execute().body()?.translatedText
             ?.replace("&lt;", "<")
             ?.replace("&gt;", ">")
