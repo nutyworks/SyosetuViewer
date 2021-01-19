@@ -33,6 +33,7 @@ class NovelViewerViewModel : ViewModel() {
 
     val mainTextIsVisible = ObservableBoolean(false)
     val loadingProgressBarIsVisible = ObservableBoolean(true)
+    val viewerSettingsIsVisible = ObservableBoolean(false)
 
     val startNextEpisodeViewerEvent = SingleLiveEvent<Void>()
 
@@ -72,5 +73,9 @@ class NovelViewerViewModel : ViewModel() {
         GlobalScope.launch {
             mRepository.markAsRead(ncode, index + 1)
         }
+    }
+
+    fun toggleViewerSettings() {
+        viewerSettingsIsVisible.set(!viewerSettingsIsVisible.get())
     }
 }

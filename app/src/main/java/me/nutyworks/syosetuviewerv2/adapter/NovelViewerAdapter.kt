@@ -1,6 +1,7 @@
 package me.nutyworks.syosetuviewerv2.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -32,6 +33,10 @@ class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
 
     override fun onBindViewHolder(holder: TranslationWrapperViewHolder, position: Int) {
         holder.bind(viewModel, position)
+
+        holder.binding.root.setOnClickListener {
+            viewModel.toggleViewerSettings()
+        }
 
         holder.binding.root.setOnLongClickListener {
             viewModel.toggleTextLanguageType(position)

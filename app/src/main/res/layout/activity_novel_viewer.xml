@@ -13,17 +13,10 @@
             type="me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".NovelViewerActivity">
-
-        <ProgressBar
-            android:layout_gravity="center"
-            android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -52,5 +45,29 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+
+        <ProgressBar
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.viewerSettingsIsVisible ? View.VISIBLE : View.GONE}"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/border">
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                layout="@layout/layout_viewer_settings"
+                app:viewModel="@{viewModel}" />
+
+        </LinearLayout>
+    </FrameLayout>
 </layout>
