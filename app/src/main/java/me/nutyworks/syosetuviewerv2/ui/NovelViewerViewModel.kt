@@ -35,7 +35,11 @@ class NovelViewerViewModel : ViewModel() {
     val loadingProgressBarIsVisible = ObservableBoolean(true)
     val viewerSettingsIsVisible = ObservableBoolean(false)
 
+    val textSize = mRepository.textSize
+    val paragraphSpacing = mRepository.paragraphSpacing
+
     val startNextEpisodeViewerEvent = SingleLiveEvent<Void>()
+
 
     fun init(intent: Intent) {
         ncode = intent.getStringExtra(NovelViewerActivity.EXTRA_NCODE)!!
@@ -77,5 +81,13 @@ class NovelViewerViewModel : ViewModel() {
 
     fun toggleViewerSettings() {
         viewerSettingsIsVisible.set(!viewerSettingsIsVisible.get())
+    }
+
+    fun changeTextSize(delta: Float) {
+        mRepository.setTextSize(textSize.get() + delta)
+    }
+
+    fun changeParagraphSpacing(delta: Float) {
+        mRepository.setParagraphSpacing(paragraphSpacing.get() + delta)
     }
 }

@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel" />
@@ -31,54 +32,58 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="Text size" />
+                    android:text="@string/text_size" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="-" />
+                    android:onClick="@{() -> viewModel.changeTextSize(-1)}"
+                    android:text="@string/minus" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="16" />
+                    android:text="@{viewModel.textSize}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="+" />
+                    android:onClick="@{() -> viewModel.changeTextSize(1)}"
+                    android:text="@string/plus" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="Paragraph" />
+                    android:text="@string/paragraph_spacing" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="-" />
+                    android:onClick="@{() -> viewModel.changeParagraphSpacing(-1)}"
+                    android:text="@string/minus" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="16" />
+                    android:text="@{viewModel.paragraphSpacing}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="+" />
+                    android:onClick="@{() -> viewModel.changeParagraphSpacing(1)}"
+                    android:text="@string/plus" />
             </LinearLayout>
         </LinearLayout>
 

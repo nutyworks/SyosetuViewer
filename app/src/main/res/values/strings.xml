@@ -8,4 +8,8 @@
     <string name="enter_ncode">Enter a ncode</string>
     <string name="enter_ncode_description">https://ncode.syosetu.com/&lt;ncode&gt;</string>
     <string name="next">Next</string>
+    <string name="text_size">Text size</string>
+    <string name="paragraph_spacing">Paragraph</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
 </resources>
