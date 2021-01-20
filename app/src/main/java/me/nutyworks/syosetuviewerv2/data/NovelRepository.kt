@@ -3,7 +3,7 @@ package me.nutyworks.syosetuviewerv2.data
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.nutyworks.syosetuviewer.translator.PapagoRequester
+import me.nutyworks.syosetuviewerv2.network.PapagoRequester
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.network.Narou

@@ -1,4 +1,4 @@
-package com.nutyworks.syosetuviewer.translator
+package me.nutyworks.syosetuviewerv2.network
 
 import android.util.Base64
 import android.util.Log

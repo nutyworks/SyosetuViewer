@@ -1,7 +1,6 @@
 package me.nutyworks.syosetuviewerv2.network
 
 import android.util.Log
-import com.nutyworks.syosetuviewer.translator.PapagoRequester
 import kotlin.reflect.KMutableProperty
 
 class BulkTranslator {
