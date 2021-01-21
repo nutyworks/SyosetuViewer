@@ -2,6 +2,7 @@ package me.nutyworks.syosetuviewerv2.network
 
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
+import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import org.jsoup.Jsoup
 
 object Narou {
@@ -43,13 +44,21 @@ object Narou {
             }.toList()
         }
 
-    fun getNovelBody(ncode: String, index: Int): List<String> {
-        return Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").get().runCatching {
-            this.select("#novel_honbun > p").eachText().map {
-                it.replace("&lt;", "<")
-                    .replace("&gt;", ">")
-                    .replace("&amp;", "&")
+    fun getNovelBody(ncode: String, index: Int): NovelBody =
+        Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").get().runCatching {
+            val body = select(".novel_subtitle").eachText().first()
+            val mainTextWrappers = select("#novel_honbun > p").eachText().map {
+                TranslationWrapper(
+                    it.replace("&lt;", "<")
+                        .replace("&gt;", ">")
+                        .replace("&amp;", "&")
+                )
             }
+            NovelBody(
+                body,
+                false,
+                index,
+                mainTextWrappers
+            )
         }.getOrThrow()
-    }
 }

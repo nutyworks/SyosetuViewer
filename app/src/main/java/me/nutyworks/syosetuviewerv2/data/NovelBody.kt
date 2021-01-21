@@ -4,5 +4,6 @@ data class NovelBody(
     val body: String,
     val isChapter: Boolean,
     val index: Int,
+    val mainTextWrappers: List<TranslationWrapper>? = null,
     var translatedBody: String = ""
 )
