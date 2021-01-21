@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,8 +15,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical"
         tools:context=".ui.NovelDetailFragment">
 
         <LinearLayout
@@ -28,49 +28,49 @@
                 android:id="@+id/tv_translated_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
                 android:gravity="center"
-                android:textSize="18sp"
-                android:text="@{viewModel.selectedNovel.translatedTitle}" />
+                android:text="@{viewModel.selectedNovel.translatedTitle}"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
                 android:gravity="center"
-                android:textSize="12sp"
-                android:text="@{viewModel.selectedNovel.title}" />
+                android:text="@{viewModel.selectedNovel.title}"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_writer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
                 android:gravity="center"
                 android:text="@{viewModel.selectedNovel.writer}" />
 
             <androidx.recyclerview.widget.RecyclerView
-                app:setAdapter="@{viewModel.novelDetailAdapter}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:overScrollMode="never"
                 android:visibility="@{viewModel.detailRecyclerviewIsVisible ? View.VISIBLE : View.GONE}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:setAdapter="@{viewModel.novelDetailAdapter}" />
 
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <ProgressBar
                     android:id="@+id/pb_loading"
-                    android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}" />
 
             </LinearLayout>
 

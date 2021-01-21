@@ -18,10 +18,10 @@
         android:padding="8dp">
 
         <TextView
-            android:text="@{viewModel.selectedNovelBodies[position].translatedBody}"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.selectedNovelBodies[position].translatedBody}"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
