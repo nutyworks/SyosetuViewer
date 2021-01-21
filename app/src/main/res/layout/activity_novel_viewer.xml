@@ -21,8 +21,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.mainTextIsVisible ? View.VISIBLE : View.GONE}"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+            android:visibility="@{viewModel.mainTextIsVisible ? View.VISIBLE : View.GONE}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -33,39 +33,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
-                    app:setAdapter="@{viewModel.novelViewerAdapter}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:setAdapter="@{viewModel.novelViewerAdapter}" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/next"
-                    android:onClick="@{() -> viewModel.onNextEpisodeClick()}" />
+                    android:onClick="@{() -> viewModel.onNextEpisodeClick()}"
+                    android:text="@string/next" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
         <ProgressBar
-            android:layout_gravity="center"
-            android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}" />
 
         <LinearLayout
-            android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.viewerSettingsIsVisible ? View.VISIBLE : View.GONE}"
+            android:layout_gravity="bottom"
+            android:background="@drawable/border"
             android:clickable="true"
             android:focusable="true"
-            android:background="@drawable/border">
+            android:visibility="@{viewModel.viewerSettingsIsVisible ? View.VISIBLE : View.GONE}">
 
             <include
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
                 layout="@layout/layout_viewer_settings"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
                 app:viewModel="@{viewModel}" />
 
         </LinearLayout>
