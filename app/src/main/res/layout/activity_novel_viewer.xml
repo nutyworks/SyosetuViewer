@@ -29,6 +29,16 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="@{viewModel.paragraphSpacing * 2}"
+                    android:textAlignment="center"
+                    android:text="@{viewModel.novelBody.translatedBody}"
+                    android:textSize="@{viewModel.textSize}"
+                    android:textStyle="bold" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

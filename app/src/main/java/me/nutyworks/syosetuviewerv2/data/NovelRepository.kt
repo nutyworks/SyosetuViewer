@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.core.content.edit
+import androidx.databinding.ObservableField
 import androidx.databinding.ObservableFloat
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +41,7 @@ class NovelRepository private constructor(
     }
 
     val selectedNovelBodies = MutableLiveData<List<NovelBody>>(listOf())
-    val novelMainText = MutableLiveData<List<TranslationWrapper>>(listOf())
+    val novelBody = ObservableField<NovelBody>()
     private val db = NovelDatabase.getInstance(application)
     private val mNovelEntityDao = db.novelDao()
     val novels = mNovelEntityDao.getAll()
@@ -102,15 +103,16 @@ class NovelRepository private constructor(
     }
 
     suspend fun fetchEpisode(ncode: String, index: Int) {
-        Narou.getNovelBody(ncode, index).map { TranslationWrapper(it) }.also { l ->
+        Narou.getNovelBody(ncode, index).also {
             bulkTranslator {
-                l.forEach {
+                it.mainTextWrappers?.forEach {
                     it.original translateTo it::translated
                 }
+                it.body translateTo it::translatedBody
             }.run()
         }.let {
             withContext(Dispatchers.Main) {
-                novelMainText.value = it
+                novelBody.set(it)
             }
         }
     }

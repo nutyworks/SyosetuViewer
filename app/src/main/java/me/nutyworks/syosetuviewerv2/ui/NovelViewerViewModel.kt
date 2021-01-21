@@ -26,7 +26,7 @@ class NovelViewerViewModel : ViewModel() {
 
     private val mRepository = NovelRepository.getInstance()
 
-    val novelMainText = mRepository.novelMainText
+    val novelBody = mRepository.novelBody
     val novelViewerAdapter = NovelViewerAdapter(this)
 
     val mainTextUpdateEvent = SingleLiveEvent<Void>()
@@ -63,11 +63,13 @@ class NovelViewerViewModel : ViewModel() {
     }
 
     fun toggleTextLanguageType(position: Int) {
-        novelMainText.value?.let {
-            it[position].viewType = when (it[position].viewType) {
-                TranslationWrapper.ORIGINAL -> TranslationWrapper.TRANSLATED
-                TranslationWrapper.TRANSLATED -> TranslationWrapper.ORIGINAL
-                else -> TranslationWrapper.TRANSLATED
+        novelBody.get()?.let {
+            it.mainTextWrappers?.get(position)?.let { wrapper ->
+                wrapper.viewType = when (wrapper.viewType) {
+                    TranslationWrapper.ORIGINAL -> TranslationWrapper.TRANSLATED
+                    TranslationWrapper.TRANSLATED -> TranslationWrapper.ORIGINAL
+                    else -> TranslationWrapper.TRANSLATED
+                }
             }
         }
     }

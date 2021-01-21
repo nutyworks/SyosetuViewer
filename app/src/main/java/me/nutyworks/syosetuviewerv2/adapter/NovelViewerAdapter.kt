@@ -1,7 +1,6 @@
 package me.nutyworks.syosetuviewerv2.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -46,7 +45,7 @@ class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
     }
 
     override fun getItemCount(): Int {
-        return viewModel.novelMainText.value?.size ?: 0
+        return viewModel.novelBody.get()?.mainTextWrappers?.size ?: 0
     }
 
     class TranslationWrapperViewHolder(
