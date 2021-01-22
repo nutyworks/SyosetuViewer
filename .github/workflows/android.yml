@@ -20,7 +20,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Unit test
-      run: ./gradlew test
+      run: ./gradlew test --stacktrace
     - name: Android unit test
       uses: reactivecircus/android-emulator-runner@v2
       with:
@@ -28,4 +28,4 @@ jobs:
         target: default
         arch: x86
         profile: Nexus 6
-        script: ./gradlew androidTest
+        script: ./gradlew androidTest --stacktrace
