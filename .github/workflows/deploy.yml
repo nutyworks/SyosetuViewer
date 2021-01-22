@@ -37,7 +37,7 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Change artifact name
-        run: mv ${{steps.sign_app.outputs.signedReleaseFile}} app/build/outputs/apk/release/Test.apk
+        run: mv ${{steps.sign_app.outputs.signedReleaseFile}} app/build/outputs/apk/release/SyosetuViewer.apk
 
       - name: Deploy artifact
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -45,4 +45,4 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: true
           files: |
-            app/build/outputs/apk/release/Test.apk
+            app/build/outputs/apk/release/SyosetuViewer.apk
