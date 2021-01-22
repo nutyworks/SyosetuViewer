@@ -1,5 +1,6 @@
 # SyosetuViewer
-![Android CI](https://github.com/nutyworks/SyosetuViewer/workflows/Android%20CI/badge.svg)
+![deploy-release-apk](https://github.com/nutyworks/SyosetuViewer/workflows/deploy-release-apk/badge.svg)
+![code-lint](https://github.com/nutyworks/SyosetuViewer/workflows/Code%20lint/badge.svg)
 
 [소설가가 되자](https://syosetu.com)의 소설을 번역하여 보여주는 안드로이드 앱입니다.
 
