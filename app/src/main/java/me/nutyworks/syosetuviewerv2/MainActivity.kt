@@ -34,7 +34,9 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_novel_list, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_novel_list,
+                R.id.navigation_dashboard,
+                R.id.navigation_notifications
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -53,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onResume() {
         super.onResume()
 
@@ -62,12 +63,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startNovelViewerActivity() {
-        startActivity(Intent(this, NovelViewerActivity::class.java).apply {
-            Log.i(TAG, mViewModel.selectedNovel.get()?.ncode.toString())
-            Log.i(TAG, mViewModel.selectedEpisode.get()?.index.toString())
-            putExtra(NovelViewerActivity.EXTRA_NCODE, mViewModel.selectedNovel.get()?.ncode)
-            putExtra(NovelViewerActivity.EXTRA_INDEX, mViewModel.selectedEpisode.get()?.index)
-        })
+        startActivity(
+            Intent(this, NovelViewerActivity::class.java).apply {
+                Log.i(TAG, mViewModel.selectedNovel.get()?.ncode.toString())
+                Log.i(TAG, mViewModel.selectedEpisode.get()?.index.toString())
+                putExtra(NovelViewerActivity.EXTRA_NCODE, mViewModel.selectedNovel.get()?.ncode)
+                putExtra(NovelViewerActivity.EXTRA_INDEX, mViewModel.selectedEpisode.get()?.index)
+            }
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

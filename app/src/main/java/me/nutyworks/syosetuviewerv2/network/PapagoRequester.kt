@@ -29,7 +29,8 @@ object PapagoRequester {
             generateAuthorizationToken(timestamp),
             timestamp,
             mDeviceId.toString(),
-            "ja", "ko",
+            "ja",
+            "ko",
             source.replace("(・)", "")
         ).execute().body()?.translatedText
             ?.replace("&lt;", "<")

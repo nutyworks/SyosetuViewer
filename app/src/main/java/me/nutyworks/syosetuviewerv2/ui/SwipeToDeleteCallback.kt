@@ -53,7 +53,9 @@ class SwipeToDeleteCallback(private val mAdapter: NovelListAdapter) :
                 mIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
                 mBackground.setBounds(
                     itemView.right + dX.toInt() - backgroundCornerOffset,
-                    itemView.top, itemView.right, itemView.bottom
+                    itemView.top,
+                    itemView.right,
+                    itemView.bottom
                 )
             }
             else -> { // view is unSwiped
