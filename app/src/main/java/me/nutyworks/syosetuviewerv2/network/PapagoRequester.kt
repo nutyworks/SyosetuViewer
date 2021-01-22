@@ -1,7 +1,6 @@
 package me.nutyworks.syosetuviewerv2.network
 
-import android.util.Base64
-import android.util.Log
+import org.apache.commons.codec.binary.Base64
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -39,17 +38,13 @@ object PapagoRequester {
     }
 
     private fun generateAuthorizationToken(timestamp: Long): String {
-        Log.d(
-            "generateAuth",
-            "$mDeviceId\nhttps://papago.naver.com/apis/n2mt/translate\n$timestamp"
-        )
         val hash = HMac.hmacmd5(
             mKey,
             "$mDeviceId\nhttps://papago.naver.com/apis/n2mt/translate\n$timestamp"
         ).let {
-            Base64.encodeToString(it, Base64.DEFAULT).trimEnd()
+//            Base64.encodeToString(it, Base64.DEFAULT).trimEnd()
+            Base64.encodeBase64String(it).trimEnd()
         }
-        Log.d("generateAuth", "Hash base64 is $hash")
         return "PPG $mDeviceId:$hash"
     }
 
