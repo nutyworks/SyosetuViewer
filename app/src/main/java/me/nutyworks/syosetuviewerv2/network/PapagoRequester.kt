@@ -8,7 +8,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
-import java.util.*
+import java.util.UUID
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -29,7 +29,8 @@ object PapagoRequester {
             generateAuthorizationToken(timestamp),
             timestamp,
             mDeviceId.toString(),
-            "ja", "ko",
+            "ja",
+            "ko",
             source.replace("(・)", "")
         ).execute().body()?.translatedText
             ?.replace("&lt;", "<")

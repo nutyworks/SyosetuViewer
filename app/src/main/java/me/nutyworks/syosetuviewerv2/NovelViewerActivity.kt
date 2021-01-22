@@ -2,8 +2,6 @@ package me.nutyworks.syosetuviewerv2
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import me.nutyworks.syosetuviewerv2.databinding.ActivityNovelViewerBinding
@@ -47,10 +45,12 @@ class NovelViewerActivity : AppCompatActivity() {
     }
 
     private fun startNextEpisodeViewer() {
-        startActivity(Intent(this, NovelViewerActivity::class.java).apply {
-            putExtra(EXTRA_NCODE, mViewModel.ncode)
-            putExtra(EXTRA_INDEX, mViewModel.index + 1)
-        })
+        startActivity(
+            Intent(this, NovelViewerActivity::class.java).apply {
+                putExtra(EXTRA_NCODE, mViewModel.ncode)
+                putExtra(EXTRA_INDEX, mViewModel.index + 1)
+            }
+        )
         finish()
     }
 }

@@ -40,7 +40,6 @@ class NovelViewerViewModel : ViewModel() {
 
     val startNextEpisodeViewerEvent = SingleLiveEvent<Void>()
 
-
     fun init(intent: Intent) {
         ncode = intent.getStringExtra(NovelViewerActivity.EXTRA_NCODE)!!
         index = intent.getIntExtra(NovelViewerActivity.EXTRA_INDEX, 0)

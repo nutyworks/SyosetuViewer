@@ -53,7 +53,6 @@ class NovelDetailAdapter(private val viewModel: NovelViewModel) :
             )
             else -> throw IllegalStateException("viewType is neither CHAPTER nor EPISODE")
         }
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

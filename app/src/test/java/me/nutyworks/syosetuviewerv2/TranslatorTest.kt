@@ -16,7 +16,8 @@ class TranslatorTest {
     fun `PapagoRequester BulkTranslator test`() {
 
         val wrappers: List<TranslationWrapper> = listOf(
-            "おはようございます。", "リンゴ"
+            "おはようございます。",
+            "リンゴ"
         ).map { TranslationWrapper(it) }
 
         bulkTranslator {
