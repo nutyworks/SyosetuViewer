@@ -24,9 +24,9 @@
 
 	<fragment
 		android:id="@+id/navigation_dashboard"
-		android:name="me.nutyworks.syosetuviewerv2.ui.dashboard.DashboardFragment"
+		android:name="me.nutyworks.syosetuviewerv2.ui.search.SearchFragment"
 		android:label="@string/title_dashboard"
-		tools:layout="@layout/fragment_dashboard" />
+		tools:layout="@layout/fragment_search" />
 
 	<fragment
 		android:id="@+id/navigation_notifications"
