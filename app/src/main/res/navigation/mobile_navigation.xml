@@ -23,9 +23,9 @@
 		tools:layout="@layout/fragment_novel_detail" />
 
 	<fragment
-		android:id="@+id/navigation_dashboard"
+		android:id="@+id/navigation_search"
 		android:name="me.nutyworks.syosetuviewerv2.ui.search.SearchFragment"
-		android:label="@string/title_dashboard"
+		android:label="@string/title_search"
 		tools:layout="@layout/fragment_search" />
 
 	<fragment

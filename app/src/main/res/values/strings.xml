@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SyosetuViewer</string>
     <string name="title_novel_list">Novels</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_search">Search</string>
     <string name="title_notifications">Notifications</string>
     <string name="novel_not_exists">Click the \"+\" button below to add novel.</string>
     <string name="add_novel">Add a novel</string>
