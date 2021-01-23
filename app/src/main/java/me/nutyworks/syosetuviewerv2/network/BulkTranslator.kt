@@ -3,7 +3,7 @@ package me.nutyworks.syosetuviewerv2.network
 import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import kotlin.reflect.KMutableProperty
 
-class BulkTranslator {
+class BulkTranslator(private val language: String) {
     private val toTranslate = mutableListOf<Pair<String, KMutableProperty<String>>>()
 
     infix fun String.translateTo(other: KMutableProperty<String>) {
@@ -28,7 +28,7 @@ class BulkTranslator {
                     str.length
 
             str.slice(idxStart until idxEnd).let { slicedStr ->
-                PapagoRequester.request(slicedStr).split("\n").let { response ->
+                PapagoRequester.request(language, slicedStr).split("\n").let { response ->
                     response.forEachIndexed { index, s ->
                         toTranslate[listStartIndex + index].second.setter.call(s)
                     }
@@ -44,35 +44,6 @@ class BulkTranslator {
     }
 }
 
-fun bulkTranslator(bulkTranslator: BulkTranslator.() -> Unit): BulkTranslator {
-    return BulkTranslator().apply(bulkTranslator)
-}
-
-object BulkStringTranslator {
-
-    fun translate(str: String): String {
-        var translated = ""
-
-        var idxStart = 0
-        var idxEnd: Int
-        while (true) {
-
-            idxEnd =
-                if (idxStart + 5000 < str.length) {
-                    idxStart + str.slice(idxStart until idxStart + 5000)
-                        .indexOfLast { it == '\n' }
-                } else str.length
-
-            str.slice(idxStart until idxEnd).let { slicedStr ->
-                translated += PapagoRequester.request(slicedStr) + "\n"
-            }
-
-            idxStart = idxEnd + 1
-
-            if (idxStart > str.length)
-                break
-        }
-
-        return translated
-    }
+fun bulkTranslator(language: String, bulkTranslator: BulkTranslator.() -> Unit): BulkTranslator {
+    return BulkTranslator(language).apply(bulkTranslator)
 }

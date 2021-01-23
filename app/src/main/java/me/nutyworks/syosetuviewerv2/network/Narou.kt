@@ -20,7 +20,7 @@ object Narou {
             Novel(
                 ncode,
                 title,
-                PapagoRequester.request(title),
+                PapagoRequester.request("ja-ko", title),
                 writer
             )
         }

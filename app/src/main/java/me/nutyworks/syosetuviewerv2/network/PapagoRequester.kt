@@ -23,15 +23,23 @@ object PapagoRequester {
 
     private val service = retrofit.create(PapagoService::class.java)
 
-    fun request(source: String): String {
+    /**
+     * Translate `source` using Papago translator.
+     *
+     * @param language source-destination language; separate with dash(-); e. g. en-ko, ko-ja
+     * @param text text to translate
+     *
+     * @return text translated to destination language
+     */
+    fun request(language: String, text: String): String {
         val timestamp = System.currentTimeMillis()
         return service.translate(
             generateAuthorizationToken(timestamp),
             timestamp,
             mDeviceId.toString(),
-            "ja",
-            "ko",
-            source.replace("(・)", "")
+            language.split("-")[0],
+            language.split("-")[1],
+            text.replace("(・)", "")
         ).execute().body()?.translatedText
             ?.replace("&lt;", "<")
             ?.replace("&gt;", ">")

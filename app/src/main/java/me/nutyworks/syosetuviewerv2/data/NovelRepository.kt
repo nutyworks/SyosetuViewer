@@ -57,7 +57,7 @@ class NovelRepository private constructor(
     suspend fun fetchSelectedNovelBodies(ncode: String) {
         Log.i(TAG, "fetchSelectedNovelBodies called with ncode $ncode")
         Narou.getNovelBodies(ncode).let { bodies ->
-            bulkTranslator {
+            bulkTranslator("ja-ko") {
                 bodies.forEach {
                     it.body translateTo it::translatedBody
                 }
@@ -80,7 +80,7 @@ class NovelRepository private constructor(
                 Novel(
                     novel.ncode,
                     novel.title,
-                    PapagoRequester.request(novel.title),
+                    PapagoRequester.request("ja-ko", novel.title),
                     novel.writer
                 )
             }.let { novelEntity ->
@@ -106,7 +106,7 @@ class NovelRepository private constructor(
 
     suspend fun fetchEpisode(ncode: String, index: Int) {
         Narou.getNovelBody(ncode, index).also {
-            bulkTranslator {
+            bulkTranslator("ja-ko") {
                 it.mainTextWrappers?.forEach {
                     it.original translateTo it::translated
                 }
@@ -120,8 +120,10 @@ class NovelRepository private constructor(
     }
 
     suspend fun searchNovel(wordInclude: String) {
-        Yomou.search(wordInclude = wordInclude).also { results ->
-            bulkTranslator {
+        val wordIncludeTranslated = PapagoRequester.request("ko-ja", wordInclude)
+
+        Yomou.search(wordInclude = wordIncludeTranslated).also { results ->
+            bulkTranslator("ja-ko") {
                 results.forEach { result ->
                     wrapper(result.title)
                     wrapper(result.genre)
