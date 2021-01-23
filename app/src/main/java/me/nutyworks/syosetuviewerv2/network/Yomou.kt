@@ -1,5 +1,6 @@
 package me.nutyworks.syosetuviewerv2.network
 
+import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
 import okhttp3.ResponseBody
 import org.jsoup.Jsoup
@@ -252,7 +253,7 @@ object Yomou {
 
             doc.select(".searchkekka_box").map { searchResult ->
                 arrayOf(
-                    searchResult.select(".novel_h > a").text(), // title
+                    TranslationWrapper(searchResult.select(".novel_h > a").text()), // title
                     *writerAndNcodeRegex.find(searchResult.html())?.groupValues?.slice(1..2)
                         ?.toTypedArray() // writer, ncode
                         ?: throw IllegalStateException("Couldn't get writer or ncode"),
@@ -275,13 +276,16 @@ object Yomou {
                         },
                     *searchResult.select("table > tbody > tr > td:nth-child(2)").let { detail ->
                         arrayOf(
-                            detail.select("div.ex").text(), // description
+                            TranslationWrapper(detail.select("div.ex").text()), // description
                             *detail.html().split("<br>").let { advancedDetail ->
                                 arrayOf(
-                                    aTagInnerRegex.find(advancedDetail[0])?.groupValues?.get(1)
-                                        ?: throw IllegalStateException("Couldn't get genre"), // genre
+                                    TranslationWrapper(
+                                        aTagInnerRegex.find(advancedDetail[0])?.groupValues?.get(1)
+                                            ?: throw IllegalStateException("Couldn't get genre")
+                                    ), // genre
                                     aTagInnerRegex.findAll(advancedDetail[1])
-                                        .map { it.groupValues[1] }.toList(), // keywords
+                                        .map { TranslationWrapper(it.groupValues[1]) }
+                                        .toList(), // keywords
                                 )
                             }
                         )
