@@ -14,19 +14,27 @@
         android:layout_height="match_parent"
         tools:context=".ui.search.SearchFragment">
 
-        <TextView
-            android:id="@+id/text_dashboard"
+        <EditText
+            android:id="@+id/et_include_words"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:text="@{viewModel.omg}"
+            android:layout_margin="16dp"
+            android:autofillHints="no"
+            android:inputType="text"
+            android:hint="@string/include_word"
+            android:text="@={viewModel.searchText}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.search()}"
+            android:text="@string/title_search"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/et_include_words" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
