@@ -14,6 +14,7 @@ import me.nutyworks.syosetuviewerv2.network.PapagoRequester
 import me.nutyworks.syosetuviewerv2.network.Yomou
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
 import me.nutyworks.syosetuviewerv2.utilities.NcodeValidator
+import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 
 class NovelRepository private constructor(
     application: Application
@@ -47,6 +48,7 @@ class NovelRepository private constructor(
     private val mNovelEntityDao = db.novelDao()
     val novels = mNovelEntityDao.getAll()
     val searchResults = MutableLiveData<List<YomouSearchResult>>(listOf())
+    val searchResultsUpdateEvent = SingleLiveEvent<Void>()
 
     private val mSharedPreferences =
         application.getSharedPreferences(PREF_NAMESPACE_VIEWER, Context.MODE_PRIVATE)
@@ -136,6 +138,7 @@ class NovelRepository private constructor(
         }.let {
             withContext(Dispatchers.Main) {
                 searchResults.value = it
+                searchResultsUpdateEvent.call()
             }
         }
     }

@@ -20,7 +20,7 @@ class SearchResultActivity : AppCompatActivity() {
 
         val binding = ActivitySearchResultBinding.inflate(layoutInflater)
 
-        supportActionBar?.title = "Search result"
+        supportActionBar?.title = getString(R.string.title_search_results)
 
         binding.viewModel = mViewModel
         mViewModel.init(intent)
@@ -32,8 +32,10 @@ class SearchResultActivity : AppCompatActivity() {
 
     private fun setupUiEvent() {
         with(mViewModel) {
-            searchResults.observe(this@SearchResultActivity) {
+            searchResultsUpdateEvent.observe(this@SearchResultActivity) {
                 notifyListAdapterForUpdate()
+                resultsRecyclerViewIsVisible.set(true)
+                loadingProgressBarIsVisible.set(false)
             }
         }
     }

@@ -2,6 +2,7 @@ package me.nutyworks.syosetuviewerv2.ui
 
 import android.content.Intent
 import android.util.Log
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
@@ -20,6 +21,10 @@ class SearchResultViewModel : ViewModel() {
     private val mRepository = NovelRepository.getInstance()
     val searchResults: LiveData<List<YomouSearchResult>> = mRepository.searchResults
     val adapter = SearchResultAdapter(this)
+    val searchResultsUpdateEvent = mRepository.searchResultsUpdateEvent
+
+    val resultsRecyclerViewIsVisible = ObservableBoolean(false)
+    val loadingProgressBarIsVisible = ObservableBoolean(true)
 
     fun init(intent: Intent) {
         intent.let {
