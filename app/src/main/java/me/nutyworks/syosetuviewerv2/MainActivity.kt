@@ -52,9 +52,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        with(mNovelViewModel) {
-            startNovelViewerActivityEvent.observe(this@MainActivity) { startNovelViewerActivity() }
-        }
+        setupUiEvent()
     }
 
     override fun onResume() {
@@ -64,6 +62,15 @@ class MainActivity : AppCompatActivity() {
         mNovelViewModel.novelDetailAdapter.notifyDataSetChanged()
     }
 
+    private fun setupUiEvent() {
+        with(mNovelViewModel) {
+            startNovelViewerActivityEvent.observe(this@MainActivity) { startNovelViewerActivity() }
+        }
+        with(mSearchViewModel) {
+            startSearchResultActivityEvent.observe(this@MainActivity) { startSearchResultActivity() }
+        }
+    }
+
     private fun startNovelViewerActivity() {
         startActivity(
             Intent(this, NovelViewerActivity::class.java).apply {
@@ -71,6 +78,15 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, mNovelViewModel.selectedEpisode.get()?.index.toString())
                 putExtra(NovelViewerActivity.EXTRA_NCODE, mNovelViewModel.selectedNovel.get()?.ncode)
                 putExtra(NovelViewerActivity.EXTRA_INDEX, mNovelViewModel.selectedEpisode.get()?.index)
+            }
+        )
+    }
+
+    private fun startSearchResultActivity() {
+        Log.i(TAG, "startSearchResultActivity called ${mSearchViewModel.searchText.value}")
+        startActivity(
+            Intent(this, SearchResultActivity::class.java).apply {
+                putExtra(SearchResultActivity.INTENT_INCLUDE_WORDS, mSearchViewModel.searchText.value)
             }
         )
     }

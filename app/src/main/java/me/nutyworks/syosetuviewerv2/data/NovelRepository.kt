@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.network.Narou
 import me.nutyworks.syosetuviewerv2.network.PapagoRequester
+import me.nutyworks.syosetuviewerv2.network.Yomou
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
 import me.nutyworks.syosetuviewerv2.utilities.NcodeValidator
 
@@ -45,6 +46,7 @@ class NovelRepository private constructor(
     private val db = NovelDatabase.getInstance(application)
     private val mNovelEntityDao = db.novelDao()
     val novels = mNovelEntityDao.getAll()
+    val searchResults = ObservableField<List<YomouSearchResult>>()
 
     private val mSharedPreferences =
         application.getSharedPreferences(PREF_NAMESPACE_VIEWER, Context.MODE_PRIVATE)
@@ -113,6 +115,14 @@ class NovelRepository private constructor(
         }.let {
             withContext(Dispatchers.Main) {
                 novelBody.set(it)
+            }
+        }
+    }
+
+    suspend fun searchNovel(wordInclude: String) {
+        Yomou.search(wordInclude = wordInclude).let {
+            withContext(Dispatchers.Main) {
+                searchResults.set(it)
             }
         }
     }

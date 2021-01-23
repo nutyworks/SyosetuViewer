@@ -12,4 +12,5 @@
     <string name="paragraph_spacing">Paragraph</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
+    <string name="include_word">Words to include</string>
 </resources>
