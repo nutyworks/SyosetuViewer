@@ -1,5 +1,6 @@
 package me.nutyworks.syosetuviewerv2.network
 
+import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import kotlin.reflect.KMutableProperty
 
 class BulkTranslator {
@@ -7,6 +8,10 @@ class BulkTranslator {
 
     infix fun String.translateTo(other: KMutableProperty<String>) {
         toTranslate.add(this to other)
+    }
+
+    fun wrapper(translationWrapper: TranslationWrapper) {
+        toTranslate.add(translationWrapper.original to translationWrapper::translated)
     }
 
     fun run() {
