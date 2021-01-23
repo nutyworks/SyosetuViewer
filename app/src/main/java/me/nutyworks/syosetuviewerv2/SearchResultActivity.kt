@@ -26,5 +26,15 @@ class SearchResultActivity : AppCompatActivity() {
         mViewModel.init(intent)
 
         setContentView(binding.root)
+
+        setupUiEvent()
+    }
+
+    private fun setupUiEvent() {
+        with(mViewModel) {
+            searchResults.observe(this@SearchResultActivity) {
+                notifyListAdapterForUpdate()
+            }
+        }
     }
 }

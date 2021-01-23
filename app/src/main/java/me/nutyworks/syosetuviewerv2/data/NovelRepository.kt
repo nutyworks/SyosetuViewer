@@ -46,7 +46,7 @@ class NovelRepository private constructor(
     private val db = NovelDatabase.getInstance(application)
     private val mNovelEntityDao = db.novelDao()
     val novels = mNovelEntityDao.getAll()
-    val searchResults = ObservableField<List<YomouSearchResult>>()
+    val searchResults = MutableLiveData<List<YomouSearchResult>>(listOf())
 
     private val mSharedPreferences =
         application.getSharedPreferences(PREF_NAMESPACE_VIEWER, Context.MODE_PRIVATE)
@@ -122,7 +122,7 @@ class NovelRepository private constructor(
     suspend fun searchNovel(wordInclude: String) {
         Yomou.search(wordInclude = wordInclude).let {
             withContext(Dispatchers.Main) {
-                searchResults.set(it)
+                searchResults.value = it
             }
         }
     }
