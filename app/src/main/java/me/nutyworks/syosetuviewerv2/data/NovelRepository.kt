@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.core.content.edit
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableFloat
 import androidx.lifecycle.MutableLiveData
@@ -11,8 +12,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.network.Narou
 import me.nutyworks.syosetuviewerv2.network.PapagoRequester
+import me.nutyworks.syosetuviewerv2.network.Yomou
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
 import me.nutyworks.syosetuviewerv2.utilities.NcodeValidator
+import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 
 class NovelRepository private constructor(
     application: Application
@@ -46,6 +49,10 @@ class NovelRepository private constructor(
     private val mNovelEntityDao = db.novelDao()
     val novels = mNovelEntityDao.getAll()
 
+    val searchResults = MutableLiveData<List<YomouSearchResult>>(listOf())
+    val searchResultsUpdateEvent = SingleLiveEvent<Void>()
+    val isExtraLoading = ObservableBoolean(false)
+
     private val mSharedPreferences =
         application.getSharedPreferences(PREF_NAMESPACE_VIEWER, Context.MODE_PRIVATE)
 
@@ -55,7 +62,7 @@ class NovelRepository private constructor(
     suspend fun fetchSelectedNovelBodies(ncode: String) {
         Log.i(TAG, "fetchSelectedNovelBodies called with ncode $ncode")
         Narou.getNovelBodies(ncode).let { bodies ->
-            bulkTranslator {
+            bulkTranslator("ja-ko") {
                 bodies.forEach {
                     it.body translateTo it::translatedBody
                 }
@@ -78,7 +85,7 @@ class NovelRepository private constructor(
                 Novel(
                     novel.ncode,
                     novel.title,
-                    PapagoRequester.request(novel.title),
+                    PapagoRequester.request("ja-ko", novel.title),
                     novel.writer
                 )
             }.let { novelEntity ->
@@ -104,7 +111,7 @@ class NovelRepository private constructor(
 
     suspend fun fetchEpisode(ncode: String, index: Int) {
         Narou.getNovelBody(ncode, index).also {
-            bulkTranslator {
+            bulkTranslator("ja-ko") {
                 it.mainTextWrappers?.forEach {
                     it.original translateTo it::translated
                 }
@@ -113,6 +120,32 @@ class NovelRepository private constructor(
         }.let {
             withContext(Dispatchers.Main) {
                 novelBody.set(it)
+            }
+        }
+    }
+
+    suspend fun searchNovel(wordInclude: String, page: Int = 1) {
+        withContext(Dispatchers.Main) {
+            isExtraLoading.set(true)
+        }
+        val wordIncludeTranslated =
+            PapagoRequester.request("ko-ja", wordInclude.replace(" ", "\n")).replace("\n", " ")
+
+        Yomou.search(wordInclude = wordIncludeTranslated, page = page).also { results ->
+            bulkTranslator("ja-ko") {
+                results.forEach { result ->
+                    wrapper(result.title)
+                    wrapper(result.genre)
+                    result.keywords.forEach { keyword ->
+                        wrapper(keyword)
+                    }
+                }
+            }.run()
+        }.let {
+            withContext(Dispatchers.Main) {
+                isExtraLoading.set(false)
+                searchResults.value = searchResults.value?.plus(it)
+                searchResultsUpdateEvent.call()
             }
         }
     }

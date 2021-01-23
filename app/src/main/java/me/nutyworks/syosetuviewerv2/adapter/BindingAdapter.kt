@@ -6,6 +6,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 
 @BindingAdapter("android:textStyle")
 fun setTypeface(textView: TextView, style: String) {
@@ -39,3 +40,18 @@ fun setFloatToText(textView: TextView, float: Float) {
 
 fun Float.dp(displayMetrics: DisplayMetrics) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, displayMetrics)
+
+@BindingAdapter("app:onReachEnd")
+fun addOnScrollListener(recyclerView: RecyclerView, func: () -> Unit) {
+    recyclerView.addOnScrollListener(
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (!recyclerView.canScrollVertically(1) &&
+                    newState == RecyclerView.SCROLL_STATE_IDLE
+                ) func()
+            }
+        }
+    )
+}

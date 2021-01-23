@@ -9,7 +9,7 @@ import org.junit.Test
 class TranslatorTest {
     @Test
     fun `PapagoRequester translation test`() {
-        assertEquals(PapagoRequester.request("リンゴ"), "사과")
+        assertEquals(PapagoRequester.request("ja-ko", "リンゴ"), "사과")
     }
 
     @Test
@@ -20,7 +20,7 @@ class TranslatorTest {
             "リンゴ"
         ).map { TranslationWrapper(it) }
 
-        bulkTranslator {
+        bulkTranslator("ja-ko") {
             wrappers.forEach {
                 it.original translateTo it::translated
             }

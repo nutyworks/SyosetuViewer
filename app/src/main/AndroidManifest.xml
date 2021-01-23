@@ -14,11 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SyosetuViewerDefault"
         android:usesCleartextTraffic="true">
+        <activity android:name=".SearchResultActivity" />
         <activity
             android:name=".NovelViewerActivity"
-            android:theme="@style/Theme.SyosetuViewerNoActionBar" >
-
-        </activity>
+            android:theme="@style/Theme.SyosetuViewerNoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -29,7 +28,9 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>

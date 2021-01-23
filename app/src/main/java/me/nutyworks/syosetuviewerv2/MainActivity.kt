@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel
+import me.nutyworks.syosetuviewerv2.ui.search.SearchViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +20,8 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
-    private val mViewModel: NovelViewModel by viewModels()
+    private val mNovelViewModel: NovelViewModel by viewModels()
+    private val mSearchViewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_novel_list,
-                R.id.navigation_dashboard,
+                R.id.navigation_search,
                 R.id.navigation_notifications
             )
         )
@@ -45,30 +47,46 @@ class MainActivity : AppCompatActivity() {
         when (intent?.action) {
             Intent.ACTION_SEND -> {
                 if (intent.type == "text/plain") {
-                    mViewModel.handleSendText(intent)
+                    mNovelViewModel.handleSendText(intent)
                 }
             }
         }
 
-        with(mViewModel) {
-            startNovelViewerActivityEvent.observe(this@MainActivity) { startNovelViewerActivity() }
-        }
+        setupUiEvent()
     }
 
     override fun onResume() {
         super.onResume()
 
         // TODO heavy task; need to be optimized
-        mViewModel.novelDetailAdapter.notifyDataSetChanged()
+        mNovelViewModel.novelDetailAdapter.notifyDataSetChanged()
+    }
+
+    private fun setupUiEvent() {
+        with(mNovelViewModel) {
+            startNovelViewerActivityEvent.observe(this@MainActivity) { startNovelViewerActivity() }
+        }
+        with(mSearchViewModel) {
+            startSearchResultActivityEvent.observe(this@MainActivity) { startSearchResultActivity() }
+        }
     }
 
     private fun startNovelViewerActivity() {
         startActivity(
             Intent(this, NovelViewerActivity::class.java).apply {
-                Log.i(TAG, mViewModel.selectedNovel.get()?.ncode.toString())
-                Log.i(TAG, mViewModel.selectedEpisode.get()?.index.toString())
-                putExtra(NovelViewerActivity.EXTRA_NCODE, mViewModel.selectedNovel.get()?.ncode)
-                putExtra(NovelViewerActivity.EXTRA_INDEX, mViewModel.selectedEpisode.get()?.index)
+                Log.i(TAG, mNovelViewModel.selectedNovel.get()?.ncode.toString())
+                Log.i(TAG, mNovelViewModel.selectedEpisode.get()?.index.toString())
+                putExtra(NovelViewerActivity.EXTRA_NCODE, mNovelViewModel.selectedNovel.get()?.ncode)
+                putExtra(NovelViewerActivity.EXTRA_INDEX, mNovelViewModel.selectedEpisode.get()?.index)
+            }
+        )
+    }
+
+    private fun startSearchResultActivity() {
+        Log.i(TAG, "startSearchResultActivity called ${mSearchViewModel.searchText.value}")
+        startActivity(
+            Intent(this, SearchResultActivity::class.java).apply {
+                putExtra(SearchResultActivity.INTENT_INCLUDE_WORDS, mSearchViewModel.searchText.value)
             }
         )
     }
