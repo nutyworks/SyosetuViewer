@@ -23,15 +23,28 @@ class SearchResultViewModel : ViewModel() {
     val adapter = SearchResultAdapter(this)
     val searchResultsUpdateEvent = mRepository.searchResultsUpdateEvent
 
+    private lateinit var wordInclude: String
+
     val resultsRecyclerViewIsVisible = ObservableBoolean(false)
     val loadingProgressBarIsVisible = ObservableBoolean(true)
+    val extraLoadingProgressBarIsVisible = mRepository.isExtraLoading
+
+    var page = 1
+
+    val onReachEnd: () -> Unit = {
+        if (!mRepository.isExtraLoading.get()) {
+            GlobalScope.launch {
+                mRepository.searchNovel(wordInclude, page++)
+            }
+        }
+    }
 
     fun init(intent: Intent) {
-        intent.let {
-            val wordInclude = it.getStringExtra(SearchResultActivity.INTENT_INCLUDE_WORDS)!!
-            GlobalScope.launch {
-                mRepository.searchNovel(wordInclude)
-            }
+        with(intent) {
+            wordInclude = getStringExtra(SearchResultActivity.INTENT_INCLUDE_WORDS)!!
+        }
+        GlobalScope.launch {
+            mRepository.searchNovel(wordInclude, page++)
         }
     }
 
@@ -41,12 +54,13 @@ class SearchResultViewModel : ViewModel() {
         }
     }
 
-    fun getTranslatedKeywords(position: Int): String {
-        return searchResults.value!![position].keywords.joinToString(" ") { it.translated }
-    }
+    fun getTranslatedKeywords(position: Int): String =
+        searchResults.value!![position].keywords.joinToString(" ") { it.translated }.let {
+            if (it.isEmpty()) "No keywords" else it
+        }
 
     fun notifyListAdapterForUpdate() {
         Log.i(TAG, "notifyListAdapterForUpdate searchResults = $searchResults")
-        adapter.notifyDataSetChanged()
+        adapter.notifyItemRangeInserted((page - 1) * 20, 20)
     }
 }

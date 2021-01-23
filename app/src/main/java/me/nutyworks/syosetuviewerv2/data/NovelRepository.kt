@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.core.content.edit
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableFloat
 import androidx.lifecycle.MutableLiveData
@@ -47,8 +48,10 @@ class NovelRepository private constructor(
     private val db = NovelDatabase.getInstance(application)
     private val mNovelEntityDao = db.novelDao()
     val novels = mNovelEntityDao.getAll()
+
     val searchResults = MutableLiveData<List<YomouSearchResult>>(listOf())
     val searchResultsUpdateEvent = SingleLiveEvent<Void>()
+    val isExtraLoading = ObservableBoolean(false)
 
     private val mSharedPreferences =
         application.getSharedPreferences(PREF_NAMESPACE_VIEWER, Context.MODE_PRIVATE)
@@ -121,11 +124,14 @@ class NovelRepository private constructor(
         }
     }
 
-    suspend fun searchNovel(wordInclude: String) {
+    suspend fun searchNovel(wordInclude: String, page: Int = 1) {
+        withContext(Dispatchers.Main) {
+            isExtraLoading.set(true)
+        }
         val wordIncludeTranslated =
             PapagoRequester.request("ko-ja", wordInclude.replace(" ", "\n")).replace("\n", " ")
 
-        Yomou.search(wordInclude = wordIncludeTranslated).also { results ->
+        Yomou.search(wordInclude = wordIncludeTranslated, page = page).also { results ->
             bulkTranslator("ja-ko") {
                 results.forEach { result ->
                     wrapper(result.title)
@@ -137,7 +143,8 @@ class NovelRepository private constructor(
             }.run()
         }.let {
             withContext(Dispatchers.Main) {
-                searchResults.value = it
+                isExtraLoading.set(false)
+                searchResults.value = searchResults.value?.plus(it)
                 searchResultsUpdateEvent.call()
             }
         }
