@@ -36,6 +36,10 @@ class SearchResultViewModel : ViewModel() {
         }
     }
 
+    fun getTranslatedKeywords(position: Int): String {
+        return searchResults.value!![position].keywords.joinToString(" ") { it.translated }
+    }
+
     fun notifyListAdapterForUpdate() {
         Log.i(TAG, "notifyListAdapterForUpdate searchResults = $searchResults")
         adapter.notifyDataSetChanged()

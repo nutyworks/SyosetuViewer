@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.searchResults[position].title}"
+            android:text="@{viewModel.searchResults[position].title.translated}"
             android:textSize="18sp" />
 
         <TextView
@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{String.join(" ", viewModel.searchResults[position].keywords)}'
+            android:text='@{viewModel.getTranslatedKeywords(position)}'
             android:textSize="14sp" />
     </LinearLayout>
 </layout>

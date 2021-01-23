@@ -120,7 +120,17 @@ class NovelRepository private constructor(
     }
 
     suspend fun searchNovel(wordInclude: String) {
-        Yomou.search(wordInclude = wordInclude).let {
+        Yomou.search(wordInclude = wordInclude).also { results ->
+            bulkTranslator {
+                results.forEach { result ->
+                    wrapper(result.title)
+                    wrapper(result.genre)
+                    result.keywords.forEach { keyword ->
+                        wrapper(keyword)
+                    }
+                }
+            }.run()
+        }.let {
             withContext(Dispatchers.Main) {
                 searchResults.value = it
             }
