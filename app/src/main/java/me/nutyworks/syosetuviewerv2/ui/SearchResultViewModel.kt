@@ -11,6 +11,7 @@ import me.nutyworks.syosetuviewerv2.SearchResultActivity
 import me.nutyworks.syosetuviewerv2.adapter.SearchResultAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
+import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 
 class SearchResultViewModel : ViewModel() {
 
@@ -30,6 +31,8 @@ class SearchResultViewModel : ViewModel() {
     val extraLoadingProgressBarIsVisible = mRepository.isExtraLoading
 
     var page = 1
+
+    val addNovelEvent = SingleLiveEvent<Void>()
 
     val onReachEnd: () -> Unit = {
         if (!mRepository.isExtraLoading.get()) {
@@ -62,5 +65,12 @@ class SearchResultViewModel : ViewModel() {
     fun notifyListAdapterForUpdate() {
         Log.i(TAG, "notifyListAdapterForUpdate searchResults = $searchResults")
         adapter.notifyItemRangeInserted((page - 1) * 20, 20)
+    }
+
+    fun addNovel(position: Int) {
+        addNovelEvent.call()
+        GlobalScope.launch {
+            mRepository.insertNovel(searchResults.value!![position].ncode)
+        }
     }
 }

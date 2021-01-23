@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
+        android:onClick="@{() -> viewModel.addNovel(position)}"
         android:foreground="?android:attr/selectableItemBackground"
         android:orientation="vertical"
         android:padding="16dp">
