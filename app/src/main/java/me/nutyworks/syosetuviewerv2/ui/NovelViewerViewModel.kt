@@ -11,7 +11,6 @@ import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.NovelViewerActivity
 import me.nutyworks.syosetuviewerv2.adapter.NovelViewerAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
-import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 import kotlin.properties.Delegates
 
