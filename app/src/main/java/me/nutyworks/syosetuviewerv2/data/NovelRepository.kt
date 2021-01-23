@@ -120,7 +120,8 @@ class NovelRepository private constructor(
     }
 
     suspend fun searchNovel(wordInclude: String) {
-        val wordIncludeTranslated = PapagoRequester.request("ko-ja", wordInclude)
+        val wordIncludeTranslated =
+            PapagoRequester.request("ko-ja", wordInclude.replace(" ", "\n")).replace("\n", " ")
 
         Yomou.search(wordInclude = wordIncludeTranslated).also { results ->
             bulkTranslator("ja-ko") {
