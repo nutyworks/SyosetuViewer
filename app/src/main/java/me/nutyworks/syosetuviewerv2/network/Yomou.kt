@@ -247,18 +247,15 @@ object Yomou {
         ).execute().body()?.document?.let { doc ->
             val aTagInnerRegex =
                 """<a[\s\S]*?>(.*?)</a>""".toRegex()
+            val writerAndNcodeRegex =
+                """作者：(?:<a[\s\S]*?>(.*?)</a>|.*?)／[\s\S]*?／Nコード：(.+)""".toRegex()
 
             doc.select(".searchkekka_box").map { searchResult ->
                 arrayOf(
                     searchResult.select(".novel_h > a").text(), // title
-                    *searchResult.html().split("作者：")[1].split("<table>")[0].split("／").let {
-                        arrayOf(
-                            Jsoup.parse(it[0]).select("a").text().let { writer ->
-                                if (writer.isNullOrEmpty()) it[0].split("：")[1] else writer
-                            }, // writer
-                            it[2].split("：")[1].trim() // ncode
-                        )
-                    },
+                    *writerAndNcodeRegex.find(searchResult.html())?.groupValues?.slice(1..2)
+                        ?.toTypedArray() // writer, ncode
+                        ?: throw IllegalStateException("Couldn't get writer or ncode"),
                     *searchResult.select("table > tbody > tr > td:first-child").text()
                         .let { publishInfo ->
                             val regex =
