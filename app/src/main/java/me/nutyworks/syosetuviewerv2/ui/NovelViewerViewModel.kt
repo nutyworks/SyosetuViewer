@@ -62,15 +62,7 @@ class NovelViewerViewModel : ViewModel() {
     }
 
     fun toggleTextLanguageType(position: Int) {
-        novelBody.get()?.let {
-            it.mainTextWrappers?.get(position)?.let { wrapper ->
-                wrapper.viewType = when (wrapper.viewType) {
-                    TranslationWrapper.ORIGINAL -> TranslationWrapper.TRANSLATED
-                    TranslationWrapper.TRANSLATED -> TranslationWrapper.ORIGINAL
-                    else -> TranslationWrapper.TRANSLATED
-                }
-            }
-        }
+        novelBody.get()?.mainTextWrappers?.get(position)?.toggleViewType()
     }
 
     fun onNextEpisodeClick() {

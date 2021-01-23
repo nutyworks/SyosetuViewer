@@ -11,4 +11,12 @@ data class TranslationWrapper(
     }
 
     val text get() = if (viewType == ORIGINAL) original else translated
+
+    fun toggleViewType() {
+        viewType = when (viewType) {
+            ORIGINAL -> TRANSLATED
+            TRANSLATED -> ORIGINAL
+            else -> TRANSLATED
+        }
+    }
 }
