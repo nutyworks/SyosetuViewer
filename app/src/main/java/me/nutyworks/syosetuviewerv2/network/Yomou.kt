@@ -249,7 +249,7 @@ object Yomou {
             val aTagInnerRegex =
                 """<a[\s\S]*?>(.*?)</a>""".toRegex()
             val writerAndNcodeRegex =
-                """作者：(?:<a[\s\S]*?>(.*?)</a>|.*?)／[\s\S]*?／Nコード：(.+)""".toRegex()
+                """作者：(?:<a[\s\S]*?>(.*?)</a>|.*?)／[\s\S]*?／Nコード：([Nn]\d{4}[A-Za-z]{1,2})""".toRegex()
 
             doc.select(".searchkekka_box").map { searchResult ->
                 arrayOf(
