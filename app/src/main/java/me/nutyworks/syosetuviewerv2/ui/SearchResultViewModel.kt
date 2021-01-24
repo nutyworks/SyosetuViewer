@@ -61,7 +61,7 @@ class SearchResultViewModel : ViewModel() {
 
     fun getNovelWriterAndStatus(position: Int): String {
         return searchResults.value!![position].run {
-            "$writer · $status · $episodes episode${if (episodes == 1) "" else "s"}"
+            "$writer · ${Yomou.Type.typeToString(status)} · $episodes episode${if (episodes == 1) "" else "s"}"
         }
     }
 

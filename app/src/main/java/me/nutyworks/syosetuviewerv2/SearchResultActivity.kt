@@ -48,11 +48,11 @@ class SearchResultActivity : AppCompatActivity() {
                 resultsRecyclerViewIsVisible.set(true)
                 loadingProgressBarIsVisible.set(false)
             }
-            addNovelEvent.observe(this@SearchResultActivity) { showAddNovelSnackbar() }
+            snackbarText.observe(this@SearchResultActivity) { showSnackbar(it) }
         }
     }
 
-    private fun showAddNovelSnackbar() {
-        Snackbar.make(mRoot, "Adding novels to your library.", Snackbar.LENGTH_LONG).show()
+    private fun showSnackbar(msg: String) {
+        Snackbar.make(mRoot, msg, Snackbar.LENGTH_LONG).show()
     }
 }
