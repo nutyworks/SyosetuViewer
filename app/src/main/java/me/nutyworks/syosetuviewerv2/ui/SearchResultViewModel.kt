@@ -5,7 +5,12 @@ import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import me.nutyworks.syosetuviewerv2.SearchResultActivity
 import me.nutyworks.syosetuviewerv2.adapter.SearchResultAdapter
@@ -24,6 +29,9 @@ class SearchResultViewModel : ViewModel() {
     val adapter = SearchResultAdapter(this)
     val searchResultsUpdateEvent = mRepository.searchResultsInsertedEvent
 
+    private val mViewModelScope = CoroutineScope(Job() + Dispatchers.Main)
+    private var mSearchJob: Deferred<Unit>? = null
+
     private lateinit var wordInclude: String
 
     val resultsRecyclerViewIsVisible = ObservableBoolean(false)
@@ -36,7 +44,7 @@ class SearchResultViewModel : ViewModel() {
 
     val onReachEnd: () -> Unit = {
         if (!mRepository.isExtraLoading.get()) {
-            GlobalScope.launch {
+            mSearchJob = mViewModelScope.async {
                 mRepository.searchNovel(wordInclude, page++)
             }
         }
@@ -46,7 +54,7 @@ class SearchResultViewModel : ViewModel() {
         with(intent) {
             wordInclude = getStringExtra(SearchResultActivity.INTENT_INCLUDE_WORDS)!!
         }
-        GlobalScope.launch {
+        mSearchJob = mViewModelScope.async {
             mRepository.searchNovel(wordInclude, page++)
         }
     }
@@ -69,12 +77,13 @@ class SearchResultViewModel : ViewModel() {
 
     fun addNovel(position: Int) {
         addNovelEvent.call()
-        GlobalScope.launch {
+        mViewModelScope.launch {
             mRepository.insertNovel(searchResults.value!![position].ncode)
         }
     }
 
     fun resetSearchResult() {
         mRepository.resetSearchResult()
+        mSearchJob?.cancel()
     }
 }
