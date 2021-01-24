@@ -15,6 +15,7 @@ import me.nutyworks.syosetuviewerv2.SearchResultActivity
 import me.nutyworks.syosetuviewerv2.adapter.SearchResultAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
+import me.nutyworks.syosetuviewerv2.network.Yomou
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 
 class SearchResultViewModel : ViewModel() {

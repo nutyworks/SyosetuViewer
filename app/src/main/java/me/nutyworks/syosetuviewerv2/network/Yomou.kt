@@ -134,6 +134,14 @@ object Yomou {
         const val SHORT = "t"
         const val IN_SERIAL = "r"
         const val COMPLETED = "e"
+
+        fun typeToString(type: String) =
+            when (type) {
+                "t" -> "단편"
+                "r" -> "연재 중"
+                "e" -> "완결"
+                else -> "?"
+            }
     }
 
     object Order {
