@@ -15,6 +15,7 @@ import me.nutyworks.syosetuviewerv2.SearchResultActivity
 import me.nutyworks.syosetuviewerv2.adapter.SearchResultAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
+import me.nutyworks.syosetuviewerv2.network.Yomou
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 
 class SearchResultViewModel : ViewModel() {
@@ -39,7 +40,7 @@ class SearchResultViewModel : ViewModel() {
 
     var page = 1
 
-    val addNovelEvent = SingleLiveEvent<Void>()
+    val snackbarText = SingleLiveEvent<String>()
 
     val onReachEnd: () -> Unit = {
         if (!mRepository.isExtraLoading.get()) {
@@ -60,7 +61,7 @@ class SearchResultViewModel : ViewModel() {
 
     fun getNovelWriterAndStatus(position: Int): String {
         return searchResults.value!![position].run {
-            "$writer · $status · $episodes episode${if (episodes == 1) "" else "s"}"
+            "$writer · ${Yomou.Type.typeToString(status)} · $episodes episode${if (episodes == 1) "" else "s"}"
         }
     }
 
@@ -75,9 +76,10 @@ class SearchResultViewModel : ViewModel() {
     }
 
     fun addNovel(position: Int) {
-        addNovelEvent.call()
         mViewModelScope.launch {
+            snackbarText.postValue("Adding selected novel to your library...")
             mRepository.insertNovel(searchResults.value!![position].ncode)
+            snackbarText.postValue("Added selected novel to your library!")
         }
     }
 
