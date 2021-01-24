@@ -4,10 +4,10 @@ import android.content.Intent
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.NovelViewerActivity
 import me.nutyworks.syosetuviewerv2.adapter.NovelViewerAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
@@ -22,6 +22,8 @@ class NovelViewerViewModel : ViewModel() {
 
     lateinit var ncode: String
     var index by Delegates.notNull<Int>()
+
+    private val mViewModelScope = CoroutineScope(Job() + Dispatchers.Main)
 
     private val mRepository = NovelRepository.getInstance()
 
@@ -47,11 +49,9 @@ class NovelViewerViewModel : ViewModel() {
     }
 
     private fun fetchEpisode() {
-        GlobalScope.launch {
+        mViewModelScope.launch {
             mRepository.fetchEpisode(ncode, index)
-            withContext(Dispatchers.Main) {
-                mainTextUpdateEvent.call()
-            }
+            mainTextUpdateEvent.call()
         }
     }
 
@@ -66,7 +66,7 @@ class NovelViewerViewModel : ViewModel() {
 
     fun onNextEpisodeClick() {
         startNextEpisodeViewerEvent.call()
-        GlobalScope.launch {
+        mViewModelScope.launch {
             mRepository.markAsRead(ncode, index + 1)
         }
     }

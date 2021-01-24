@@ -61,17 +61,19 @@ class NovelRepository private constructor(
 
     suspend fun fetchSelectedNovelBodies(ncode: String) {
         Log.i(TAG, "fetchSelectedNovelBodies called with ncode $ncode")
-        Narou.getNovelBodies(ncode).let { bodies ->
+
+        val translatedNovelBodies = withContext(Dispatchers.IO) {
+            val novelBodies = Narou.getNovelBodies(ncode)
             bulkTranslator("ja-ko") {
-                bodies.forEach {
+                novelBodies.forEach {
                     it.body translateTo it::translatedBody
                 }
             }.run()
 
-            withContext(Dispatchers.Main) {
-                selectedNovelBodies.value = bodies
-            }
+            novelBodies
         }
+
+        selectedNovelBodies.postValue(translatedNovelBodies)
     }
 
     suspend fun insertNovel(novel: Novel) = mNovelEntityDao.insert(novel)
@@ -81,16 +83,8 @@ class NovelRepository private constructor(
 
         Log.i(TAG, "insertNovel called with ncode $ncode")
         withContext(Dispatchers.IO) {
-            Narou.getNovel(ncode).let { novel ->
-                Novel(
-                    novel.ncode,
-                    novel.title,
-                    PapagoRequester.request("ja-ko", novel.title),
-                    novel.writer
-                )
-            }.let { novelEntity ->
-                insertNovel(novelEntity)
-            }
+            val novelEntity = Narou.getNovel(ncode)
+            insertNovel(novelEntity)
         }
     }
 
@@ -110,28 +104,29 @@ class NovelRepository private constructor(
     }
 
     suspend fun fetchEpisode(ncode: String, index: Int) {
-        Narou.getNovelBody(ncode, index).also {
+        val translatedNovelBody = withContext(Dispatchers.IO) {
+            val novelBody = Narou.getNovelBody(ncode, index)
             bulkTranslator("ja-ko") {
-                it.mainTextWrappers?.forEach {
-                    it.original translateTo it::translated
+                novelBody.mainTextWrappers?.forEach {
+                    wrapper(it)
                 }
-                it.body translateTo it::translatedBody
+                novelBody.body translateTo novelBody::translatedBody
             }.run()
-        }.let {
-            withContext(Dispatchers.Main) {
-                novelBody.set(it)
-            }
+
+            novelBody
         }
+        novelBody.set(translatedNovelBody)
     }
 
     suspend fun searchNovel(wordInclude: String, page: Int = 1) {
-        withContext(Dispatchers.Main) {
-            isExtraLoading.set(true)
-        }
-        val wordIncludeTranslated =
-            PapagoRequester.request("ko-ja", wordInclude.replace(" ", "\n")).replace("\n", " ")
+        isExtraLoading.set(true)
 
-        Yomou.search(wordInclude = wordIncludeTranslated, page = page).also { results ->
+        val translatedResults = withContext(Dispatchers.IO) {
+            val wordIncludeTranslated =
+                PapagoRequester.request("ko-ja", wordInclude.replace(" ", "\n")).replace("\n", " ")
+
+            val results = Yomou.search(wordInclude = wordIncludeTranslated, page = page)
+
             bulkTranslator("ja-ko") {
                 results.forEach { result ->
                     wrapper(result.title)
@@ -141,13 +136,13 @@ class NovelRepository private constructor(
                     }
                 }
             }.run()
-        }.let {
-            withContext(Dispatchers.Main) {
-                isExtraLoading.set(false)
-                searchResults.value = searchResults.value?.plus(it)
-                searchResultsInsertedEvent.call()
-            }
+
+            results
         }
+
+        isExtraLoading.set(false)
+        searchResults.value = searchResults.value?.plus(translatedResults)
+        searchResultsInsertedEvent.call()
     }
 
     fun resetSearchResult() {
