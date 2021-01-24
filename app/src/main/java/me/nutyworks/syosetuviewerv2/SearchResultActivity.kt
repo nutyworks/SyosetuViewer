@@ -35,10 +35,16 @@ class SearchResultActivity : AppCompatActivity() {
         setupUiEvent()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mViewModel.resetSearchResult()
+    }
+
     private fun setupUiEvent() {
         with(mViewModel) {
             searchResultsUpdateEvent.observe(this@SearchResultActivity) {
-                notifyListAdapterForUpdate()
+                notifyListAdapterForItemInsert()
                 resultsRecyclerViewIsVisible.set(true)
                 loadingProgressBarIsVisible.set(false)
             }

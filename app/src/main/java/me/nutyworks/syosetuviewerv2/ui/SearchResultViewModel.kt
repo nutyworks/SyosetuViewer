@@ -22,7 +22,7 @@ class SearchResultViewModel : ViewModel() {
     private val mRepository = NovelRepository.getInstance()
     val searchResults: LiveData<List<YomouSearchResult>> = mRepository.searchResults
     val adapter = SearchResultAdapter(this)
-    val searchResultsUpdateEvent = mRepository.searchResultsUpdateEvent
+    val searchResultsUpdateEvent = mRepository.searchResultsInsertedEvent
 
     private lateinit var wordInclude: String
 
@@ -62,8 +62,8 @@ class SearchResultViewModel : ViewModel() {
             if (it.isEmpty()) "No keywords" else it
         }
 
-    fun notifyListAdapterForUpdate() {
-        Log.i(TAG, "notifyListAdapterForUpdate searchResults = $searchResults")
+    fun notifyListAdapterForItemInsert() {
+        Log.i(TAG, "notifyListAdapterForUpdate searchResults = ${searchResults.value}")
         adapter.notifyItemRangeInserted((page - 1) * 20, 20)
     }
 
@@ -72,5 +72,9 @@ class SearchResultViewModel : ViewModel() {
         GlobalScope.launch {
             mRepository.insertNovel(searchResults.value!![position].ncode)
         }
+    }
+
+    fun resetSearchResult() {
+        mRepository.resetSearchResult()
     }
 }

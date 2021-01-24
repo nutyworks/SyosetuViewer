@@ -50,7 +50,7 @@ class NovelRepository private constructor(
     val novels = mNovelEntityDao.getAll()
 
     val searchResults = MutableLiveData<List<YomouSearchResult>>(listOf())
-    val searchResultsUpdateEvent = SingleLiveEvent<Void>()
+    val searchResultsInsertedEvent = SingleLiveEvent<Void>()
     val isExtraLoading = ObservableBoolean(false)
 
     private val mSharedPreferences =
@@ -145,9 +145,13 @@ class NovelRepository private constructor(
             withContext(Dispatchers.Main) {
                 isExtraLoading.set(false)
                 searchResults.value = searchResults.value?.plus(it)
-                searchResultsUpdateEvent.call()
+                searchResultsInsertedEvent.call()
             }
         }
+    }
+
+    fun resetSearchResult() {
+        searchResults.value = listOf()
     }
 
     fun setTextSize(textSize: Float) {
