@@ -47,13 +47,14 @@ object Narou {
     fun getNovelBody(ncode: String, index: Int): NovelBody =
         Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").get().runCatching {
             val body = select(".novel_subtitle").eachText().first()
-            val mainTextWrappers = select("#novel_honbun > p").eachText().map {
-                TranslationWrapper(
-                    it.replace("&lt;", "<")
-                        .replace("&gt;", ">")
-                        .replace("&amp;", "&")
-                )
-            }
+            val mainTextWrappers =
+                select("#novel_honbun > p").eachText().filter { it.trim().isNotEmpty() }.map {
+                    TranslationWrapper(
+                        it.replace("&lt;", "<")
+                            .replace("&gt;", ">")
+                            .replace("&amp;", "&")
+                    )
+                }
             NovelBody(
                 body,
                 false,
