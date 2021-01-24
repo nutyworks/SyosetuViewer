@@ -31,6 +31,7 @@
             android:layout_height="match_parent"
             android:overScrollMode="never"
             android:visibility="@{viewModel.resultsRecyclerViewIsVisible ? View.VISIBLE : View.GONE}"
+            app:onReachEnd="@{viewModel.onReachEnd}"
             tools:context=".SearchResultActivity">
 
             <LinearLayout
@@ -44,7 +45,6 @@
                     android:layout_height="wrap_content"
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:onReachEnd="@{viewModel.onReachEnd}"
                     app:setAdapter="@{viewModel.adapter}"
                     tools:itemCount="2"
                     tools:listitem="@layout/row_search_result" />
@@ -52,8 +52,8 @@
                 <ProgressBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.extraLoadingProgressBarIsVisible ? View.VISIBLE : View.INVISIBLE}"
-                    android:layout_margin="16dp" />
+                    android:layout_margin="16dp"
+                    android:visibility="@{viewModel.extraLoadingProgressBarIsVisible ? View.VISIBLE : View.INVISIBLE}" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </FrameLayout>

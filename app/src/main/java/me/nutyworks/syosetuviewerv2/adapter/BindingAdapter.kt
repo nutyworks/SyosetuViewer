@@ -5,8 +5,8 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.core.widget.NestedScrollView
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 
 @BindingAdapter("android:textStyle")
 fun setTypeface(textView: TextView, style: String) {
@@ -42,16 +42,8 @@ fun Float.dp(displayMetrics: DisplayMetrics) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, displayMetrics)
 
 @BindingAdapter("app:onReachEnd")
-fun addOnScrollListener(recyclerView: RecyclerView, func: () -> Unit) {
-    recyclerView.addOnScrollListener(
-        object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-
-                if (!recyclerView.canScrollVertically(1) &&
-                    newState == RecyclerView.SCROLL_STATE_IDLE
-                ) func()
-            }
-        }
-    )
+fun addOnScrollListener(nestedScrollView: NestedScrollView, func: () -> Unit) {
+    nestedScrollView.setOnScrollChangeListener { v, _, _, _, _ ->
+        if (!v.canScrollVertically(1)) func()
+    }
 }
