@@ -63,7 +63,7 @@ class NovelRepository private constructor(
         Log.i(TAG, "fetchSelectedNovelBodies called with ncode $ncode")
         Narou.getNovelBodies(ncode).let { bodies ->
             bulkTranslator("ja-ko") {
-                bodies.forEach {
+                novelBodies.forEach {
                     it.body translateTo it::translatedBody
                 }
             }.run()
@@ -81,16 +81,8 @@ class NovelRepository private constructor(
 
         Log.i(TAG, "insertNovel called with ncode $ncode")
         withContext(Dispatchers.IO) {
-            Narou.getNovel(ncode).let { novel ->
-                Novel(
-                    novel.ncode,
-                    novel.title,
-                    PapagoRequester.request("ja-ko", novel.title),
-                    novel.writer
-                )
-            }.let { novelEntity ->
-                insertNovel(novelEntity)
-            }
+            val novelEntity = Narou.getNovel(ncode)
+            insertNovel(novelEntity)
         }
     }
 
