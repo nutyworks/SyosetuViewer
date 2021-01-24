@@ -15,6 +15,8 @@ class BulkTranslator(private val language: String) {
     }
 
     fun run() {
+        if (toTranslate.isEmpty()) return
+
         val str = toTranslate.joinToString("\n") { it.first }
         var idxStart = 0
         var idxEnd: Int
