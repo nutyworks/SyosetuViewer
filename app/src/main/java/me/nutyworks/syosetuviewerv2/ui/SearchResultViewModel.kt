@@ -40,7 +40,7 @@ class SearchResultViewModel : ViewModel() {
 
     var page = 1
 
-    val addNovelEvent = SingleLiveEvent<Void>()
+    val snackbarText = SingleLiveEvent<String>()
 
     val onReachEnd: () -> Unit = {
         if (!mRepository.isExtraLoading.get()) {
@@ -76,9 +76,10 @@ class SearchResultViewModel : ViewModel() {
     }
 
     fun addNovel(position: Int) {
-        addNovelEvent.call()
         mViewModelScope.launch {
+            snackbarText.postValue("Adding selected novel to your library...")
             mRepository.insertNovel(searchResults.value!![position].ncode)
+            snackbarText.postValue("Added selected novel to your library!")
         }
     }
 
