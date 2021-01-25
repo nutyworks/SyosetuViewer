@@ -33,6 +33,7 @@ class SearchResultViewModel : ViewModel() {
     private var mSearchJob: Deferred<Unit>? = null
 
     private lateinit var wordInclude: String
+    private lateinit var orderBy: String
 
     val resultsRecyclerViewIsVisible = ObservableBoolean(false)
     val loadingProgressBarIsVisible = ObservableBoolean(true)
@@ -45,7 +46,7 @@ class SearchResultViewModel : ViewModel() {
     val onReachEnd: () -> Unit = {
         if (!mRepository.isExtraLoading.get()) {
             mSearchJob = mViewModelScope.async {
-                mRepository.searchNovel(wordInclude, page++)
+                mRepository.searchNovel(wordInclude, orderBy, page++)
             }
         }
     }
@@ -53,9 +54,10 @@ class SearchResultViewModel : ViewModel() {
     fun init(intent: Intent) {
         with(intent) {
             wordInclude = getStringExtra(SearchResultActivity.INTENT_INCLUDE_WORDS)!!
+            orderBy = Yomou.Order.orderByList[getIntExtra(SearchResultActivity.INTENT_ORDER_BY, 0)]
         }
         mSearchJob = mViewModelScope.async {
-            mRepository.searchNovel(wordInclude, page++)
+            mRepository.searchNovel(wordInclude, orderBy, page++)
         }
     }
 

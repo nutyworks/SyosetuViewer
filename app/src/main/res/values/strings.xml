@@ -12,6 +12,25 @@
     <string name="paragraph_spacing">Paragraph</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
-    <string name="include_word">Words to include</string>
+    <string name="description_include_word">Words to include</string>
     <string name="title_search_results">Search results</string>
+    <string name="description_exclude_word">Words to exclude</string>
+    <string name="description_order_by">Order by:</string>
+
+    <string-array name="order_by_array">
+        <item>Recent refresh</item>
+        <item>Weekly Unique Access</item>
+        <item>Bookmarks</item>
+        <item>Reviewed</item>
+        <item>Overall points</item>
+        <item>Daily points</item>
+        <item>Weekly points</item>
+        <item>Monthly points</item>
+        <item>Quarter points</item>
+        <item>Yearly points</item>
+        <item>Evaluators</item>
+        <item>Characters</item>
+        <item>Recent episode</item>
+        <item>Oldest to latest</item>
+    </string-array>
 </resources>

@@ -8,6 +8,7 @@ class SearchViewModel : ViewModel() {
 
     val startSearchResultActivityEvent = SingleLiveEvent<Void>()
     val searchText = MutableLiveData("")
+    val orderBy = MutableLiveData(1)
 
     fun search() {
         startSearchResultActivityEvent.call()
