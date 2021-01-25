@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
             Intent(this, SearchResultActivity::class.java).apply {
                 putExtra(SearchResultActivity.INTENT_INCLUDE_WORDS, mSearchViewModel.searchText.value)
                 putExtra(SearchResultActivity.INTENT_ORDER_BY, mSearchViewModel.orderBy.value)
+                putExtra(SearchResultActivity.INTENT_GENRE, mSearchViewModel.genre)
             }
         )
     }

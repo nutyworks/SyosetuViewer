@@ -118,7 +118,7 @@ class NovelRepository private constructor(
         novelBody.set(translatedNovelBody)
     }
 
-    suspend fun searchNovel(wordInclude: String, orderBy: String, page: Int = 1) {
+    suspend fun searchNovel(wordInclude: String, orderBy: String, genres: List<Int>, page: Int = 1) {
         isExtraLoading.set(true)
 
         val translatedResults = withContext(Dispatchers.IO) {
@@ -129,6 +129,7 @@ class NovelRepository private constructor(
                 Yomou.search(
                     wordInclude = wordIncludeTranslated,
                     order = orderBy,
+                    genres = genres,
                     page = page
                 )
 

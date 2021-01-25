@@ -16,6 +16,32 @@
     <string name="title_search_results">Search results</string>
     <string name="description_exclude_word">Words to exclude</string>
     <string name="description_order_by">Order by:</string>
+    <string name="description_genre">Genre</string>
+    <string name="description_genre_love_affair">Love affair</string>
+    <string name="description_genre_different_world">Different world</string>
+    <string name="description_genre_real_world">Real world</string>
+    <string name="description_genre_fantasy">Fantasy</string>
+    <string name="description_genre_high_fantasy">High fantasy</string>
+    <string name="description_genre_low_fantasy">Low fantasy</string>
+    <string name="description_genre_literature">Literature</string>
+    <string name="description_genre_pure_literature">Pure literature</string>
+    <string name="description_genre_human_drama">Human drama</string>
+    <string name="description_genre_history">History</string>
+    <string name="description_genre_detective">Detective</string>
+    <string name="description_genre_horror">Horror</string>
+    <string name="description_genre_action">Action</string>
+    <string name="description_genre_comedy">Comedy</string>
+    <string name="description_genre_sf">SF</string>
+    <string name="description_genre_vr_game">VR game</string>
+    <string name="description_genre_the_universe">The universe</string>
+    <string name="description_genre_sci_fi">Sci-fi</string>
+    <string name="description_genre_panic">Panic</string>
+    <string name="description_genre_other">Other</string>
+    <string name="description_genre_fairy_tale">Fairy tale</string>
+    <string name="description_genre_poetry">Poetry</string>
+    <string name="description_genre_essay">Essay</string>
+    <string name="description_genre_replay">Replay</string>
+    <string name="description_genre_non_genre">Non-genre</string>
 
     <string-array name="order_by_array">
         <item>Recent refresh</item>
