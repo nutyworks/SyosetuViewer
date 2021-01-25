@@ -28,7 +28,7 @@ class SearchViewModel : ViewModel() {
     val genreSciFi = MutableLiveData(false)
     val genrePanic = MutableLiveData(false)
     val genreFairyTale = MutableLiveData(false)
-    val genrePoetry= MutableLiveData(false)
+    val genrePoetry = MutableLiveData(false)
     val genreEssay = MutableLiveData(false)
     val genreReplay = MutableLiveData(false)
     val genreOther = MutableLiveData(false)
