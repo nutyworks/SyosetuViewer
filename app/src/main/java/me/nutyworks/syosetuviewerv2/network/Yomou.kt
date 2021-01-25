@@ -214,6 +214,23 @@ object Yomou {
          * 更新が古い順
          */
         const val OLD_RENEW = "old"
+
+        val orderByList = listOf(
+            RECENT_RENEW,
+            WEEKLY_ACCESS,
+            BOOKMARK_COUNT,
+            REVIEW_COUNT,
+            TOTAL_POINT,
+            DAILY_POINT,
+            WEEKLY_POINT,
+            MONTHLY_POINT,
+            QUARTER_POINT,
+            YEARLY_POINT,
+            EVALUATOR_COUNT,
+            CHARACTER_COUNT,
+            RECENT_CREATE,
+            OLD_RENEW,
+        )
     }
 
     fun search(

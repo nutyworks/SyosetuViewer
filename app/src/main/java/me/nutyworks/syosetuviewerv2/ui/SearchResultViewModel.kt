@@ -33,6 +33,8 @@ class SearchResultViewModel : ViewModel() {
     private var mSearchJob: Deferred<Unit>? = null
 
     private lateinit var wordInclude: String
+    private lateinit var orderBy: String
+    private lateinit var genres: IntArray
 
     val resultsRecyclerViewIsVisible = ObservableBoolean(false)
     val loadingProgressBarIsVisible = ObservableBoolean(true)
@@ -44,19 +46,23 @@ class SearchResultViewModel : ViewModel() {
 
     val onReachEnd: () -> Unit = {
         if (!mRepository.isExtraLoading.get()) {
-            mSearchJob = mViewModelScope.async {
-                mRepository.searchNovel(wordInclude, page++)
-            }
+            searchNextPage()
+        }
+    }
+
+    private fun searchNextPage() {
+        mSearchJob = mViewModelScope.async {
+            mRepository.searchNovel(wordInclude, orderBy, genres.toList(), page++)
         }
     }
 
     fun init(intent: Intent) {
         with(intent) {
             wordInclude = getStringExtra(SearchResultActivity.INTENT_INCLUDE_WORDS)!!
+            orderBy = Yomou.Order.orderByList[getIntExtra(SearchResultActivity.INTENT_ORDER_BY, 0)]
+            genres = getIntArrayExtra(SearchResultActivity.INTENT_GENRE) ?: intArrayOf()
         }
-        mSearchJob = mViewModelScope.async {
-            mRepository.searchNovel(wordInclude, page++)
-        }
+        searchNextPage()
     }
 
     fun getNovelWriterAndStatus(position: Int): String {

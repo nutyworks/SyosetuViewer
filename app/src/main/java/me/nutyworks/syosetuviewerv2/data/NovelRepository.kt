@@ -118,14 +118,20 @@ class NovelRepository private constructor(
         novelBody.set(translatedNovelBody)
     }
 
-    suspend fun searchNovel(wordInclude: String, page: Int = 1) {
+    suspend fun searchNovel(wordInclude: String, orderBy: String, genres: List<Int>, page: Int = 1) {
         isExtraLoading.set(true)
 
         val translatedResults = withContext(Dispatchers.IO) {
             val wordIncludeTranslated =
                 PapagoRequester.request("ko-ja", wordInclude.replace(" ", "\n")).replace("\n", " ")
 
-            val results = Yomou.search(wordInclude = wordIncludeTranslated, page = page)
+            val results =
+                Yomou.search(
+                    wordInclude = wordIncludeTranslated,
+                    order = orderBy,
+                    genres = genres,
+                    page = page
+                )
 
             bulkTranslator("ja-ko") {
                 results.forEach { result ->
