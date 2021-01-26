@@ -57,7 +57,7 @@ object Narou {
 
                     imgRegex.find(it.html())?.let { match ->
                         ImageWrapper(match.groupValues[1], match.groupValues[2])
-                    } ?: TranslationWrapper(it.html(), "")
+                    } ?: TranslationWrapper(it.text(), "")
                 }
 
             NovelBody(
