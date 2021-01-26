@@ -3,6 +3,8 @@ package me.nutyworks.syosetuviewerv2.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import me.nutyworks.syosetuviewerv2.R
@@ -38,6 +40,18 @@ class SearchResultAdapter(val viewModel: SearchResultViewModel) :
         fun bind(viewModel: SearchResultViewModel, position: Int) {
             binding.viewModel = viewModel
             binding.position = position
+
+            viewModel.searchResults.value?.get(position)?.keywords?.forEach { (_, translated) ->
+                binding.flKeywordsWrapper.addView(
+                    TextView(binding.root.context).apply {
+                        text = translated
+                        background = ContextCompat.getDrawable(
+                            binding.root.context,
+                            R.drawable.keyword_border
+                        )
+                    }
+                )
+            }
         }
     }
 }
