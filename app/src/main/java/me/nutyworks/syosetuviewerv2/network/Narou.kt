@@ -1,5 +1,6 @@
 package me.nutyworks.syosetuviewerv2.network
 
+import me.nutyworks.syosetuviewerv2.data.ImageWrapper
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
@@ -47,14 +48,18 @@ object Narou {
     fun getNovelBody(ncode: String, index: Int): NovelBody =
         Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").get().runCatching {
             val body = select(".novel_subtitle").eachText().first()
+            val imgRegex =
+                """<img src="(.+?)" alt="(.+?)"[\s\S]*>""".toRegex()
             val mainTextWrappers =
-                select("#novel_honbun > p").eachText().filter { it.trim().isNotEmpty() }.map {
-                    TranslationWrapper(
-                        it.replace("&lt;", "<")
-                            .replace("&gt;", ">")
-                            .replace("&amp;", "&")
-                    )
+                select("#novel_honbun > p").filter {
+                    it.text().isNotBlank() || it.html().contains(imgRegex)
+                }.map {
+
+                    imgRegex.find(it.html())?.let { match ->
+                        ImageWrapper(match.groupValues[1], match.groupValues[2])
+                    } ?: TranslationWrapper(it.html(), "")
                 }
+
             NovelBody(
                 body,
                 false,

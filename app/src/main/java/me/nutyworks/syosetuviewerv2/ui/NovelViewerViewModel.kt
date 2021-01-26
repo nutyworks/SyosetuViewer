@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import me.nutyworks.syosetuviewerv2.NovelViewerActivity
 import me.nutyworks.syosetuviewerv2.adapter.NovelViewerAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
+import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 import kotlin.properties.Delegates
 
@@ -61,7 +62,7 @@ class NovelViewerViewModel : ViewModel() {
     }
 
     fun toggleTextLanguageType(position: Int) {
-        novelBody.get()?.mainTextWrappers?.get(position)?.toggleViewType()
+        (novelBody.get()?.mainTextWrappers?.get(position) as? TranslationWrapper)?.toggleViewType()
     }
 
     fun onNextEpisodeClick() {
