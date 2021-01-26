@@ -65,9 +65,15 @@ class SearchResultViewModel : ViewModel() {
         searchNextPage()
     }
 
-    fun getNovelWriterAndStatus(position: Int): String {
+    fun getWriterAndNcode(position: Int): String {
         return searchResults.value!![position].run {
-            "$writer · ${Yomou.Type.typeToString(status)} · $episodes episode${if (episodes == 1) "" else "s"}"
+            "$writer · $ncode"
+        }
+    }
+
+    fun getNovelInfo(position: Int): String {
+        return searchResults.value!![position].run {
+            "${genre.translated} · ${Yomou.Type.typeToString(status)} · $episodes episode${if (episodes == 1) "" else "s"}"
         }
     }
 
