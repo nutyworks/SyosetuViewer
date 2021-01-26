@@ -4,7 +4,7 @@ data class TranslationWrapper(
     val original: String,
     var translated: String = original,
     var viewType: Int = TRANSLATED
-) {
+) : IMainTextWrapper {
     companion object {
         const val ORIGINAL = 0
         const val TRANSLATED = 1

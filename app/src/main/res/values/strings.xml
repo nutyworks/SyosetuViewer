@@ -42,6 +42,8 @@
     <string name="description_genre_essay">Essay</string>
     <string name="description_genre_replay">Replay</string>
     <string name="description_genre_non_genre">Non-genre</string>
+    <string name="load_image">Load image</string>
+    <string name="description_image">image</string>
 
     <string-array name="order_by_array">
         <item>Recent refresh</item>
