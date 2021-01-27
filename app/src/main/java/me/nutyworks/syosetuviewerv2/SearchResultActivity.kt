@@ -12,9 +12,7 @@ class SearchResultActivity : AppCompatActivity() {
 
     companion object {
         private val TAG = SearchResultActivity::class.simpleName
-        const val INTENT_INCLUDE_WORDS = "me.nutyworks.syosetuviewerv2.INTENT_INCLUDE_WORDS"
-        const val INTENT_ORDER_BY = "me.nutyworks.syosetuviewerv2.INTENT_ORDER_BY"
-        const val INTENT_GENRE = "me.nutyworks.syosetuviewerv2.INTENT_GENRE"
+        const val INTENT_SEARCH_REQUIREMENTS = "me.nutyworks.syosetuviewerv2.SEARCH_REQUIREMENTS"
     }
 
     private val mViewModel: SearchResultViewModel by viewModels()

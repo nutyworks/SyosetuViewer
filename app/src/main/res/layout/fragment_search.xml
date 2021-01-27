@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,12 +10,11 @@
             type="me.nutyworks.syosetuviewerv2.ui.search.SearchViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                     android:autofillHints="no"
                     android:hint="@string/description_include_word"
                     android:inputType="text"
-                    android:text="@={viewModel.searchText}"
+                    android:text="@={viewModel.includeWords}"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
@@ -46,7 +46,7 @@
                     android:autofillHints="no"
                     android:hint="@string/description_exclude_word"
                     android:inputType="text"
-                    android:text="@={viewModel.searchText}"
+                    android:text="@={viewModel.excludeWords}"
                     app:layout_constraintTop_toBottomOf="@id/et_include_words" />
 
                 <TextView
@@ -59,14 +59,14 @@
                     android:elevation="6dp"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="16dp"
                     android:onClick="@{() -> viewModel.toggleGenreExpansion()}"
+                    android:padding="16dp"
                     android:text="@string/description_genre"
                     app:layout_constraintTop_toBottomOf="@id/et_exclude_words" />
 
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/el_fold_genre"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     app:el_expanded="false"
@@ -266,12 +266,275 @@
                             <CheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_column="1"
                                 android:checked="@={viewModel.genreNonGenre}"
                                 android:text="@string/description_genre_non_genre" />
+                        </TableRow>
 
+                    </TableLayout>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_expand_advanced"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:windowBackground"
+                    android:clickable="true"
+                    android:elevation="6dp"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.toggleAdvancedExpansion()}"
+                    android:padding="16dp"
+                    android:text="@string/description_advanced"
+                    app:layout_constraintTop_toBottomOf="@id/el_fold_genre" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/el_fold_advanced"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    app:el_expanded="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_expand_advanced"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/description_advanced_type" />
+
+                            <LinearLayout android:orientation="horizontal">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/description_advanced_type_short"
+                                    android:checked="@={viewModel.requireShort}" />
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/description_advanced_type_in_serialization"
+                                    android:checked="@={viewModel.requireInSerialization}" />
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/description_advanced_type_finished"
+                                    android:checked="@={viewModel.requireFinished}" />
+
+                            </LinearLayout>
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/description_advanced_reading_time" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <EditText
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@={viewModel.minTime}"
+                                    android:hint="@string/description_minimum"
+                                    android:inputType="number"
+                                    android:importantForAutofill="no" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/tilde" />
+
+                                <EditText
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@={viewModel.maxTime}"
+                                    android:hint="@string/description_maximum"
+                                    android:inputType="number"
+                                    android:importantForAutofill="no" />
+                            </LinearLayout>
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/description_advanced_characters" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <EditText
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@={viewModel.minLen}"
+                                    android:hint="@string/description_minimum"
+                                    android:inputType="number"
+                                    android:importantForAutofill="no" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/tilde" />
+
+                                <EditText
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@={viewModel.maxLen}"
+                                    android:hint="@string/description_maximum"
+                                    android:inputType="number"
+                                    android:importantForAutofill="no" />
+                            </LinearLayout>
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/description_advanced_overall_points" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <EditText
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@={viewModel.minGlobalPoint}"
+                                    android:hint="@string/description_minimum"
+                                    android:inputType="number"
+                                    android:importantForAutofill="no" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/tilde" />
+
+                                <EditText
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@={viewModel.maxGlobalPoint}"
+                                    android:hint="@string/description_maximum"
+                                    android:inputType="number"
+                                    android:importantForAutofill="no" />
+                            </LinearLayout>
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/description_advanced_last_refresh" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <EditText
+                                    android:id="@+id/dpMinLastUp"
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{viewModel.minLastUp}"
+                                    android:hint="@string/date_example"
+                                    android:inputType="none"
+                                    android:importantForAutofill="no"
+                                    android:focusable="false" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/tilde" />
+
+                                <EditText
+                                    android:id="@+id/dpMaxLastUp"
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:text="@{viewModel.maxLastUp}"
+                                    android:hint="@string/date_example"
+                                    android:inputType="none"
+                                    android:importantForAutofill="no" />
+                            </LinearLayout>
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/description_advanced_first_upload" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <EditText
+                                    android:id="@+id/dpMinFirstUp"
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{viewModel.minFirstUp}"
+                                    android:hint="@string/date_example"
+                                    android:inputType="none"
+                                    android:importantForAutofill="no"
+                                    android:focusable="false" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/tilde" />
+
+                                <EditText
+                                    android:id="@+id/dpMaxFirstUp"
+                                    android:layout_weight="1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:text="@{viewModel.maxFirstUp}"
+                                    android:hint="@string/date_example"
+                                    android:inputType="none"
+                                    android:importantForAutofill="no" />
+                            </LinearLayout>
                         </TableRow>
                     </TableLayout>
 
+<!--                    <com.rm.rmswitch.RMTristateSwitch-->
+<!--                        android:id="@+id/triswitch"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:state="middle"-->
+<!--                        app:switchDesign="android"-->
+<!--                        app:switchToggleLeftColor="@color/red_500"-->
+<!--                        app:switchToggleMiddleColor="@color/gray_500"-->
+<!--                        app:switchToggleRightColor="@color/green_500"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/spinner_order_by" />-->
                 </net.cachapa.expandablelayout.ExpandableLayout>
 
                 <TextView
@@ -293,7 +556,7 @@
                     android:selectedItemPosition="@={viewModel.orderBy}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_order_by"
-                    app:layout_constraintTop_toBottomOf="@id/el_fold_genre" />
+                    app:layout_constraintTop_toBottomOf="@id/el_fold_advanced" />
 
                 <Button
                     android:layout_width="wrap_content"

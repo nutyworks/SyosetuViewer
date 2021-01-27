@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import me.nutyworks.syosetuviewerv2.SearchResultActivity
 import me.nutyworks.syosetuviewerv2.adapter.SearchResultAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
+import me.nutyworks.syosetuviewerv2.data.SearchRequirements
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
 import me.nutyworks.syosetuviewerv2.network.Yomou
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
@@ -32,9 +33,7 @@ class SearchResultViewModel : ViewModel() {
     private val mViewModelScope = CoroutineScope(Job() + Dispatchers.Main)
     private var mSearchJob: Deferred<Unit>? = null
 
-    private lateinit var wordInclude: String
-    private lateinit var orderBy: String
-    private lateinit var genres: IntArray
+    private lateinit var requirements: SearchRequirements
 
     val resultsRecyclerViewIsVisible = ObservableBoolean(false)
     val loadingProgressBarIsVisible = ObservableBoolean(true)
@@ -52,15 +51,14 @@ class SearchResultViewModel : ViewModel() {
 
     private fun searchNextPage() {
         mSearchJob = mViewModelScope.async {
-            mRepository.searchNovel(wordInclude, orderBy, genres.toList(), page++)
+            mRepository.searchNovel(requirements, page++)
         }
     }
 
     fun init(intent: Intent) {
         with(intent) {
-            wordInclude = getStringExtra(SearchResultActivity.INTENT_INCLUDE_WORDS)!!
-            orderBy = Yomou.Order.orderByList[getIntExtra(SearchResultActivity.INTENT_ORDER_BY, 0)]
-            genres = getIntArrayExtra(SearchResultActivity.INTENT_GENRE) ?: intArrayOf()
+            requirements =
+                getSerializableExtra(SearchResultActivity.INTENT_SEARCH_REQUIREMENTS) as SearchRequirements
         }
         searchNextPage()
     }

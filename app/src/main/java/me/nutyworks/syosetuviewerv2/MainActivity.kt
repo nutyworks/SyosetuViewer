@@ -76,19 +76,26 @@ class MainActivity : AppCompatActivity() {
             Intent(this, NovelViewerActivity::class.java).apply {
                 Log.i(TAG, mNovelViewModel.selectedNovel.get()?.ncode.toString())
                 Log.i(TAG, mNovelViewModel.selectedEpisode.get()?.index.toString())
-                putExtra(NovelViewerActivity.EXTRA_NCODE, mNovelViewModel.selectedNovel.get()?.ncode)
-                putExtra(NovelViewerActivity.EXTRA_INDEX, mNovelViewModel.selectedEpisode.get()?.index)
+                putExtra(
+                    NovelViewerActivity.EXTRA_NCODE,
+                    mNovelViewModel.selectedNovel.get()?.ncode
+                )
+                putExtra(
+                    NovelViewerActivity.EXTRA_INDEX,
+                    mNovelViewModel.selectedEpisode.get()?.index
+                )
             }
         )
     }
 
     private fun startSearchResultActivity() {
-        Log.i(TAG, "startSearchResultActivity called ${mSearchViewModel.searchText.value}")
+        Log.i(TAG, "startSearchResultActivity called ${mSearchViewModel.includeWords.value}")
         startActivity(
             Intent(this, SearchResultActivity::class.java).apply {
-                putExtra(SearchResultActivity.INTENT_INCLUDE_WORDS, mSearchViewModel.searchText.value)
-                putExtra(SearchResultActivity.INTENT_ORDER_BY, mSearchViewModel.orderBy.value)
-                putExtra(SearchResultActivity.INTENT_GENRE, mSearchViewModel.genre)
+                putExtra(
+                    SearchResultActivity.INTENT_SEARCH_REQUIREMENTS,
+                    mSearchViewModel.getRequirements()
+                )
             }
         )
     }

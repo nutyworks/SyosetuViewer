@@ -1,7 +1,11 @@
 package me.nutyworks.syosetuviewerv2.ui.search
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -37,11 +41,43 @@ class SearchFragment : Fragment() {
             }
 
         mViewModel.genreExpansionToggleEvent.observe(viewLifecycleOwner) { toggleGenreExpansion() }
+        mViewModel.advancedExpansionToggleEvent.observe(viewLifecycleOwner) { toggleAdvancedExpansion() }
+
+        setDatePickerListener(binding.dpMinLastUp, "nl")
+        setDatePickerListener(binding.dpMaxLastUp, "xl")
+        setDatePickerListener(binding.dpMinFirstUp, "nf")
+        setDatePickerListener(binding.dpMaxFirstUp, "xf")
 
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setDatePickerListener(view: View, type: String) {
+        view.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                showDatePicker(type)
+            }
+            true
+        }
+    }
+
+    private fun showDatePicker(type: String) {
+        Log.i(TAG, "showDatePicker $type")
+        DatePickerDialog(requireContext()).apply {
+            setOnDateSetListener { _, year, month, dayOfMonth ->
+                mViewModel.setDateFinished(type, "%4d/%02d/%02d".format(year, month + 1, dayOfMonth))
+            }
+            setOnCancelListener {
+                mViewModel.setDateFinished(type, "")
+            }
+        }.show()
+    }
+
     private fun toggleGenreExpansion() {
         binding.elFoldGenre.toggle()
+    }
+
+    private fun toggleAdvancedExpansion() {
+        binding.elFoldAdvanced.toggle()
     }
 }

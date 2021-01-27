@@ -44,6 +44,20 @@
     <string name="description_genre_non_genre">Non-genre</string>
     <string name="load_image">Load image</string>
     <string name="description_image">image</string>
+    <string name="description_advanced">Advanced</string>
+    <string name="description_minimum">Min.</string>
+    <string name="description_maximum">Max.</string>
+    <string name="tilde">~</string>
+    <string name="date_example">yyyy/MM/dd</string>
+    <string name="description_advanced_type">Type</string>
+    <string name="description_advanced_type_short">Short</string>
+    <string name="description_advanced_type_in_serialization">In serialization</string>
+    <string name="description_advanced_type_finished">Finished</string>
+    <string name="description_advanced_reading_time">Reading time</string>
+    <string name="description_advanced_characters">Characters</string>
+    <string name="description_advanced_overall_points">Overall points</string>
+    <string name="description_advanced_last_refresh">Last refresh</string>
+    <string name="description_advanced_first_upload">First upload</string>
 
     <string-array name="order_by_array">
         <item>Recent refresh</item>
