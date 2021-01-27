@@ -253,24 +253,27 @@ object Yomou {
         others: Map<String, String> = mapOf(),
         page: Int = 1,
     ): List<YomouSearchResult> {
-        Log.i("Yomou", listOf(
-            wordInclude,
-            wordExclude,
-            genres.joinToString("-"),
-            types,
-            minTime?.toString() ?: "",
-            maxTime?.toString() ?: "",
-            minLen?.toString() ?: "",
-            maxLen?.toString() ?: "",
-            minGlobalPoint?.toString() ?: "",
-            maxGlobalPoint?.toString() ?: "",
-            minLastUp,
-            maxLastUp,
-            minFirstUp,
-            maxFirstUp,
-            order,
-            others,
-            page).joinToString(", ")
+        Log.i(
+            "Yomou",
+            listOf(
+                wordInclude,
+                wordExclude,
+                genres.joinToString("-"),
+                types,
+                minTime?.toString() ?: "",
+                maxTime?.toString() ?: "",
+                minLen?.toString() ?: "",
+                maxLen?.toString() ?: "",
+                minGlobalPoint?.toString() ?: "",
+                maxGlobalPoint?.toString() ?: "",
+                minLastUp,
+                maxLastUp,
+                minFirstUp,
+                maxFirstUp,
+                order,
+                others,
+                page
+            ).joinToString(", ")
         )
         return mService.search(
             wordInclude,
