@@ -11,7 +11,6 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.network.Narou
-import me.nutyworks.syosetuviewerv2.network.PapagoRequester
 import me.nutyworks.syosetuviewerv2.network.Yomou
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
 import me.nutyworks.syosetuviewerv2.utilities.NcodeValidator
@@ -118,37 +117,61 @@ class NovelRepository private constructor(
         novelBody.set(translatedNovelBody)
     }
 
-    suspend fun searchNovel(wordInclude: String, orderBy: String, genres: List<Int>, page: Int = 1) {
+    suspend fun searchNovel(requirements: SearchRequirements, page: Int = 1) {
+        Log.i(TAG, requirements.toString())
         isExtraLoading.set(true)
 
-        val translatedResults = withContext(Dispatchers.IO) {
-            val wordIncludeTranslated =
-                PapagoRequester.request("ko-ja", wordInclude.replace(" ", "\n")).replace("\n", " ")
+        requirements.run {
+            val translatedResults = withContext(Dispatchers.IO) {
+                val (wordIncludeTranslated, wordExcludeTranslated) = run {
+                    val includeWrapper = TranslationWrapper(includeWords.replace(" ", "\n"))
+                    val excludeWrapper = TranslationWrapper(excludeWords.replace(" ", "\n"))
+                    bulkTranslator("ko-ja") {
+                        wrapper(includeWrapper)
+                        wrapper(excludeWrapper)
+                    }.run()
 
-            val results =
-                Yomou.search(
-                    wordInclude = wordIncludeTranslated,
-                    order = orderBy,
-                    genres = genres,
-                    page = page
-                )
-
-            bulkTranslator("ja-ko") {
-                results.forEach { result ->
-                    wrapper(result.title)
-                    wrapper(result.genre)
-                    result.keywords.forEach { keyword ->
-                        wrapper(keyword)
-                    }
+                    includeWrapper.translated.replace("\n", " ") to
+                        excludeWrapper.translated.replace("\n", " ")
                 }
-            }.run()
 
-            results
+                val results =
+                    Yomou.search(
+                        wordInclude = wordIncludeTranslated,
+                        wordExclude = wordExcludeTranslated,
+                        genres = genres.toList(),
+                        page = page,
+                        types = requireType,
+                        minTime = minTime,
+                        maxTime = maxTime,
+                        minLen = minLen,
+                        maxLen = maxLen,
+                        minGlobalPoint = minGlobalPoint,
+                        maxGlobalPoint = maxGlobalPoint,
+                        minLastUp = minLastUp,
+                        maxLastUp = maxLastUp,
+                        minFirstUp = minFirstUp,
+                        maxFirstUp = maxFirstUp,
+                        order = Yomou.Order.orderByList[orderBy],
+                    )
+
+                bulkTranslator("ja-ko") {
+                    results.forEach { result ->
+                        wrapper(result.title)
+                        wrapper(result.genre)
+                        result.keywords.forEach { keyword ->
+                            wrapper(keyword)
+                        }
+                    }
+                }.run()
+
+                results
+            }
+
+            isExtraLoading.set(false)
+            searchResults.value = searchResults.value?.plus(translatedResults)
+            searchResultsInsertedEvent.call()
         }
-
-        isExtraLoading.set(false)
-        searchResults.value = searchResults.value?.plus(translatedResults)
-        searchResultsInsertedEvent.call()
     }
 
     fun resetSearchResult() {

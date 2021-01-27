@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="KeywordItem" parent="TextAppearance.AppCompat">
+        <item name="android:background">@drawable/keyword_border</item>
+    </style>
+</resources>
