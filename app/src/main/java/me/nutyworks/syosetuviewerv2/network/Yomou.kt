@@ -1,5 +1,6 @@
 package me.nutyworks.syosetuviewerv2.network
 
+import android.util.Log
 import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
 import okhttp3.ResponseBody
@@ -237,7 +238,7 @@ object Yomou {
         wordInclude: String = "",
         wordExclude: String = "",
         genres: List<Int> = listOf(),
-        types: List<String> = listOf(),
+        types: String,
         minTime: Int? = null,
         maxTime: Int? = null,
         minLen: Int? = null,
@@ -252,11 +253,30 @@ object Yomou {
         others: Map<String, String> = mapOf(),
         page: Int = 1,
     ): List<YomouSearchResult> {
+        Log.i("Yomou", listOf(
+            wordInclude,
+            wordExclude,
+            genres.joinToString("-"),
+            types,
+            minTime?.toString() ?: "",
+            maxTime?.toString() ?: "",
+            minLen?.toString() ?: "",
+            maxLen?.toString() ?: "",
+            minGlobalPoint?.toString() ?: "",
+            maxGlobalPoint?.toString() ?: "",
+            minLastUp,
+            maxLastUp,
+            minFirstUp,
+            maxFirstUp,
+            order,
+            others,
+            page).joinToString(", ")
+        )
         return mService.search(
             wordInclude,
             wordExclude,
             genres.joinToString("-"),
-            types.joinToString(""),
+            types,
             minTime?.toString() ?: "",
             maxTime?.toString() ?: "",
             minLen?.toString() ?: "",
