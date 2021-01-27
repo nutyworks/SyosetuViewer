@@ -17,13 +17,14 @@ class SearchFragment : Fragment() {
     }
 
     private val mViewModel: SearchViewModel by activityViewModels()
+    private lateinit var binding: FragmentSearchBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
+        binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
         binding.viewModel = mViewModel
         binding.spinnerOrderBy.adapter =
@@ -35,6 +36,12 @@ class SearchFragment : Fragment() {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
 
+        mViewModel.genreExpansionToggleEvent.observe(viewLifecycleOwner) { toggleGenreExpansion() }
+
         return binding.root
+    }
+
+    private fun toggleGenreExpansion() {
+        binding.elFoldGenre.toggle()
     }
 }

@@ -8,6 +8,7 @@ import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 class SearchViewModel : ViewModel() {
 
     val startSearchResultActivityEvent = SingleLiveEvent<Void>()
+    val genreExpansionToggleEvent = SingleLiveEvent<Void>()
     val searchText = MutableLiveData("")
     val orderBy = MutableLiveData(0)
 
@@ -58,6 +59,10 @@ class SearchViewModel : ViewModel() {
             if (genreOther.value == true) add(Yomou.Genre.OTHER)
             if (genreNonGenre.value == true) add(Yomou.Genre.NON_GENRE)
         }.toIntArray()
+
+    fun toggleGenreExpansion() {
+        genreExpansionToggleEvent.call()
+    }
 
     fun search() {
         startSearchResultActivityEvent.call()
