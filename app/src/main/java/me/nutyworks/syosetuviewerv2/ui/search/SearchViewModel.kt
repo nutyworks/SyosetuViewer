@@ -9,7 +9,7 @@ class SearchViewModel : ViewModel() {
 
     val startSearchResultActivityEvent = SingleLiveEvent<Void>()
     val searchText = MutableLiveData("")
-    val orderBy = MutableLiveData(1)
+    val orderBy = MutableLiveData(0)
 
     // Genres
     val genreDifferentWorld = MutableLiveData(false)
