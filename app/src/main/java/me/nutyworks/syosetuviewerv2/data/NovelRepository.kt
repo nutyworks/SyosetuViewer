@@ -15,6 +15,7 @@ import me.nutyworks.syosetuviewerv2.network.Yomou
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
 import me.nutyworks.syosetuviewerv2.utilities.NcodeValidator
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
+import java.net.ConnectException
 
 class NovelRepository private constructor(
     application: Application
@@ -51,6 +52,7 @@ class NovelRepository private constructor(
     val searchResults = MutableLiveData<List<YomouSearchResult>>(listOf())
     val searchResultsInsertedEvent = SingleLiveEvent<Void>()
     val isExtraLoading = ObservableBoolean(false)
+    val snackbarText = SingleLiveEvent<String>()
 
     private val mSharedPreferences =
         application.getSharedPreferences(PREF_NAMESPACE_VIEWER, Context.MODE_PRIVATE)
@@ -81,9 +83,14 @@ class NovelRepository private constructor(
         NcodeValidator.validate(ncode)
 
         Log.i(TAG, "insertNovel called with ncode $ncode")
-        withContext(Dispatchers.IO) {
-            val novelEntity = Narou.getNovel(ncode)
-            insertNovel(novelEntity)
+        try {
+            withContext(Dispatchers.IO) {
+                val novelEntity = Narou.getNovel(ncode)
+                insertNovel(novelEntity)
+            }
+        } catch (e: ConnectException) {
+            Log.e(TAG, "Error occurred while inserting novel", e)
+            snackbarText.value = e.message
         }
     }
 
@@ -124,15 +131,19 @@ class NovelRepository private constructor(
         requirements.run {
             val translatedResults = withContext(Dispatchers.IO) {
                 val (wordIncludeTranslated, wordExcludeTranslated) = run {
-                    val includeWrapper = TranslationWrapper(includeWords.replace(" ", "\n"))
-                    val excludeWrapper = TranslationWrapper(excludeWords.replace(" ", "\n"))
+                    val includeWrapper = includeWords.split(" ").map {
+                        TranslationWrapper(it)
+                    }
+                    val excludeWrapper = excludeWords.split(" ").map {
+                        TranslationWrapper(it)
+                    }
                     bulkTranslator("ko-ja") {
-                        wrapper(includeWrapper)
-                        wrapper(excludeWrapper)
+                        includeWrapper.forEach { wrapper(it) }
+                        excludeWrapper.forEach { wrapper(it) }
                     }.run()
 
-                    includeWrapper.translated.replace("\n", " ") to
-                        excludeWrapper.translated.replace("\n", " ")
+                    includeWrapper.joinToString(" ") { it.translated } to
+                        excludeWrapper.joinToString(" ") { it.translated }
                 }
 
                 val results =

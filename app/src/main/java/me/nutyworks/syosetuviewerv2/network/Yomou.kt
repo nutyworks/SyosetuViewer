@@ -1,6 +1,5 @@
 package me.nutyworks.syosetuviewerv2.network
 
-import android.util.Log
 import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
 import okhttp3.ResponseBody
@@ -253,9 +252,9 @@ object Yomou {
         others: Map<String, String> = mapOf(),
         page: Int = 1,
     ): List<YomouSearchResult> {
-        Log.i(
-            "Yomou",
+        println(
             listOf(
+                "Yomou",
                 wordInclude,
                 wordExclude,
                 genres.joinToString("-"),
