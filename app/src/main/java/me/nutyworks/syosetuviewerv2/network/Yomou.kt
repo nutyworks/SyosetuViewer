@@ -1,6 +1,5 @@
 package me.nutyworks.syosetuviewerv2.network
 
-import android.util.Log
 import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
 import okhttp3.ResponseBody
@@ -253,28 +252,6 @@ object Yomou {
         others: Map<String, String> = mapOf(),
         page: Int = 1,
     ): List<YomouSearchResult> {
-        Log.i(
-            "Yomou",
-            listOf(
-                wordInclude,
-                wordExclude,
-                genres.joinToString("-"),
-                types,
-                minTime?.toString() ?: "",
-                maxTime?.toString() ?: "",
-                minLen?.toString() ?: "",
-                maxLen?.toString() ?: "",
-                minGlobalPoint?.toString() ?: "",
-                maxGlobalPoint?.toString() ?: "",
-                minLastUp,
-                maxLastUp,
-                minFirstUp,
-                maxFirstUp,
-                order,
-                others,
-                page
-            ).joinToString(", ")
-        )
         return mService.search(
             wordInclude,
             wordExclude,
@@ -308,7 +285,7 @@ object Yomou {
                     *searchResult.select("table > tbody > tr > td:first-child").text()
                         .let { publishInfo ->
                             val regex =
-                                """(短編|連載中|完結済)(?:[\s\S]*?\(全(\d+)部分\))?""".toRegex()
+                                """(短編|連載中|完結済)(?:[\s\S]*?\(全([\d,]+)部分\))?""".toRegex()
 
                             regex.find(publishInfo)?.groupValues?.let {
                                 arrayOf(
@@ -318,7 +295,7 @@ object Yomou {
                                         "完結済" -> Type.COMPLETED
                                         else -> -1
                                     }, // status
-                                    if (it[2].isEmpty()) 1 else it[2].toInt() // episodes
+                                    if (it[2].isEmpty()) 1 else it[2].replace(",", "").toInt() // episodes
                                 )
                             } ?: throw IllegalStateException("Couldn't get publish info")
                         },

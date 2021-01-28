@@ -17,7 +17,6 @@ import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.data.SearchRequirements
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
 import me.nutyworks.syosetuviewerv2.network.Yomou
-import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 
 class SearchResultViewModel : ViewModel() {
 
@@ -41,7 +40,7 @@ class SearchResultViewModel : ViewModel() {
 
     var page = 1
 
-    val snackbarText = SingleLiveEvent<String>()
+    val snackbarText = mRepository.snackbarText
 
     val onReachEnd: () -> Unit = {
         if (!mRepository.isExtraLoading.get()) {
@@ -59,6 +58,8 @@ class SearchResultViewModel : ViewModel() {
         with(intent) {
             requirements =
                 getSerializableExtra(SearchResultActivity.INTENT_SEARCH_REQUIREMENTS) as SearchRequirements
+
+            Log.i(TAG, requirements.toString())
         }
         searchNextPage()
     }
