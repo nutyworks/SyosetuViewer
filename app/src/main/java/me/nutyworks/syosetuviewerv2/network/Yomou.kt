@@ -308,7 +308,7 @@ object Yomou {
                     *searchResult.select("table > tbody > tr > td:first-child").text()
                         .let { publishInfo ->
                             val regex =
-                                """(短編|連載中|完結済)(?:[\s\S]*?\(全(\d+)部分\))?""".toRegex()
+                                """(短編|連載中|完結済)(?:[\s\S]*?\(全([\d,]+)部分\))?""".toRegex()
 
                             regex.find(publishInfo)?.groupValues?.let {
                                 arrayOf(
@@ -318,7 +318,7 @@ object Yomou {
                                         "完結済" -> Type.COMPLETED
                                         else -> -1
                                     }, // status
-                                    if (it[2].isEmpty()) 1 else it[2].toInt() // episodes
+                                    if (it[2].isEmpty()) 1 else it[2].replace(",", "").toInt() // episodes
                                 )
                             } ?: throw IllegalStateException("Couldn't get publish info")
                         },
