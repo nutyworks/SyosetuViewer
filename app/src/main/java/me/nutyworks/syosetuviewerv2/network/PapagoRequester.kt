@@ -51,7 +51,7 @@ object PapagoRequester {
             mKey,
             "$mDeviceId\nhttps://papago.naver.com/apis/n2mt/translate\n$timestamp"
         ).let {
-            Base64.encodeBase64String(it).trimEnd()
+            String(Base64.encodeBase64(it)).trimEnd()
         }
         return "PPG $mDeviceId:$hash"
     }
