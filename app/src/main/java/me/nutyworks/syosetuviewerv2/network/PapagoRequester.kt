@@ -39,7 +39,7 @@ object PapagoRequester {
             mDeviceId.toString(),
             language.split("-")[0],
             language.split("-")[1],
-            text.replace("(・)", "")
+            text.replace("""\(・+?\)""".toRegex(), "")
         ).execute().body()?.translatedText
             ?.replace("&lt;", "<")
             ?.replace("&gt;", ">")
