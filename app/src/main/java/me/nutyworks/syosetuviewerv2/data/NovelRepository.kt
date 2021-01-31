@@ -69,7 +69,7 @@ class NovelRepository private constructor(
                 novelBodies.forEach {
                     it.body translateTo it::translatedBody
                 }
-            }.run()
+            }.run().runUntranslated()
 
             novelBodies
         }
@@ -117,7 +117,7 @@ class NovelRepository private constructor(
                     (it as? TranslationWrapper)?.let { t -> wrapper(t) }
                 }
                 novelBody.body translateTo novelBody::translatedBody
-            }.run()
+            }.run().runUntranslated()
 
             novelBody
         }
@@ -140,7 +140,7 @@ class NovelRepository private constructor(
                     bulkTranslator("ko-ja") {
                         includeWrapper.forEach { wrapper(it) }
                         excludeWrapper.forEach { wrapper(it) }
-                    }.run()
+                    }.run().runUntranslated()
 
                     includeWrapper.joinToString(" ") { it.translated } to
                         excludeWrapper.joinToString(" ") { it.translated }
@@ -174,7 +174,7 @@ class NovelRepository private constructor(
                             wrapper(keyword)
                         }
                     }
-                }.run()
+                }.run().runUntranslated()
 
                 results
             }
