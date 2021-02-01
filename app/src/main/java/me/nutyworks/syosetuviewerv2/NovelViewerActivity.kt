@@ -12,6 +12,7 @@ class NovelViewerActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_NCODE = "me.nutyworks.syosetuviewerv2.EXTRA_NCODE"
         const val EXTRA_INDEX = "me.nutyworks.syosetuviewerv2.EXTRA_INDEX"
+        const val EXTRA_LAST_INDEX = "me.nutyworks.syosetuviewerv2.EXTRA_LAST_INDEX"
 
         private const val TAG = "NovelViewerActivity"
     }
@@ -49,6 +50,7 @@ class NovelViewerActivity : AppCompatActivity() {
             Intent(this, NovelViewerActivity::class.java).apply {
                 putExtra(EXTRA_NCODE, mViewModel.ncode)
                 putExtra(EXTRA_INDEX, mViewModel.index + 1)
+                putExtra(EXTRA_LAST_INDEX, mViewModel.lastIndex)
             }
         )
         finish()
