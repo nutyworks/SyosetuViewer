@@ -84,6 +84,10 @@ class MainActivity : AppCompatActivity() {
                     NovelViewerActivity.EXTRA_INDEX,
                     mNovelViewModel.selectedEpisode.get()?.index
                 )
+                putExtra(
+                    NovelViewerActivity.EXTRA_LAST_INDEX,
+                    mNovelViewModel.selectedNovelBodies.value?.last { !it.isChapter }?.index
+                )
             }
         )
     }
