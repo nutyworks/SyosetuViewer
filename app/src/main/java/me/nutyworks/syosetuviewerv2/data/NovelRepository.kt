@@ -67,7 +67,7 @@ class NovelRepository private constructor(
             val novelBodies = Narou.getNovelBodies(ncode)
             bulkTranslator("ja-ko") {
                 novelBodies.forEach {
-                    it.body translateTo it::translatedBody
+                    wrapper(it.title)
                 }
             }.run().runUntranslated()
 
@@ -116,7 +116,7 @@ class NovelRepository private constructor(
                 novelBody.mainTextWrappers?.forEach {
                     (it as? TranslationWrapper)?.let { t -> wrapper(t) }
                 }
-                novelBody.body translateTo novelBody::translatedBody
+                wrapper(novelBody.title)
             }.run().runUntranslated()
 
             novelBody
