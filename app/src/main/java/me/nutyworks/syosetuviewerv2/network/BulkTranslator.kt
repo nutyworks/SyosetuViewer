@@ -14,8 +14,8 @@ class BulkTranslator(private val language: String) {
         toTranslate.add(translationWrapper.original to translationWrapper::translated)
     }
 
-    fun run() {
-        if (toTranslate.isEmpty()) return
+    fun run(): BulkTranslator {
+        if (toTranslate.isEmpty()) return this
 
         val str = toTranslate.joinToString("\n") { it.first }
         var idxStart = 0
@@ -42,6 +42,18 @@ class BulkTranslator(private val language: String) {
 
             if (idxStart > str.length)
                 break
+        }
+
+        return this
+    }
+
+    fun runUntranslated() {
+        val untranslated = toTranslate.filter { it.first == it.second.getter.call() }
+
+        untranslated.forEach {
+            bulkTranslator(language) {
+                it.first translateTo it.second
+            }.run()
         }
     }
 }

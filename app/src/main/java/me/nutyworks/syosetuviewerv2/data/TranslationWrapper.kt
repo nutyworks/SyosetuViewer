@@ -20,3 +20,5 @@ data class TranslationWrapper(
         }
     }
 }
+
+fun String.wrap(): TranslationWrapper = TranslationWrapper(this)

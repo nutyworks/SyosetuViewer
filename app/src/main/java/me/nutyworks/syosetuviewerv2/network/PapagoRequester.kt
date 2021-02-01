@@ -39,11 +39,12 @@ object PapagoRequester {
             mDeviceId.toString(),
             language.split("-")[0],
             language.split("-")[1],
-            text.replace("(・)", "")
+            text.replace("""\(・+?\)""".toRegex(), "")
         ).execute().body()?.translatedText
             ?.replace("&lt;", "<")
             ?.replace("&gt;", ">")
-            ?.replace("&amp;", "&") ?: ""
+            ?.replace("&amp;", "&")
+            ?.replace(" - 사설컬럼()", "") ?: ""
     }
 
     private fun generateAuthorizationToken(timestamp: Long): String {
