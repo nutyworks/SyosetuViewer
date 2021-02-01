@@ -67,9 +67,9 @@ class NovelRepository private constructor(
             val novelBodies = Narou.getNovelBodies(ncode)
             bulkTranslator("ja-ko") {
                 novelBodies.forEach {
-                    it.body translateTo it::translatedBody
+                    wrapper(it.title)
                 }
-            }.run()
+            }.run().runUntranslated()
 
             novelBodies
         }
@@ -116,8 +116,8 @@ class NovelRepository private constructor(
                 novelBody.mainTextWrappers?.forEach {
                     (it as? TranslationWrapper)?.let { t -> wrapper(t) }
                 }
-                novelBody.body translateTo novelBody::translatedBody
-            }.run()
+                wrapper(novelBody.title)
+            }.run().runUntranslated()
 
             novelBody
         }
@@ -132,15 +132,15 @@ class NovelRepository private constructor(
             val translatedResults = withContext(Dispatchers.IO) {
                 val (wordIncludeTranslated, wordExcludeTranslated) = run {
                     val includeWrapper = includeWords.split(" ").map {
-                        TranslationWrapper(it)
+                        it.wrap()
                     }
                     val excludeWrapper = excludeWords.split(" ").map {
-                        TranslationWrapper(it)
+                        it.wrap()
                     }
                     bulkTranslator("ko-ja") {
                         includeWrapper.forEach { wrapper(it) }
                         excludeWrapper.forEach { wrapper(it) }
-                    }.run()
+                    }.run().runUntranslated()
 
                     includeWrapper.joinToString(" ") { it.translated } to
                         excludeWrapper.joinToString(" ") { it.translated }
@@ -174,7 +174,7 @@ class NovelRepository private constructor(
                             wrapper(keyword)
                         }
                     }
-                }.run()
+                }.run().runUntranslated()
 
                 results
             }

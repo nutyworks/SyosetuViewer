@@ -35,7 +35,7 @@
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="@{viewModel.paragraphSpacing * 2}"
                     android:textAlignment="center"
-                    android:text="@{viewModel.novelBody.translatedBody}"
+                    android:text="@{viewModel.novelBody.title.text}"
                     android:textSize="@{viewModel.textSize}"
                     android:textStyle="bold" />
 
