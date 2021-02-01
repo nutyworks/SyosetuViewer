@@ -132,10 +132,10 @@ class NovelRepository private constructor(
             val translatedResults = withContext(Dispatchers.IO) {
                 val (wordIncludeTranslated, wordExcludeTranslated) = run {
                     val includeWrapper = includeWords.split(" ").map {
-                        TranslationWrapper(it)
+                        it.wrap()
                     }
                     val excludeWrapper = excludeWords.split(" ").map {
-                        TranslationWrapper(it)
+                        it.wrap()
                     }
                     bulkTranslator("ko-ja") {
                         includeWrapper.forEach { wrapper(it) }
