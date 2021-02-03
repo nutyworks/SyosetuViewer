@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -13,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel
 import me.nutyworks.syosetuviewerv2.ui.search.SearchViewModel
+import me.nutyworks.syosetuviewerv2.ui.settings.SettingsViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,8 +24,10 @@ class MainActivity : AppCompatActivity() {
 
     private val mNovelViewModel: NovelViewModel by viewModels()
     private val mSearchViewModel: SearchViewModel by viewModels()
+    private val mSettingsViewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applySelectedTheme()
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_novel_list,
                 R.id.navigation_search,
-                R.id.navigation_notifications
+                R.id.navigation_settings
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -60,6 +64,17 @@ class MainActivity : AppCompatActivity() {
 
         // TODO heavy task; need to be optimized
         mNovelViewModel.novelDetailAdapter.notifyDataSetChanged()
+    }
+
+    private fun applySelectedTheme() {
+        Log.i(TAG, "applySelectedTheme called")
+        val theme = mSettingsViewModel.theme.get().let {
+            when (it) {
+                0 -> -1
+                else -> it
+            }
+        }
+        AppCompatDelegate.setDefaultNightMode(theme)
     }
 
     private fun setupUiEvent() {

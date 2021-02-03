@@ -23,9 +23,14 @@ class NovelRepository private constructor(
 
     companion object {
         private const val TAG = "NovelEntityRepository"
+
+        private const val PREF_NAMESPACE_GLOBAL = "PREF_NAMESPACE_GLOBAL"
+        private const val PREF_THEME = "PREF_THEME"
+
         private const val PREF_NAMESPACE_VIEWER = "PREF_NAMESPACE_VIEWER"
         private const val PREF_TEXT_SIZE = "PREF_TEXT_SIZE"
         private const val PREF_PARAGRAPH_SPACING = "PREF_PARAGRAPH_SPACING"
+
         private var instance: NovelRepository? = null
 
         fun getInstance(): NovelRepository {
@@ -54,11 +59,24 @@ class NovelRepository private constructor(
     val isExtraLoading = ObservableBoolean(false)
     val snackbarText = SingleLiveEvent<String>()
 
-    private val mSharedPreferences =
+    private val mSharedPreferencesGlobal =
+        application.getSharedPreferences(PREF_NAMESPACE_GLOBAL, Context.MODE_PRIVATE)
+
+    var theme = mSharedPreferencesGlobal.getInt(PREF_THEME, Context.MODE_PRIVATE)
+        set(value) {
+            Log.i(TAG, "theme set $value")
+            field = value
+            mSharedPreferencesGlobal.edit {
+                putInt(PREF_THEME, field)
+            }
+        }
+
+    private val mSharedPreferencesViewer =
         application.getSharedPreferences(PREF_NAMESPACE_VIEWER, Context.MODE_PRIVATE)
 
-    val textSize = ObservableFloat(mSharedPreferences.getFloat(PREF_TEXT_SIZE, 16f))
-    val paragraphSpacing = ObservableFloat(mSharedPreferences.getFloat(PREF_PARAGRAPH_SPACING, 5f))
+    val textSize = ObservableFloat(mSharedPreferencesViewer.getFloat(PREF_TEXT_SIZE, 16f))
+    val paragraphSpacing =
+        ObservableFloat(mSharedPreferencesViewer.getFloat(PREF_PARAGRAPH_SPACING, 5f))
 
     suspend fun fetchSelectedNovelBodies(ncode: String) {
         Log.i(TAG, "fetchSelectedNovelBodies called with ncode $ncode")
@@ -191,14 +209,14 @@ class NovelRepository private constructor(
 
     fun setTextSize(textSize: Float) {
         this.textSize.set(textSize)
-        mSharedPreferences.edit {
+        mSharedPreferencesViewer.edit {
             putFloat(PREF_TEXT_SIZE, textSize)
         }
     }
 
     fun setParagraphSpacing(paragraphSpacing: Float) {
         this.paragraphSpacing.set(paragraphSpacing)
-        mSharedPreferences.edit {
+        mSharedPreferencesViewer.edit {
             putFloat(PREF_PARAGRAPH_SPACING, paragraphSpacing)
         }
     }

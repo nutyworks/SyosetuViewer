@@ -59,6 +59,8 @@
     <string name="description_advanced_last_refresh">Last refresh</string>
     <string name="description_advanced_first_upload">First upload</string>
     <string name="description_last_episode">This is the last episode.</string>
+    <string name="description_apply">Apply</string>
+    <string name="title_settings">Settings</string>
 
     <string-array name="order_by_array">
         <item>Recent refresh</item>
@@ -75,5 +77,11 @@
         <item>Characters</item>
         <item>Recent episode</item>
         <item>Oldest to latest</item>
+    </string-array>
+
+    <string-array name="theme_list">
+        <item>Use system default</item>
+        <item>Light</item>
+        <item>Dark</item>
     </string-array>
 </resources>

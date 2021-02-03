@@ -29,8 +29,8 @@
 		tools:layout="@layout/fragment_search" />
 
 	<fragment
-		android:id="@+id/navigation_notifications"
-		android:name="me.nutyworks.syosetuviewerv2.ui.notifications.NotificationsFragment"
-		android:label="@string/title_notifications"
-		tools:layout="@layout/fragment_notifications" />
+		android:id="@+id/navigation_settings"
+		android:name="me.nutyworks.syosetuviewerv2.ui.settings.SettingsFragment"
+		android:label="@string/title_settings"
+		tools:layout="@layout/fragment_settings" />
 </navigation>
