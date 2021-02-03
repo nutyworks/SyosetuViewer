@@ -30,7 +30,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         Log.i(TAG, "$TAG initialized!")
     }
 
-    private val mRepository = NovelRepository.getInstance(application)
+    private val mRepository = NovelRepository.getInstance()
 
     private val mNovels = mRepository.novels
     private var mRecentlyDeletedNovel: Novel? = null
