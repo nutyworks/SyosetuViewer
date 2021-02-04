@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.snackbar.Snackbar
-import java.lang.IllegalStateException
 import me.nutyworks.syosetuviewerv2.databinding.FragmentSettingsBinding
+import java.lang.IllegalStateException
 
 class SettingsFragment : Fragment() {
 
