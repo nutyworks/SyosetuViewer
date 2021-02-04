@@ -30,6 +30,7 @@ class NovelRepository private constructor(
         private const val PREF_NAMESPACE_VIEWER = "PREF_NAMESPACE_VIEWER"
         private const val PREF_TEXT_SIZE = "PREF_TEXT_SIZE"
         private const val PREF_PARAGRAPH_SPACING = "PREF_PARAGRAPH_SPACING"
+        private const val PREF_WORD_WRAP = "PREF_WORD_WRAP"
 
         private var instance: NovelRepository? = null
 
@@ -77,6 +78,7 @@ class NovelRepository private constructor(
     val textSize = ObservableFloat(mSharedPreferencesViewer.getFloat(PREF_TEXT_SIZE, 16f))
     val paragraphSpacing =
         ObservableFloat(mSharedPreferencesViewer.getFloat(PREF_PARAGRAPH_SPACING, 5f))
+    val wordWrap = ObservableBoolean(mSharedPreferencesViewer.getBoolean(PREF_WORD_WRAP, true))
 
     suspend fun fetchSelectedNovelBodies(ncode: String) {
         Log.i(TAG, "fetchSelectedNovelBodies called with ncode $ncode")
@@ -218,6 +220,13 @@ class NovelRepository private constructor(
         this.paragraphSpacing.set(paragraphSpacing)
         mSharedPreferencesViewer.edit {
             putFloat(PREF_PARAGRAPH_SPACING, paragraphSpacing)
+        }
+    }
+
+    fun setWordWrap(wordWrap: Boolean) {
+        this.wordWrap.set(wordWrap)
+        mSharedPreferencesViewer.edit {
+            putBoolean(PREF_WORD_WRAP, wordWrap)
         }
     }
 }

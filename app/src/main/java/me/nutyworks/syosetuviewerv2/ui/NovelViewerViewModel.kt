@@ -40,6 +40,7 @@ class NovelViewerViewModel : ViewModel() {
 
     val textSize = mRepository.textSize
     val paragraphSpacing = mRepository.paragraphSpacing
+    val wordWrap = mRepository.wordWrap
 
     val startNextEpisodeViewerEvent = SingleLiveEvent<Void>()
 
@@ -84,5 +85,11 @@ class NovelViewerViewModel : ViewModel() {
 
     fun changeParagraphSpacing(delta: Float) {
         mRepository.setParagraphSpacing(paragraphSpacing.get() + delta)
+    }
+
+    fun changeWordWrap(wordWrap: Boolean) {
+        Log.i(TAG, "changeWordWrap $wordWrap")
+        mRepository.setWordWrap(wordWrap)
+        novelViewerAdapter.notifyDataSetChanged()
     }
 }

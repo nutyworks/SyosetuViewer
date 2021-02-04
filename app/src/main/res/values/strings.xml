@@ -60,6 +60,7 @@
     <string name="description_last_episode">This is the last episode.</string>
     <string name="description_apply">Apply</string>
     <string name="title_settings">Settings</string>
+    <string name="description_word_wrap">Enable word wrap</string>
 
     <string-array name="order_by_array">
         <item>Recent refresh</item>
