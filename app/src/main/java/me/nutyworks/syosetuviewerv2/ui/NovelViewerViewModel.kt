@@ -88,8 +88,7 @@ class NovelViewerViewModel : ViewModel() {
     }
 
     fun changeWordWrap(wordWrap: Boolean) {
-        Log.i(TAG, "changeWordWrap $wordWrap")
         mRepository.setWordWrap(wordWrap)
-        novelViewerAdapter.notifyDataSetChanged()
+        novelViewerAdapter.invalidateAllBindingData()
     }
 }

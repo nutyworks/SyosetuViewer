@@ -2,6 +2,7 @@ package me.nutyworks.syosetuviewerv2.adapter
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
         private const val IMAGE = R.layout.row_image_wrapper
     }
 
+    private val mViewHolders = mutableListOf<TranslationWrapperViewHolder>()
     lateinit var context: Context
 
     override fun getItemViewType(position: Int): Int =
@@ -57,7 +59,8 @@ class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is TranslationWrapperViewHolder -> holder.bind(viewModel, position)
+            is TranslationWrapperViewHolder -> holder.also { mViewHolders.add(it) }
+                .bind(viewModel, position)
             is ImageWrapperViewHolder -> holder.bind(viewModel, position)
             else -> throw IllegalStateException("Main text is neither text nor image")
         }
@@ -66,6 +69,9 @@ class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
     override fun getItemCount(): Int {
         return viewModel.novelBody.get()?.mainTextWrappers?.size ?: 0
     }
+
+    fun invalidateAllBindingData() =
+        mViewHolders.forEach { it.binding.invalidateAll() }
 
     class TranslationWrapperViewHolder(
         val binding: RowTranslationWrapperBinding
