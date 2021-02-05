@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="@string/description_word_wrap" />
 
                 <!--suppress AndroidUnknownAttribute -->
@@ -49,13 +49,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dp"
-                android:weightSum="8">
+                android:weightSum="4">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="@string/text_size" />
 
                 <TextView
@@ -80,11 +80,20 @@
                     android:onClick="@{() -> viewModel.changeTextSize(1)}"
                     android:text="@string/plus" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:weightSum="4">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="@string/paragraph_spacing" />
 
                 <TextView
