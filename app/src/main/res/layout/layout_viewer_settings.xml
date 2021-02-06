@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -44,80 +45,18 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:weightSum="4">
+            <include
+                layout="@layout/layout_number_settings"
+                bind:description="@{@string/text_size}"
+                bind:value="@{viewModel.textSize}"
+                bind:changeMethod="@{viewModel.changeTextSize}" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:text="@string/text_size" />
+            <include
+                layout="@layout/layout_number_settings"
+                bind:description="@{@string/paragraph_spacing}"
+                bind:value="@{viewModel.paragraphSpacing}"
+                bind:changeMethod="@{viewModel.changeParagraphSpacing}" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:onClick="@{() -> viewModel.changeTextSize(-1)}"
-                    android:text="@string/minus" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@{viewModel.textSize}" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:onClick="@{() -> viewModel.changeTextSize(1)}"
-                    android:text="@string/plus" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:weightSum="4">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:text="@string/paragraph_spacing" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:onClick="@{() -> viewModel.changeParagraphSpacing(-1)}"
-                    android:text="@string/minus" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@{viewModel.paragraphSpacing}" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:onClick="@{() -> viewModel.changeParagraphSpacing(1)}"
-                    android:text="@string/plus" />
-            </LinearLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
