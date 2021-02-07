@@ -58,6 +58,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
 
     val startNovelViewerActivityEvent = SingleLiveEvent<Void>()
     val selectedEpisode = ObservableField<NovelBody>()
+    var previousReadIndexesSize = 0
 
     fun onNovelClick(novel: Novel) {
         Log.d(TAG, novel.toString())
