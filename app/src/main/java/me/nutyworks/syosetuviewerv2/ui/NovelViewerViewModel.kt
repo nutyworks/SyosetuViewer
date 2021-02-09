@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -90,5 +91,11 @@ class NovelViewerViewModel : ViewModel() {
     fun changeWordWrap(wordWrap: Boolean) {
         mRepository.setWordWrap(wordWrap)
         novelViewerAdapter.invalidateAllBindingData()
+    }
+
+    fun setRecentWatched(percent: Float) {
+        viewModelScope.launch {
+            mRepository.setRecentWatched(ncode, index, percent)
+        }
     }
 }
