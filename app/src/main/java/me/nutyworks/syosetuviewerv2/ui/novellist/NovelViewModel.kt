@@ -219,7 +219,8 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     fun onContinueButtonClick() {
         val novel = selectedNovel.get()!!
         val bodies = selectedNovelBodies.value!!
-        onEpisodeClick(bodies.indexOfFirst { it.index == btnContinueIndex }, novel.recentWatchedPercent)
+        val percent = if (btnContinueType == ContinueType.NEXT) 0f else novel.recentWatchedPercent
+        onEpisodeClick(bodies.indexOfFirst { it.index == btnContinueIndex }, percent)
     }
 }
 
