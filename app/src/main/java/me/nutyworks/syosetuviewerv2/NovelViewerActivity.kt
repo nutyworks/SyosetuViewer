@@ -18,11 +18,12 @@ class NovelViewerActivity : AppCompatActivity() {
     }
 
     private val mViewModel: NovelViewerViewModel by viewModels()
+    private var binding by Delegates.notNull<ActivityNovelViewerBinding>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityNovelViewerBinding.inflate(layoutInflater)
+        binding = ActivityNovelViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.viewModel = mViewModel
@@ -30,6 +31,16 @@ class NovelViewerActivity : AppCompatActivity() {
         mViewModel.init(this.intent)
 
         setupUiUpdate()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val sv = binding.svContentWrapper
+        (sv.scrollY.toFloat() / (sv.getChildAt(0).bottom - sv.height)).let {
+            if (it.isNaN()) return@let
+            mViewModel.setRecentWatched(it)
+        }
     }
 
     private fun setupUiUpdate() {
