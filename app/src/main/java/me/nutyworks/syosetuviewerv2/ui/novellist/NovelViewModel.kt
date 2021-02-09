@@ -78,10 +78,10 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         dialogControlEvent.call()
     }
 
-    fun onEpisodeClick(position: Int) {
+    fun onEpisodeClick(position: Int, percent: Float = 0f) {
         Log.i(TAG, "episode clicked ${selectedNovelBodies.value?.get(position)}")
         selectedEpisode.set(selectedNovelBodies.value?.get(position))
-        startNovelViewerActivityEvent.call()
+        startNovelViewerActivityEvent.value = percent
         markAsRead(selectedNovel.get()!!, selectedEpisode.get()!!.index)
         novelDetailAdapter.notifyItemChanged(position)
     }
