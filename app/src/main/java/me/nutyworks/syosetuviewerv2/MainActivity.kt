@@ -72,14 +72,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUiEvent() {
         with(mNovelViewModel) {
-            startNovelViewerActivityEvent.observe(this@MainActivity) { startNovelViewerActivity() }
+            startNovelViewerActivityEvent.observe(this@MainActivity) { percent ->
+                startNovelViewerActivity(percent)
+            }
         }
         with(mSearchViewModel) {
             startSearchResultActivityEvent.observe(this@MainActivity) { startSearchResultActivity() }
         }
     }
 
-    private fun startNovelViewerActivity() {
+    private fun startNovelViewerActivity(percent: Float) {
         mNovelViewModel.previousReadIndexesSize =
             mNovelViewModel.selectedNovel.get()!!.readIndexes.count { it == ',' }
 
@@ -98,6 +100,10 @@ class MainActivity : AppCompatActivity() {
                 putExtra(
                     NovelViewerActivity.EXTRA_LAST_INDEX,
                     mNovelViewModel.selectedNovelBodies.value?.last { !it.isChapter }?.index
+                )
+                putExtra(
+                    NovelViewerActivity.EXTRA_PERCENT,
+                    percent
                 )
             }
         )

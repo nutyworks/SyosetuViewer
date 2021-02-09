@@ -2,8 +2,12 @@ package me.nutyworks.syosetuviewerv2
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.postDelayed
+import kotlin.properties.Delegates
 import me.nutyworks.syosetuviewerv2.databinding.ActivityNovelViewerBinding
 import me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel
 
@@ -13,6 +17,7 @@ class NovelViewerActivity : AppCompatActivity() {
         const val EXTRA_NCODE = "me.nutyworks.syosetuviewerv2.EXTRA_NCODE"
         const val EXTRA_INDEX = "me.nutyworks.syosetuviewerv2.EXTRA_INDEX"
         const val EXTRA_LAST_INDEX = "me.nutyworks.syosetuviewerv2.EXTRA_LAST_INDEX"
+        const val EXTRA_PERCENT = "me.nutyworks.syosetuviewerv2.EXTRA_PERCENT"
 
         private const val TAG = "NovelViewerActivity"
     }
@@ -49,11 +54,20 @@ class NovelViewerActivity : AppCompatActivity() {
                 mainTextIsVisible.set(true)
                 loadingProgressBarIsVisible.set(false)
                 notifyAdapterForUpdate()
+                Handler(Looper.getMainLooper()).postDelayed(50) {
+                    setScroll(mViewModel.percent)
+                }
             }
             startNextEpisodeViewerEvent.observe(this@NovelViewerActivity) {
                 startNextEpisodeViewer()
             }
         }
+    }
+
+    private fun setScroll(percent: Float) {
+        val sv = binding.svContentWrapper
+
+        sv.scrollTo(0, (percent * (sv.getChildAt(0).bottom - sv.height)).toInt())
     }
 
     private fun startNextEpisodeViewer() {
@@ -62,6 +76,7 @@ class NovelViewerActivity : AppCompatActivity() {
                 putExtra(EXTRA_NCODE, mViewModel.ncode)
                 putExtra(EXTRA_INDEX, mViewModel.index + 1)
                 putExtra(EXTRA_LAST_INDEX, mViewModel.lastIndex)
+                putExtra(EXTRA_PERCENT, 0f)
             }
         )
         finish()

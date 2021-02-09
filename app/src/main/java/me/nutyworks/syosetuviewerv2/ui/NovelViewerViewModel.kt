@@ -25,6 +25,7 @@ class NovelViewerViewModel : ViewModel() {
     lateinit var ncode: String
     var index by Delegates.notNull<Int>()
     var lastIndex by Delegates.notNull<Int>()
+    var percent by Delegates.notNull<Float>()
 
     private val mViewModelScope = CoroutineScope(Job() + Dispatchers.Main)
 
@@ -49,6 +50,7 @@ class NovelViewerViewModel : ViewModel() {
         ncode = intent.getStringExtra(NovelViewerActivity.EXTRA_NCODE)!!
         index = intent.getIntExtra(NovelViewerActivity.EXTRA_INDEX, 0)
         lastIndex = intent.getIntExtra(NovelViewerActivity.EXTRA_LAST_INDEX, 0)
+        percent = intent.getFloatExtra(NovelViewerActivity.EXTRA_PERCENT, 0f)
 
         fetchEpisode()
     }
