@@ -7,9 +7,9 @@ import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.postDelayed
-import kotlin.properties.Delegates
 import me.nutyworks.syosetuviewerv2.databinding.ActivityNovelViewerBinding
 import me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel
+import kotlin.properties.Delegates
 
 class NovelViewerActivity : AppCompatActivity() {
 

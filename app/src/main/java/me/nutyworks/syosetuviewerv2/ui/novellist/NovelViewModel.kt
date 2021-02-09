@@ -98,7 +98,8 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
             return if (novel.recentWatchedEpisode == 0) {
                 ContinueType.FIRST
             } else if (novel.recentWatchedPercent == 1f &&
-                novel.recentWatchedEpisode != bodies.last { !it.isChapter }.index) {
+                novel.recentWatchedEpisode != bodies.last { !it.isChapter }.index
+            ) {
                 ContinueType.NEXT
             } else {
                 ContinueType.DEFAULT
