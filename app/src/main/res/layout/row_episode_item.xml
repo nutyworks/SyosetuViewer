@@ -20,7 +20,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="@{() -> viewModel.onEpisodeClick(position)}"
+        android:onClick="@{() -> viewModel.onEpisodeClick(position, 0f)}"
         android:orientation="vertical"
         android:padding="16dp">
 

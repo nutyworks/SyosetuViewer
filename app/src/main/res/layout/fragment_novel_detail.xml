@@ -53,6 +53,15 @@
                 android:gravity="center"
                 android:text="@{viewModel.selectedNovel.writer}" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_continue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:onClick="@{() -> viewModel.onContinueButtonClick()}"
+                android:textAllCaps="false"
+                android:visibility="@{viewModel.detailRecyclerviewIsVisible ? View.VISIBLE : View.GONE}" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

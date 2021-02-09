@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,6 +25,7 @@ class NovelViewerViewModel : ViewModel() {
     lateinit var ncode: String
     var index by Delegates.notNull<Int>()
     var lastIndex by Delegates.notNull<Int>()
+    var percent by Delegates.notNull<Float>()
 
     private val mViewModelScope = CoroutineScope(Job() + Dispatchers.Main)
 
@@ -48,6 +50,7 @@ class NovelViewerViewModel : ViewModel() {
         ncode = intent.getStringExtra(NovelViewerActivity.EXTRA_NCODE)!!
         index = intent.getIntExtra(NovelViewerActivity.EXTRA_INDEX, 0)
         lastIndex = intent.getIntExtra(NovelViewerActivity.EXTRA_LAST_INDEX, 0)
+        percent = intent.getFloatExtra(NovelViewerActivity.EXTRA_PERCENT, 0f)
 
         fetchEpisode()
     }
@@ -90,5 +93,11 @@ class NovelViewerViewModel : ViewModel() {
     fun changeWordWrap(wordWrap: Boolean) {
         mRepository.setWordWrap(wordWrap)
         novelViewerAdapter.invalidateAllBindingData()
+    }
+
+    fun setRecentWatched(percent: Float) {
+        viewModelScope.launch {
+            mRepository.setRecentWatched(ncode, index, percent)
+        }
     }
 }

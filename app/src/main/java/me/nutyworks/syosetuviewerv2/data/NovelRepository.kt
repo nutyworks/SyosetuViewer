@@ -60,6 +60,8 @@ class NovelRepository private constructor(
     val isExtraLoading = ObservableBoolean(false)
     val snackbarText = SingleLiveEvent<String>()
 
+    val novelProgressChangeEvent = SingleLiveEvent<Void>()
+
     private val mSharedPreferencesGlobal =
         application.getSharedPreferences(PREF_NAMESPACE_GLOBAL, Context.MODE_PRIVATE)
 
@@ -127,6 +129,15 @@ class NovelRepository private constructor(
     suspend fun markAsRead(ncode: String, index: Int) {
         val novel = novels.value?.find { it.ncode == ncode } ?: return
         markAsRead(novel, index)
+    }
+
+    suspend fun setRecentWatched(ncode: String, episode: Int, percent: Float) {
+        novels.value?.find { it.ncode == ncode }?.let {
+            it.recentWatchedEpisode = episode
+            it.recentWatchedPercent = percent
+            insertNovel(it)
+        }
+        novelProgressChangeEvent.call()
     }
 
     suspend fun fetchEpisode(ncode: String, index: Int) {

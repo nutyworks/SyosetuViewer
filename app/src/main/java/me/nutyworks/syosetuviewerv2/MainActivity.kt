@@ -59,27 +59,6 @@ class MainActivity : AppCompatActivity() {
         setupUiEvent()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        val selectedNovel = mNovelViewModel.selectedNovel.get() ?: return
-        val selectedNovelBodies = mNovelViewModel.selectedNovelBodies.value ?: return
-        selectedNovel.readIndexes.split(",").filter(String::isNotEmpty)
-            .map(String::toInt).drop(mNovelViewModel.previousReadIndexesSize).nullIfEmpty()?.let {
-                val startIndex =
-                    selectedNovelBodies.indexOfFirst { novel -> novel.index == it.first() }
-                val endIndex =
-                    selectedNovelBodies.indexOfFirst { novel -> novel.index == it.last() }
-
-                mNovelViewModel.novelDetailAdapter.notifyItemRangeChanged(
-                    startIndex,
-                    endIndex - startIndex + 1
-                )
-            }
-    }
-
-    private fun <S : Collection<T>, T> S.nullIfEmpty(): S? = if (this.none()) null else this
-
     private fun applySelectedTheme() {
         Log.i(TAG, "applySelectedTheme called")
         val theme = mSettingsViewModel.theme.get().let {
@@ -93,14 +72,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUiEvent() {
         with(mNovelViewModel) {
-            startNovelViewerActivityEvent.observe(this@MainActivity) { startNovelViewerActivity() }
+            startNovelViewerActivityEvent.observe(this@MainActivity) { percent ->
+                startNovelViewerActivity(percent)
+            }
         }
         with(mSearchViewModel) {
             startSearchResultActivityEvent.observe(this@MainActivity) { startSearchResultActivity() }
         }
     }
 
-    private fun startNovelViewerActivity() {
+    private fun startNovelViewerActivity(percent: Float) {
         mNovelViewModel.previousReadIndexesSize =
             mNovelViewModel.selectedNovel.get()!!.readIndexes.count { it == ',' }
 
@@ -119,6 +100,10 @@ class MainActivity : AppCompatActivity() {
                 putExtra(
                     NovelViewerActivity.EXTRA_LAST_INDEX,
                     mNovelViewModel.selectedNovelBodies.value?.last { !it.isChapter }?.index
+                )
+                putExtra(
+                    NovelViewerActivity.EXTRA_PERCENT,
+                    percent
                 )
             }
         )
