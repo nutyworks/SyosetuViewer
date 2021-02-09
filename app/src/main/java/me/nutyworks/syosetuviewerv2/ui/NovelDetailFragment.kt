@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import kotlin.properties.Delegates
 import me.nutyworks.syosetuviewerv2.databinding.FragmentNovelDetailBinding
 import me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel
 
@@ -16,13 +17,14 @@ class NovelDetailFragment : Fragment() {
     }
 
     private val mViewModel: NovelViewModel by activityViewModels()
+    private var binding by Delegates.notNull<FragmentNovelDetailBinding>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentNovelDetailBinding.inflate(layoutInflater, container, false)
+        binding = FragmentNovelDetailBinding.inflate(layoutInflater, container, false)
 
         binding.viewModel = mViewModel
 
@@ -33,7 +35,6 @@ class NovelDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.i(TAG, "onreesume")
 
         val selectedNovel = mViewModel.selectedNovel.get() ?: return
         val selectedNovelBodies = mViewModel.selectedNovelBodies.value ?: return
@@ -60,7 +61,15 @@ class NovelDetailFragment : Fragment() {
             novelDetailFetchFinishEvent.observe(viewLifecycleOwner) {
                 detailRecyclerviewIsVisible.set(true)
                 loadingProgressBarIsVisible.set(false)
+                updateContinueButtonText()
+            }
+            novelProgressChangeEvent.observe(viewLifecycleOwner) {
+                updateContinueButtonText()
             }
         }
+    }
+
+    private fun updateContinueButtonText() {
+        binding.btnContinue.text = mViewModel.btnContinueText
     }
 }
