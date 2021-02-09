@@ -31,6 +31,29 @@ class NovelDetailFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.i(TAG, "onreesume")
+
+        val selectedNovel = mViewModel.selectedNovel.get() ?: return
+        val selectedNovelBodies = mViewModel.selectedNovelBodies.value ?: return
+        selectedNovel.readIndexes.split(",").filter(String::isNotEmpty)
+            .map(String::toInt).drop(mViewModel.previousReadIndexesSize).nullIfEmpty()?.let {
+                val startIndex =
+                    selectedNovelBodies.indexOfFirst { novel -> novel.index == it.first() }
+                val endIndex =
+                    selectedNovelBodies.indexOfFirst { novel -> novel.index == it.last() }
+
+                mViewModel.novelDetailAdapter.notifyItemRangeChanged(
+                    startIndex,
+                    endIndex - startIndex + 1
+                )
+            }
+
+    }
+
+    private fun <S : Collection<T>, T> S.nullIfEmpty(): S? = if (this.none()) null else this
+
     private fun setupListUiUpdate() {
         with(mViewModel) {
             selectedNovelBodies.observe(viewLifecycleOwner) { notifyDetailAdapterForUpdate() }

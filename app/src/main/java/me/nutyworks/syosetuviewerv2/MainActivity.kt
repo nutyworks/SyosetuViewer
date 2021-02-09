@@ -59,27 +59,6 @@ class MainActivity : AppCompatActivity() {
         setupUiEvent()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        val selectedNovel = mNovelViewModel.selectedNovel.get() ?: return
-        val selectedNovelBodies = mNovelViewModel.selectedNovelBodies.value ?: return
-        selectedNovel.readIndexes.split(",").filter(String::isNotEmpty)
-            .map(String::toInt).drop(mNovelViewModel.previousReadIndexesSize).nullIfEmpty()?.let {
-                val startIndex =
-                    selectedNovelBodies.indexOfFirst { novel -> novel.index == it.first() }
-                val endIndex =
-                    selectedNovelBodies.indexOfFirst { novel -> novel.index == it.last() }
-
-                mNovelViewModel.novelDetailAdapter.notifyItemRangeChanged(
-                    startIndex,
-                    endIndex - startIndex + 1
-                )
-            }
-    }
-
-    private fun <S : Collection<T>, T> S.nullIfEmpty(): S? = if (this.none()) null else this
-
     private fun applySelectedTheme() {
         Log.i(TAG, "applySelectedTheme called")
         val theme = mSettingsViewModel.theme.get().let {
