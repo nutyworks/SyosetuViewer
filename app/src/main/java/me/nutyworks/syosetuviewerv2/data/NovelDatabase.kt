@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Novel::class], version = 2, exportSchema = false)
+@Database(entities = [Novel::class], version = 3, exportSchema = false)
 abstract class NovelDatabase : RoomDatabase() {
 
     abstract fun novelDao(): NovelDao
@@ -27,6 +27,7 @@ abstract class NovelDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context): NovelDatabase {
             return Room.databaseBuilder(context, NovelDatabase::class.java, "novels")
                 .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_2_3)
                 .build()
         }
     }
