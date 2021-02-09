@@ -2,7 +2,6 @@
     <string name="app_name">SyosetuViewer</string>
     <string name="title_novel_list">Novels</string>
     <string name="title_search">Search</string>
-    <string name="title_notifications">Notifications</string>
     <string name="novel_not_exists">Click the \"+\" button below to add novel.</string>
     <string name="add_novel">Add a novel</string>
     <string name="enter_ncode">Enter a ncode</string>
@@ -58,6 +57,13 @@
     <string name="description_advanced_overall_points">Overall points</string>
     <string name="description_advanced_last_refresh">Last refresh</string>
     <string name="description_advanced_first_upload">First upload</string>
+    <string name="description_last_episode">This is the last episode.</string>
+    <string name="description_apply">Apply</string>
+    <string name="title_settings">Settings</string>
+    <string name="description_word_wrap">Enable word wrap</string>
+    <string name="description_continue_watch">Continue watching</string>
+    <string name="description_watch_first">Watch the first episode</string>
+    <string name="description_watch_next">Watch the next episode</string>
 
     <string-array name="order_by_array">
         <item>Recent refresh</item>
@@ -74,5 +80,11 @@
         <item>Characters</item>
         <item>Recent episode</item>
         <item>Oldest to latest</item>
+    </string-array>
+
+    <string-array name="theme_list">
+        <item>Use system default</item>
+        <item>Light</item>
+        <item>Dark</item>
     </string-array>
 </resources>

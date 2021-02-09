@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="kotlin.jvm.functions.Function1" />
+        <import type="kotlin.Unit" />
+
+        <variable
+            name="description"
+            type="String" />
+
+        <variable
+            name="value"
+            type="Float" />
+
+        <variable
+            name="changeMethod"
+            type="Function1&lt;Float, Unit>" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:weightSum="6">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="start"
+            android:text="@{description}" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="@{() -> changeMethod.invoke(-1f)}"
+            android:text="@string/minus" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@{value}" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="@{() -> changeMethod.invoke(1f)}"
+            android:text="@string/plus" />
+
+    </LinearLayout>
+
+</layout>

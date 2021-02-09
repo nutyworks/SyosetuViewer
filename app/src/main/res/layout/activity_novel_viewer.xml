@@ -19,6 +19,7 @@
         tools:context=".NovelViewerActivity">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/sv_content_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
@@ -27,17 +28,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="16dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="@{viewModel.paragraphSpacing * 2}"
+                    android:paddingTop="@{viewModel.paragraphSpacing * 2}"
+                    android:text="@{viewModel.novelBody.title.text}"
                     android:textAlignment="center"
-                    android:text="@{viewModel.novelBody.translatedBody}"
                     android:textSize="@{viewModel.textSize}"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:paddingHorizontal="16dp"
+                    android:paddingBottom="@{viewModel.paragraphSpacing * 2}"
+                    android:text='@{String.format("%d/%d", viewModel.index, viewModel.lastIndex)}' />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
@@ -51,7 +61,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:onClick="@{() -> viewModel.onNextEpisodeClick()}"
-                    android:text="@string/next" />
+                    android:text="@string/next"
+                    android:visibility="@{viewModel.index &lt; viewModel.lastIndex ? View.VISIBLE : View.GONE}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/description_last_episode"
+                    android:textSize="@{viewModel.textSize}"
+                    android:visibility="@{viewModel.index &gt;= viewModel.lastIndex ? View.VISIBLE : View.GONE}" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

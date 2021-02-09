@@ -23,9 +23,15 @@ class NovelRepository private constructor(
 
     companion object {
         private const val TAG = "NovelEntityRepository"
+
+        private const val PREF_NAMESPACE_GLOBAL = "PREF_NAMESPACE_GLOBAL"
+        private const val PREF_THEME = "PREF_THEME"
+
         private const val PREF_NAMESPACE_VIEWER = "PREF_NAMESPACE_VIEWER"
         private const val PREF_TEXT_SIZE = "PREF_TEXT_SIZE"
         private const val PREF_PARAGRAPH_SPACING = "PREF_PARAGRAPH_SPACING"
+        private const val PREF_WORD_WRAP = "PREF_WORD_WRAP"
+
         private var instance: NovelRepository? = null
 
         fun getInstance(): NovelRepository {
@@ -54,11 +60,27 @@ class NovelRepository private constructor(
     val isExtraLoading = ObservableBoolean(false)
     val snackbarText = SingleLiveEvent<String>()
 
-    private val mSharedPreferences =
+    val novelProgressChangeEvent = SingleLiveEvent<Void>()
+
+    private val mSharedPreferencesGlobal =
+        application.getSharedPreferences(PREF_NAMESPACE_GLOBAL, Context.MODE_PRIVATE)
+
+    var theme = mSharedPreferencesGlobal.getInt(PREF_THEME, Context.MODE_PRIVATE)
+        set(value) {
+            Log.i(TAG, "theme set $value")
+            field = value
+            mSharedPreferencesGlobal.edit {
+                putInt(PREF_THEME, field)
+            }
+        }
+
+    private val mSharedPreferencesViewer =
         application.getSharedPreferences(PREF_NAMESPACE_VIEWER, Context.MODE_PRIVATE)
 
-    val textSize = ObservableFloat(mSharedPreferences.getFloat(PREF_TEXT_SIZE, 16f))
-    val paragraphSpacing = ObservableFloat(mSharedPreferences.getFloat(PREF_PARAGRAPH_SPACING, 5f))
+    val textSize = ObservableFloat(mSharedPreferencesViewer.getFloat(PREF_TEXT_SIZE, 16f))
+    val paragraphSpacing =
+        ObservableFloat(mSharedPreferencesViewer.getFloat(PREF_PARAGRAPH_SPACING, 5f))
+    val wordWrap = ObservableBoolean(mSharedPreferencesViewer.getBoolean(PREF_WORD_WRAP, true))
 
     suspend fun fetchSelectedNovelBodies(ncode: String) {
         Log.i(TAG, "fetchSelectedNovelBodies called with ncode $ncode")
@@ -67,9 +89,9 @@ class NovelRepository private constructor(
             val novelBodies = Narou.getNovelBodies(ncode)
             bulkTranslator("ja-ko") {
                 novelBodies.forEach {
-                    it.body translateTo it::translatedBody
+                    wrapper(it.title)
                 }
-            }.run()
+            }.run().runUntranslated()
 
             novelBodies
         }
@@ -109,6 +131,15 @@ class NovelRepository private constructor(
         markAsRead(novel, index)
     }
 
+    suspend fun setRecentWatched(ncode: String, episode: Int, percent: Float) {
+        novels.value?.find { it.ncode == ncode }?.let {
+            it.recentWatchedEpisode = episode
+            it.recentWatchedPercent = percent
+            insertNovel(it)
+        }
+        novelProgressChangeEvent.call()
+    }
+
     suspend fun fetchEpisode(ncode: String, index: Int) {
         val translatedNovelBody = withContext(Dispatchers.IO) {
             val novelBody = Narou.getNovelBody(ncode, index)
@@ -116,8 +147,8 @@ class NovelRepository private constructor(
                 novelBody.mainTextWrappers?.forEach {
                     (it as? TranslationWrapper)?.let { t -> wrapper(t) }
                 }
-                novelBody.body translateTo novelBody::translatedBody
-            }.run()
+                wrapper(novelBody.title)
+            }.run().runUntranslated()
 
             novelBody
         }
@@ -132,15 +163,15 @@ class NovelRepository private constructor(
             val translatedResults = withContext(Dispatchers.IO) {
                 val (wordIncludeTranslated, wordExcludeTranslated) = run {
                     val includeWrapper = includeWords.split(" ").map {
-                        TranslationWrapper(it)
+                        it.wrap()
                     }
                     val excludeWrapper = excludeWords.split(" ").map {
-                        TranslationWrapper(it)
+                        it.wrap()
                     }
                     bulkTranslator("ko-ja") {
                         includeWrapper.forEach { wrapper(it) }
                         excludeWrapper.forEach { wrapper(it) }
-                    }.run()
+                    }.run().runUntranslated()
 
                     includeWrapper.joinToString(" ") { it.translated } to
                         excludeWrapper.joinToString(" ") { it.translated }
@@ -174,7 +205,7 @@ class NovelRepository private constructor(
                             wrapper(keyword)
                         }
                     }
-                }.run()
+                }.run().runUntranslated()
 
                 results
             }
@@ -191,15 +222,22 @@ class NovelRepository private constructor(
 
     fun setTextSize(textSize: Float) {
         this.textSize.set(textSize)
-        mSharedPreferences.edit {
+        mSharedPreferencesViewer.edit {
             putFloat(PREF_TEXT_SIZE, textSize)
         }
     }
 
     fun setParagraphSpacing(paragraphSpacing: Float) {
         this.paragraphSpacing.set(paragraphSpacing)
-        mSharedPreferences.edit {
+        mSharedPreferencesViewer.edit {
             putFloat(PREF_PARAGRAPH_SPACING, paragraphSpacing)
+        }
+    }
+
+    fun setWordWrap(wordWrap: Boolean) {
+        this.wordWrap.set(wordWrap)
+        mSharedPreferencesViewer.edit {
+            putBoolean(PREF_WORD_WRAP, wordWrap)
         }
     }
 }

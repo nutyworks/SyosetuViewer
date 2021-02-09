@@ -2,6 +2,9 @@ package me.nutyworks.syosetuviewerv2.ui.novellist
 
 import android.app.Application
 import android.content.Intent
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.RelativeSizeSpan
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -11,6 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.nutyworks.syosetuviewerv2.R
+import me.nutyworks.syosetuviewerv2.SyosetuViewerApplication
 import me.nutyworks.syosetuviewerv2.adapter.NovelDetailAdapter
 import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.data.Novel
@@ -30,7 +35,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         Log.i(TAG, "$TAG initialized!")
     }
 
-    private val mRepository = NovelRepository.getInstance(application)
+    private val mRepository = NovelRepository.getInstance()
 
     private val mNovels = mRepository.novels
     private var mRecentlyDeletedNovel: Novel? = null
@@ -48,6 +53,59 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     val detailRecyclerviewIsVisible = ObservableBoolean(false)
     val loadingProgressBarIsVisible = ObservableBoolean(false)
 
+    val btnContinueIndex: Int
+        get() {
+            val novel = selectedNovel.get()!!
+
+            return when (btnContinueType) {
+                ContinueType.FIRST -> 1
+                ContinueType.DEFAULT -> novel.recentWatchedEpisode
+                ContinueType.NEXT -> novel.recentWatchedEpisode + 1
+            }
+        }
+
+    val btnContinueText: Spannable
+        get() {
+            val app = getApplication<SyosetuViewerApplication>()
+            val bodies = selectedNovelBodies.value!!
+
+            val title = app.getString(
+                when (btnContinueType) {
+                    ContinueType.FIRST -> R.string.description_watch_first
+                    ContinueType.DEFAULT -> R.string.description_continue_watch
+                    ContinueType.NEXT -> R.string.description_watch_next
+                }
+            )
+            val subtitle =
+                bodies.find { it.index == btnContinueIndex }?.title?.text
+                    ?: "Title unavailable"
+
+            return SpannableString("$title\n$subtitle").apply {
+                setSpan(
+                    RelativeSizeSpan(.7f),
+                    title.length,
+                    title.length + subtitle.length + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
+
+    val btnContinueType: ContinueType
+        get() {
+            val novel = selectedNovel.get()!!
+            val bodies = selectedNovelBodies.value!!
+
+            return if (novel.recentWatchedEpisode == 0) {
+                ContinueType.FIRST
+            } else if (novel.recentWatchedPercent == 1f &&
+                novel.recentWatchedEpisode != bodies.last { !it.isChapter }.index
+            ) {
+                ContinueType.NEXT
+            } else {
+                ContinueType.DEFAULT
+            }
+        }
+
     val dialogControlEvent = SingleLiveEvent<Void>()
     val snackBarNetworkFailEvent = SingleLiveEvent<Void>()
     val snackBarInvalidNcodeEvent = SingleLiveEvent<Void>()
@@ -55,9 +113,11 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
 
     val startNovelDetailFragmentEvent = SingleLiveEvent<Void>()
     val novelDetailFetchFinishEvent = SingleLiveEvent<Void>()
+    val novelProgressChangeEvent = mRepository.novelProgressChangeEvent
 
-    val startNovelViewerActivityEvent = SingleLiveEvent<Void>()
+    val startNovelViewerActivityEvent = SingleLiveEvent<Float>()
     val selectedEpisode = ObservableField<NovelBody>()
+    var previousReadIndexesSize = 0
 
     fun onNovelClick(novel: Novel) {
         Log.d(TAG, novel.toString())
@@ -77,12 +137,11 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         dialogControlEvent.call()
     }
 
-    fun onEpisodeClick(position: Int) {
+    fun onEpisodeClick(position: Int, percent: Float = 0f) {
         Log.i(TAG, "episode clicked ${selectedNovelBodies.value?.get(position)}")
         selectedEpisode.set(selectedNovelBodies.value?.get(position))
-        startNovelViewerActivityEvent.call()
+        startNovelViewerActivityEvent.value = percent
         markAsRead(selectedNovel.get()!!, selectedEpisode.get()!!.index)
-        novelDetailAdapter.notifyItemChanged(position)
     }
 
     fun notifyListAdapterForUpdate() {
@@ -156,4 +215,15 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
                 } ?: snackBarInvalidNcodeEvent.call()
         }
     }
+
+    fun onContinueButtonClick() {
+        val novel = selectedNovel.get()!!
+        val bodies = selectedNovelBodies.value!!
+        val percent = if (btnContinueType == ContinueType.NEXT) 0f else novel.recentWatchedPercent
+        onEpisodeClick(bodies.indexOfFirst { it.index == btnContinueIndex }, percent)
+    }
+}
+
+enum class ContinueType {
+    FIRST, DEFAULT, NEXT
 }

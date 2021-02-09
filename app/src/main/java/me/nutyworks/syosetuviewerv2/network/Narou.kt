@@ -3,7 +3,7 @@ package me.nutyworks.syosetuviewerv2.network
 import me.nutyworks.syosetuviewerv2.data.ImageWrapper
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
-import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
+import me.nutyworks.syosetuviewerv2.data.wrap
 import org.jsoup.Jsoup
 
 object Narou {
@@ -33,11 +33,11 @@ object Narou {
 
             novelBodyRegex.findAll(select(".index_box").html()).map { result ->
                 result.groups[1]?.let {
-                    return@map NovelBody(it.value, true, 0)
+                    return@map NovelBody(it.value.wrap(), true, 0)
                 }
                 result.groups[3]?.let { title ->
                     result.groups[2]?.let { index ->
-                        return@map NovelBody(title.value, false, index.value.toInt())
+                        return@map NovelBody(title.value.wrap(), false, index.value.toInt())
                     }
                 }
 
@@ -57,11 +57,11 @@ object Narou {
 
                     imgRegex.find(it.html())?.let { match ->
                         ImageWrapper(match.groupValues[1], match.groupValues[2])
-                    } ?: TranslationWrapper(it.text(), "")
+                    } ?: it.text().wrap()
                 }
 
             NovelBody(
-                body,
+                body.wrap(),
                 false,
                 index,
                 mainTextWrappers

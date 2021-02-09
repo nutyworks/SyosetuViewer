@@ -3,14 +3,19 @@ package me.nutyworks.syosetuviewerv2.data
 data class TranslationWrapper(
     val original: String,
     var translated: String = original,
-    var viewType: Int = TRANSLATED
+    var viewType: Int = TRANSLATED,
 ) : IMainTextWrapper {
     companion object {
         const val ORIGINAL = 0
         const val TRANSLATED = 1
+        private val mRepository = NovelRepository.getInstance()
     }
 
-    val text get() = if (viewType == ORIGINAL) original else translated
+    val text
+        get() =
+            (if (viewType == ORIGINAL) original else translated).let {
+                if (mRepository.wordWrap.get()) it else it.replace(" ", "\u00a0")
+            }
 
     fun toggleViewType() {
         viewType = when (viewType) {
@@ -20,3 +25,5 @@ data class TranslationWrapper(
         }
     }
 }
+
+fun String.wrap(): TranslationWrapper = TranslationWrapper(this)
