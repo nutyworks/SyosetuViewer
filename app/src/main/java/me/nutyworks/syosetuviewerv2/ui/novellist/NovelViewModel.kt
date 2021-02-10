@@ -114,6 +114,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     val startNovelDetailFragmentEvent = SingleLiveEvent<Void>()
     val novelDetailFetchFinishEvent = SingleLiveEvent<Void>()
     val novelProgressChangeEvent = mRepository.novelProgressChangeEvent
+    val scrollToTopEvent = SingleLiveEvent<Void>()
 
     val startNovelViewerActivityEvent = SingleLiveEvent<Float>()
     val selectedEpisode = ObservableField<NovelBody>()
@@ -221,6 +222,10 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         val bodies = selectedNovelBodies.value!!
         val percent = if (btnContinueType == ContinueType.NEXT) 0f else novel.recentWatchedPercent
         onEpisodeClick(bodies.indexOfFirst { it.index == btnContinueIndex }, percent)
+    }
+
+    fun scrollToTop() {
+        scrollToTopEvent.call()
     }
 }
 

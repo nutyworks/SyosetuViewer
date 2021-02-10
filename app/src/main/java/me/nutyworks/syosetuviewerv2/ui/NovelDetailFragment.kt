@@ -65,7 +65,12 @@ class NovelDetailFragment : Fragment() {
             novelProgressChangeEvent.observe(viewLifecycleOwner) {
                 updateContinueButtonText()
             }
+            scrollToTopEvent.observe(viewLifecycleOwner) { this@NovelDetailFragment.scrollToTop() }
         }
+    }
+
+    private fun scrollToTop() {
+        binding.svDetailWrapper.fullScroll(View.FOCUS_UP)
     }
 
     private fun updateContinueButtonText() {

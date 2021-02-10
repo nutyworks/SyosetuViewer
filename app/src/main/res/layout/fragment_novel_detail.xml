@@ -12,78 +12,102 @@
             type="me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="ifContentScrolls"
-        android:scrollbars="vertical"
-        tools:context=".ui.NovelDetailFragment">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/sv_detail_wrapper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_translated_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="8dp"
-                android:gravity="center"
-                android:text="@{viewModel.selectedNovel.translatedTitle}"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="8dp"
-                android:gravity="center"
-                android:text="@{viewModel.selectedNovel.title}"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_writer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="8dp"
-                android:gravity="center"
-                android:text="@{viewModel.selectedNovel.writer}" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_continue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:onClick="@{() -> viewModel.onContinueButtonClick()}"
-                android:textAllCaps="false"
-                android:visibility="@{viewModel.detailRecyclerviewIsVisible ? View.VISIBLE : View.GONE}" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:visibility="@{viewModel.detailRecyclerviewIsVisible ? View.VISIBLE : View.GONE}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:setAdapter="@{viewModel.novelDetailAdapter}" />
+            android:layout_height="match_parent"
+            android:overScrollMode="ifContentScrolls"
+            android:scrollbars="vertical"
+            tools:context=".ui.NovelDetailFragment">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <ProgressBar
-                    android:id="@+id/pb_loading"
+                <TextView
+                    android:id="@+id/tv_translated_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:text="@{viewModel.selectedNovel.translatedTitle}"
+                    android:textSize="18sp" />
 
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:text="@{viewModel.selectedNovel.title}"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_writer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:text="@{viewModel.selectedNovel.writer}" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:onClick="@{() -> viewModel.onContinueButtonClick()}"
+                    android:textAllCaps="false"
+                    android:visibility="@{viewModel.detailRecyclerviewIsVisible ? View.VISIBLE : View.GONE}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:visibility="@{viewModel.detailRecyclerviewIsVisible ? View.VISIBLE : View.GONE}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:setAdapter="@{viewModel.novelDetailAdapter}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <ProgressBar
+                        android:id="@+id/pb_loading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.loadingProgressBarIsVisible ? View.VISIBLE : View.GONE}" />
+
+                </LinearLayout>
             </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    </androidx.core.widget.NestedScrollView>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/description_go_to_the_top"
+                android:src="@drawable/ic_baseline_vertical_align_top_24"
+                android:onClick="@{() -> viewModel.scrollToTop()}"
+                app:fabSize="mini" />
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

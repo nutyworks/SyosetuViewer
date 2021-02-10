@@ -64,6 +64,7 @@
     <string name="description_continue_watch">Continue watching</string>
     <string name="description_watch_first">Watch the first episode</string>
     <string name="description_watch_next">Watch the next episode</string>
+    <string name="description_go_to_the_top">Go to the top</string>
 
     <string-array name="order_by_array">
         <item>Recent refresh</item>
