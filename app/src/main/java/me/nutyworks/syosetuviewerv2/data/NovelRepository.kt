@@ -201,6 +201,7 @@ class NovelRepository private constructor(
                     results.forEach { result ->
                         wrapper(result.title)
                         wrapper(result.genre)
+                        wrapper(result.description)
                         result.keywords.forEach { keyword ->
                             wrapper(keyword)
                         }

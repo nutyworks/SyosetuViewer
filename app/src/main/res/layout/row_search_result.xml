@@ -41,6 +41,12 @@
             android:text="@{viewModel.getNovelInfo(position)}"
             android:textSize="14sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.searchResults[position].description.translated}"
+            android:textSize="14sp" />
+
         <com.google.android.flexbox.FlexboxLayout
             android:layout_marginTop="4dp"
             android:id="@+id/fl_keywords_wrapper"
