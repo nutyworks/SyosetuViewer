@@ -74,11 +74,6 @@ class SearchResultViewModel : ViewModel() {
         }
     }
 
-    fun getTranslatedKeywords(position: Int): String =
-        searchResults.value!![position].keywords.joinToString(" ") { it.translated }.let {
-            if (it.isEmpty()) "No keywords" else it
-        }
-
     fun notifyListAdapterForItemInsert() {
         Log.i(TAG, "notifyListAdapterForUpdate searchResults = ${searchResults.value}")
         adapter.notifyItemRangeInserted((page - 1) * 20, 20)
