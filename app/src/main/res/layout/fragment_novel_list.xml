@@ -10,13 +10,13 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.NovelViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.novellist.NovelListFragment">
+        tools:context=".ui.main.fragment.novel.list.NovelListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_novel_list"

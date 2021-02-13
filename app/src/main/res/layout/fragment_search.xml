@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.search.SearchViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.main.fragment.search.SearchViewModel" />
     </data>
 
     <LinearLayout
@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingVertical="16dp"
-                tools:context=".ui.search.SearchFragment">
+                tools:context=".ui.main.fragment.search.SearchFragment">
 
                 <EditText
                     android:id="@+id/et_include_words"

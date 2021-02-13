@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.viewer.NovelViewerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

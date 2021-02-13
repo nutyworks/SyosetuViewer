@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.SearchResultViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.searchresult.SearchResultViewModel" />
     </data>
 
     <FrameLayout
@@ -32,7 +32,7 @@
             android:overScrollMode="never"
             android:visibility="@{viewModel.resultsRecyclerViewIsVisible ? View.VISIBLE : View.GONE}"
             app:onReachEnd="@{viewModel.onReachEnd}"
-            tools:context=".SearchResultActivity">
+            tools:context=".ui.searchresult.SearchResultActivity">
 
             <LinearLayout
                 android:layout_width="match_parent"

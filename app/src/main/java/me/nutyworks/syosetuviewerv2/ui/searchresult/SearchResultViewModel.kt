@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.ui
+package me.nutyworks.syosetuviewerv2.ui.searchresult
 
 import android.content.Intent
 import android.util.Log
@@ -11,8 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import me.nutyworks.syosetuviewerv2.SearchResultActivity
-import me.nutyworks.syosetuviewerv2.adapter.SearchResultAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.data.SearchRequirements
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult

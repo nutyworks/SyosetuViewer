@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.settings.SettingsViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.main.fragment.settings.SettingsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +13,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.settings.SettingsFragment">
+        tools:context=".ui.main.fragment.settings.SettingsFragment">
 
         <!--suppress AndroidUnknownAttribute -->
         <androidx.appcompat.widget.AppCompatSpinner

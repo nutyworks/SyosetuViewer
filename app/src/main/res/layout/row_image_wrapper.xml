@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.viewer.NovelViewerViewModel" />
 
         <variable
             name="position"

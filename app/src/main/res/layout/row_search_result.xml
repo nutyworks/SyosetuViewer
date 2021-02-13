@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.SearchResultViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.searchresult.SearchResultViewModel" />
 
         <variable
             name="position"

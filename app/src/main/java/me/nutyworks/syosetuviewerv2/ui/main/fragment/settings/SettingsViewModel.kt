@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.ui.settings
+package me.nutyworks.syosetuviewerv2.ui.main.fragment.settings
 
 import android.util.Log
 import androidx.databinding.ObservableInt
