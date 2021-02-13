@@ -19,6 +19,6 @@ class SettingsViewModel : ViewModel() {
     fun applySettings() {
         Log.i(TAG, "applySettings ${theme.get()}")
         mRepository.theme = theme.get()
-        event.value = SettingsFragment.Event.SETTINGS_APPLIED
+        event.value = SettingsFragment.Event.SettingsAppliedEvent
     }
 }

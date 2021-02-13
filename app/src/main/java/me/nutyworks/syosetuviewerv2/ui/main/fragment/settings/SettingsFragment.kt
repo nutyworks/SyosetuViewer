@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.snackbar.Snackbar
 import me.nutyworks.syosetuviewerv2.databinding.FragmentSettingsBinding
-import java.lang.IllegalStateException
 
 class SettingsFragment : Fragment() {
 
@@ -26,8 +25,7 @@ class SettingsFragment : Fragment() {
 
         mViewModel.event.observe(viewLifecycleOwner) {
             when (it) {
-                Event.SETTINGS_APPLIED -> showSettingsAppliedSnackbar()
-                null -> throw IllegalStateException("event is null")
+                is Event.SettingsAppliedEvent -> showSettingsAppliedSnackbar()
             }
         }
 
@@ -42,7 +40,7 @@ class SettingsFragment : Fragment() {
         ).show()
     }
 
-    enum class Event {
-        SETTINGS_APPLIED
+    sealed class Event {
+        object SettingsAppliedEvent : Event()
     }
 }
