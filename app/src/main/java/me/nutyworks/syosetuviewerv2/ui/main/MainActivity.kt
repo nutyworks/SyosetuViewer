@@ -13,10 +13,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import me.nutyworks.syosetuviewerv2.R
-import me.nutyworks.syosetuviewerv2.ui.searchresult.SearchResultActivity
 import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.NovelViewModel
 import me.nutyworks.syosetuviewerv2.ui.main.fragment.search.SearchViewModel
 import me.nutyworks.syosetuviewerv2.ui.main.fragment.settings.SettingsViewModel
+import me.nutyworks.syosetuviewerv2.ui.searchresult.SearchResultActivity
 import me.nutyworks.syosetuviewerv2.ui.viewer.NovelViewerActivity
 
 class MainActivity : AppCompatActivity() {

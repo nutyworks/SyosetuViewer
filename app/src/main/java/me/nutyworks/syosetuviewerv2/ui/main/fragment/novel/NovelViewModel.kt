@@ -16,11 +16,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.SyosetuViewerApplication
-import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.detail.NovelDetailAdapter
-import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.list.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.detail.NovelDetailAdapter
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.list.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 import me.nutyworks.syosetuviewerv2.utilities.ValidatorException
 import org.jsoup.HttpStatusException

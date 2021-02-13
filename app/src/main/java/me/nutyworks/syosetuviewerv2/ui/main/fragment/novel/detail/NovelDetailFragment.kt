@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import me.nutyworks.syosetuviewerv2.databinding.FragmentNovelDetailBinding
-import kotlin.properties.Delegates
 import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.NovelViewModel
+import kotlin.properties.Delegates
 
 class NovelDetailFragment : Fragment() {
 
