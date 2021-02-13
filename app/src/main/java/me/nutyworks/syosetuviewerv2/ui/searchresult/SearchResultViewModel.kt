@@ -36,7 +36,7 @@ class SearchResultViewModel : ViewModel() {
     val loadingProgressBarIsVisible = ObservableBoolean(true)
     val extraLoadingProgressBarIsVisible = mRepository.isExtraLoading
 
-    var page = 1
+    private var page = 1
 
     val snackbarText = mRepository.snackbarText
 
