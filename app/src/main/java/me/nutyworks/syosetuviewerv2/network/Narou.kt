@@ -44,7 +44,7 @@ object Narou {
         }.toList()
 
     fun getNovelBody(ncode: String, index: Int): NovelBody =
-        Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").get().runCatching {
+        Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").get().run {
             val body = select(".novel_subtitle").eachText().first()
             val imgRegex =
                 """<img src="(.+?)" alt="(.+?)"[\s\S]*>""".toRegex()
@@ -52,7 +52,6 @@ object Narou {
                 select("#novel_honbun > p").filter {
                     it.text().isNotBlank() || it.html().contains(imgRegex)
                 }.map {
-
                     imgRegex.find(it.html())?.let { match ->
                         ImageWrapper(match.groupValues[1], match.groupValues[2])
                     } ?: it.text().wrap()
@@ -64,5 +63,5 @@ object Narou {
                 index,
                 mainTextWrappers
             )
-        }.getOrThrow()
+        }
 }
