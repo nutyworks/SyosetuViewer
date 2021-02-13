@@ -32,18 +32,16 @@ object Narou {
                 """(?:<div class="chapter_title">\s*(.+?)\s*</div>|<dl class="novel_sublist2">[\s\S]*?<dd class="subtitle">[\s\S]*?<a href="/.+?/(\d+)/">(.+?)</a>)""".toRegex()
 
             novelBodyRegex.findAll(select(".index_box").html()).map { result ->
-                result.groups[1]?.let {
-                    return@map NovelBody(it.value.wrap(), true, 0)
-                }
-                result.groups[3]?.let { title ->
-                    result.groups[2]?.let { index ->
-                        return@map NovelBody(title.value.wrap(), false, index.value.toInt())
+                result.destructured.let { (chapterTitle, index, episodeTitle) ->
+                    when {
+                        chapterTitle.isNotEmpty() -> NovelBody(chapterTitle.wrap(), true, 0)
+                        episodeTitle.isNotEmpty() ->
+                            NovelBody(episodeTitle.wrap(), false, index.toInt())
+                        else -> throw IllegalStateException("Novel body is neither chapter nor episode.")
                     }
                 }
-
-                throw IllegalStateException("Novel body is neither chapter nor episode.")
-            }.toList()
-        }
+            }
+        }.toList()
 
     fun getNovelBody(ncode: String, index: Int): NovelBody =
         Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").get().runCatching {
