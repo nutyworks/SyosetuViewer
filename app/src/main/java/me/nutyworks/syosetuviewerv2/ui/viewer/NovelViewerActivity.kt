@@ -13,12 +13,12 @@ import kotlin.properties.Delegates
 class NovelViewerActivity : AppCompatActivity() {
 
     companion object {
+        private const val TAG = "NovelViewerActivity"
+
         const val EXTRA_NCODE = "me.nutyworks.syosetuviewerv2.EXTRA_NCODE"
         const val EXTRA_INDEX = "me.nutyworks.syosetuviewerv2.EXTRA_INDEX"
         const val EXTRA_LAST_INDEX = "me.nutyworks.syosetuviewerv2.EXTRA_LAST_INDEX"
         const val EXTRA_PERCENT = "me.nutyworks.syosetuviewerv2.EXTRA_PERCENT"
-
-        private const val TAG = "NovelViewerActivity"
     }
 
     private val mViewModel: NovelViewerViewModel by viewModels()

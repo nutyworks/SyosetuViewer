@@ -28,7 +28,7 @@ import org.jsoup.HttpStatusException
 class NovelViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
-        private val TAG = NovelViewModel::class.simpleName
+        private const val TAG = "NovelViewModel"
     }
 
     init {

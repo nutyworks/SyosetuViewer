@@ -17,7 +17,7 @@ import me.nutyworks.syosetuviewerv2.databinding.FragmentSearchBinding
 class SearchFragment : Fragment() {
 
     companion object {
-        private val TAG = SearchFragment::class.simpleName
+        private const val TAG = "SearchFragment"
     }
 
     private val mViewModel: SearchViewModel by activityViewModels()

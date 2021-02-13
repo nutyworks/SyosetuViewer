@@ -22,7 +22,7 @@ import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.NovelViewModel
 class NovelListFragment : Fragment() {
 
     companion object {
-        private val TAG = NovelListFragment::class.simpleName
+        private const val TAG = "NovelListFragment"
     }
 
     private val mViewModel: NovelViewModel by activityViewModels()
