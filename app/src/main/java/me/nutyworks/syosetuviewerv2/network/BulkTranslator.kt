@@ -21,13 +21,12 @@ class BulkTranslator(private val language: String) {
         var idxStart = 0
         var idxEnd: Int
         var listStartIndex = 0
-        while (true) {
 
+        while (true) {
             idxEnd =
-                if (idxStart + 5000 <= str.length)
+                if (idxStart + 5000 <= str.length) {
                     idxStart + str.slice(idxStart until idxStart + 5000).indexOfLast { it == '\n' }
-                else
-                    str.length
+                } else str.length
 
             str.slice(idxStart until idxEnd).let { slicedStr ->
                 PapagoRequester.request(language, slicedStr).split("\n").let { response ->
@@ -40,8 +39,7 @@ class BulkTranslator(private val language: String) {
 
             idxStart = idxEnd + 1
 
-            if (idxStart > str.length)
-                break
+            if (idxStart > str.length) break
         }
 
         return this

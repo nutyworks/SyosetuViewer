@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.ui
+package me.nutyworks.syosetuviewerv2.ui.searchresult
 
 import android.content.Intent
 import android.util.Log
@@ -11,8 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import me.nutyworks.syosetuviewerv2.SearchResultActivity
-import me.nutyworks.syosetuviewerv2.adapter.SearchResultAdapter
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.data.SearchRequirements
 import me.nutyworks.syosetuviewerv2.data.YomouSearchResult
@@ -38,7 +36,7 @@ class SearchResultViewModel : ViewModel() {
     val loadingProgressBarIsVisible = ObservableBoolean(true)
     val extraLoadingProgressBarIsVisible = mRepository.isExtraLoading
 
-    var page = 1
+    private var page = 1
 
     val snackbarText = mRepository.snackbarText
 
@@ -75,11 +73,6 @@ class SearchResultViewModel : ViewModel() {
             "${genre.translated} · ${Yomou.Type.typeToString(status)} · $episodes episode${if (episodes == 1) "" else "s"}"
         }
     }
-
-    fun getTranslatedKeywords(position: Int): String =
-        searchResults.value!![position].keywords.joinToString(" ") { it.translated }.let {
-            if (it.isEmpty()) "No keywords" else it
-        }
 
     fun notifyListAdapterForItemInsert() {
         Log.i(TAG, "notifyListAdapterForUpdate searchResults = ${searchResults.value}")

@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.ui.novellist
+package me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.list
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -17,11 +17,12 @@ import com.google.android.material.snackbar.Snackbar
 import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.databinding.FragmentNovelListBinding
 import me.nutyworks.syosetuviewerv2.ui.SwipeToDeleteCallback
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.NovelViewModel
 
 class NovelListFragment : Fragment() {
 
     companion object {
-        private val TAG = NovelListFragment::class.simpleName
+        private const val TAG = "NovelListFragment"
     }
 
     private val mViewModel: NovelViewModel by activityViewModels()

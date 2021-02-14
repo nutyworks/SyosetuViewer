@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.NovelViewModel" />
     </data>
 
     <LinearLayout

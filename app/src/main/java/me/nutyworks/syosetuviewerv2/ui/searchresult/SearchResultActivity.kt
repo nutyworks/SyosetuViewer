@@ -1,17 +1,17 @@
-package me.nutyworks.syosetuviewerv2
+package me.nutyworks.syosetuviewerv2.ui.searchresult
 
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.databinding.ActivitySearchResultBinding
-import me.nutyworks.syosetuviewerv2.ui.SearchResultViewModel
 
 class SearchResultActivity : AppCompatActivity() {
 
     companion object {
-        private val TAG = SearchResultActivity::class.simpleName
+        private const val TAG = "SearchResultActivity"
         const val INTENT_SEARCH_REQUIREMENTS = "me.nutyworks.syosetuviewerv2.SEARCH_REQUIREMENTS"
     }
 

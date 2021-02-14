@@ -1,6 +1,5 @@
-package me.nutyworks.syosetuviewerv2.adapter
+package me.nutyworks.syosetuviewerv2.ui.searchresult
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -9,12 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.databinding.RowSearchResultBinding
-import me.nutyworks.syosetuviewerv2.ui.SearchResultViewModel
 
 class SearchResultAdapter(val viewModel: SearchResultViewModel) :
     RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>() {
 
-    lateinit var context: Context
     override fun getItemViewType(position: Int): Int = R.layout.row_search_result
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {

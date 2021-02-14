@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.ui.search
+package me.nutyworks.syosetuviewerv2.ui.main.fragment.search
 
 import android.util.Log
 import androidx.databinding.ObservableField

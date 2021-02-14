@@ -8,4 +8,4 @@ object NcodeValidator {
     }
 }
 
-class ValidatorException(override val message: String? = null) : Exception()
+class ValidatorException(override val message: String? = null) : IllegalStateException()

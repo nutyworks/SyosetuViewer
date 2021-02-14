@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="me.nutyworks.syosetuviewerv2.ui.main.fragment.search.SearchViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/ExpandableLayoutTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.toggleAdvancedExpansion()}"
+            android:text="@string/description_advanced" />
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/el_fold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            app:el_expanded="true">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.requireShort}"
+                        android:text="@string/description_advanced_type_short" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.requireInSerialization}"
+                        android:text="@string/description_advanced_type_in_serialization" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.requireFinished}"
+                        android:text="@string/description_advanced_type_finished" />
+
+                </LinearLayout>
+
+                <TableRow android:layout_width="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_reading_time" />
+
+                    <include
+                        layout="@layout/layout_min_max_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        bind:max="@={viewModel.maxTime}"
+                        bind:min="@={viewModel.minTime}" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_characters" />
+
+                    <include
+                        layout="@layout/layout_min_max_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        bind:max="@={viewModel.maxLen}"
+                        bind:min="@={viewModel.minLen}" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_overall_points" />
+
+                    <include
+                        layout="@layout/layout_min_max_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        bind:max="@={viewModel.maxGlobalPoint}"
+                        bind:min="@={viewModel.minGlobalPoint}" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_last_refresh" />
+
+                    <include
+                        android:id="@+id/dp_last_up"
+                        layout="@layout/layout_min_max_date_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        bind:max="@{viewModel.maxLastUp}"
+                        bind:min="@{viewModel.minLastUp}" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_first_upload" />
+
+                    <include
+                        android:id="@+id/dp_first_up"
+                        layout="@layout/layout_min_max_date_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        bind:max="@{viewModel.maxFirstUp}"
+                        bind:min="@{viewModel.minFirstUp}" />
+
+                </TableRow>
+            </TableLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
+    </LinearLayout>
+</layout>

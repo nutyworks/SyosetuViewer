@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.ui.novellist
+package me.nutyworks.syosetuviewerv2.ui.main.fragment.novel
 
 import android.app.Application
 import android.content.Intent
@@ -16,11 +16,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.SyosetuViewerApplication
-import me.nutyworks.syosetuviewerv2.adapter.NovelDetailAdapter
-import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.detail.NovelDetailAdapter
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.list.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
 import me.nutyworks.syosetuviewerv2.utilities.ValidatorException
 import org.jsoup.HttpStatusException
@@ -28,7 +28,7 @@ import org.jsoup.HttpStatusException
 class NovelViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
-        private val TAG = NovelViewModel::class.simpleName
+        private const val TAG = "NovelViewModel"
     }
 
     init {

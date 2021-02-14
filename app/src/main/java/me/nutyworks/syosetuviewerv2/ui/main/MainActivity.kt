@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2
+package me.nutyworks.syosetuviewerv2.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,9 +12,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel
-import me.nutyworks.syosetuviewerv2.ui.search.SearchViewModel
-import me.nutyworks.syosetuviewerv2.ui.settings.SettingsViewModel
+import me.nutyworks.syosetuviewerv2.R
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.NovelViewModel
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.search.SearchViewModel
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.settings.SettingsViewModel
+import me.nutyworks.syosetuviewerv2.ui.searchresult.SearchResultActivity
+import me.nutyworks.syosetuviewerv2.ui.viewer.NovelViewerActivity
 
 class MainActivity : AppCompatActivity() {
 

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.SearchResultViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.searchresult.SearchResultViewModel" />
 
         <variable
             name="position"
@@ -48,10 +48,10 @@
             android:textSize="14sp" />
 
         <com.google.android.flexbox.FlexboxLayout
-            android:layout_marginTop="4dp"
             android:id="@+id/fl_keywords_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             app:dividerDrawable="@drawable/keyword_divider"
             app:flexWrap="wrap"
             app:showDivider="end|middle">
