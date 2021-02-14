@@ -27,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            app:el_expanded="false"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:el_expanded="false">
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -43,20 +43,20 @@
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/description_advanced_type_short"
-                        android:checked="@={viewModel.requireShort}" />
+                        android:checked="@={viewModel.requireShort}"
+                        android:text="@string/description_advanced_type_short" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/description_advanced_type_in_serialization"
-                        android:checked="@={viewModel.requireInSerialization}" />
+                        android:checked="@={viewModel.requireInSerialization}"
+                        android:text="@string/description_advanced_type_in_serialization" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/description_advanced_type_finished"
-                        android:checked="@={viewModel.requireFinished}" />
+                        android:checked="@={viewModel.requireFinished}"
+                        android:text="@string/description_advanced_type_finished" />
 
                 </LinearLayout>
 
@@ -69,8 +69,8 @@
 
                     <include
                         layout="@layout/layout_min_max_settings"
-                        bind:min="@={viewModel.minTime}"
-                        bind:max="@={viewModel.maxTime}" />
+                        bind:max="@={viewModel.maxTime}"
+                        bind:min="@={viewModel.minTime}" />
 
                 </TableRow>
 
@@ -83,8 +83,8 @@
 
                     <include
                         layout="@layout/layout_min_max_settings"
-                        bind:min="@={viewModel.minLen}"
-                        bind:max="@={viewModel.maxLen}" />
+                        bind:max="@={viewModel.maxLen}"
+                        bind:min="@={viewModel.minLen}" />
 
                 </TableRow>
 
@@ -97,8 +97,8 @@
 
                     <include
                         layout="@layout/layout_min_max_settings"
-                        bind:min="@={viewModel.minGlobalPoint}"
-                        bind:max="@={viewModel.maxGlobalPoint}" />
+                        bind:max="@={viewModel.maxGlobalPoint}"
+                        bind:min="@={viewModel.minGlobalPoint}" />
 
                 </TableRow>
 
@@ -115,14 +115,14 @@
 
                         <EditText
                             android:id="@+id/dpMinLastUp"
-                            android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.minLastUp}"
+                            android:layout_weight="1"
+                            android:focusable="false"
                             android:hint="@string/date_example"
-                            android:inputType="none"
                             android:importantForAutofill="no"
-                            android:focusable="false" />
+                            android:inputType="none"
+                            android:text="@{viewModel.minLastUp}" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -131,14 +131,14 @@
 
                         <EditText
                             android:id="@+id/dpMaxLastUp"
-                            android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:focusable="false"
-                            android:text="@{viewModel.maxLastUp}"
                             android:hint="@string/date_example"
+                            android:importantForAutofill="no"
                             android:inputType="none"
-                            android:importantForAutofill="no" />
+                            android:text="@{viewModel.maxLastUp}" />
                     </LinearLayout>
                 </TableRow>
 
@@ -155,14 +155,14 @@
 
                         <EditText
                             android:id="@+id/dpMinFirstUp"
-                            android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.minFirstUp}"
+                            android:layout_weight="1"
+                            android:focusable="false"
                             android:hint="@string/date_example"
-                            android:inputType="none"
                             android:importantForAutofill="no"
-                            android:focusable="false" />
+                            android:inputType="none"
+                            android:text="@{viewModel.minFirstUp}" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -171,14 +171,14 @@
 
                         <EditText
                             android:id="@+id/dpMaxFirstUp"
-                            android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:focusable="false"
-                            android:text="@{viewModel.maxFirstUp}"
                             android:hint="@string/date_example"
+                            android:importantForAutofill="no"
                             android:inputType="none"
-                            android:importantForAutofill="no" />
+                            android:text="@{viewModel.maxFirstUp}" />
                     </LinearLayout>
                 </TableRow>
             </TableLayout>

@@ -3,24 +3,29 @@
 
     <data>
 
-        <variable name="min" type="String" />
-        <variable name="max" type="String" />
+        <variable
+            name="min"
+            type="String" />
+
+        <variable
+            name="max"
+            type="String" />
     </data>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:weightSum="2"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <EditText
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@={min}"
+            android:layout_weight="1"
             android:hint="@string/description_minimum"
+            android:importantForAutofill="no"
             android:inputType="number"
-            android:importantForAutofill="no" />
+            android:text="@={min}" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,12 +33,12 @@
             android:text="@string/tilde" />
 
         <EditText
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@={max}"
+            android:layout_weight="1"
             android:hint="@string/description_maximum"
+            android:importantForAutofill="no"
             android:inputType="number"
-            android:importantForAutofill="no" />
+            android:text="@={max}" />
     </LinearLayout>
 </layout>

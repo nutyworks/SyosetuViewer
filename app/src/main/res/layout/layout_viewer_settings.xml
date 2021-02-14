@@ -47,15 +47,15 @@
 
             <include
                 layout="@layout/layout_number_settings"
+                bind:changeMethod="@{viewModel.changeTextSize}"
                 bind:description="@{@string/text_size}"
-                bind:value="@{viewModel.textSize}"
-                bind:changeMethod="@{viewModel.changeTextSize}" />
+                bind:value="@{viewModel.textSize}" />
 
             <include
                 layout="@layout/layout_number_settings"
+                bind:changeMethod="@{viewModel.changeParagraphSpacing}"
                 bind:description="@{@string/paragraph_spacing}"
-                bind:value="@{viewModel.paragraphSpacing}"
-                bind:changeMethod="@{viewModel.changeParagraphSpacing}" />
+                bind:value="@{viewModel.paragraphSpacing}" />
 
         </LinearLayout>
 
