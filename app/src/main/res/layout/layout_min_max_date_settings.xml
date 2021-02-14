@@ -23,10 +23,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/description_minimum"
+            android:focusable="false"
+            android:hint="@string/date_example"
             android:importantForAutofill="no"
-            android:inputType="number"
-            android:text="@={min}" />
+            android:inputType="none"
+            android:text="@{min}" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,9 +39,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/description_maximum"
+            android:focusable="false"
+            android:hint="@string/date_example"
             android:importantForAutofill="no"
-            android:inputType="number"
-            android:text="@={max}" />
+            android:inputType="none"
+            android:text="@{max}" />
     </LinearLayout>
 </layout>

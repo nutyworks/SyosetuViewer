@@ -43,10 +43,10 @@ class SearchFragment : Fragment() {
         mViewModel.genreExpansionToggleEvent.observe(viewLifecycleOwner) { toggleGenreExpansion() }
         mViewModel.advancedExpansionToggleEvent.observe(viewLifecycleOwner) { toggleAdvancedExpansion() }
 
-        setDatePickerListener(binding.expandableAdvanced.dpMinLastUp, "nl")
-        setDatePickerListener(binding.expandableAdvanced.dpMaxLastUp, "xl")
-        setDatePickerListener(binding.expandableAdvanced.dpMinFirstUp, "nf")
-        setDatePickerListener(binding.expandableAdvanced.dpMaxFirstUp, "xf")
+        setDatePickerListener(binding.expandableAdvanced.dpLastUp.min, "nl")
+        setDatePickerListener(binding.expandableAdvanced.dpLastUp.max, "xl")
+        setDatePickerListener(binding.expandableAdvanced.dpFirstUp.min, "nf")
+        setDatePickerListener(binding.expandableAdvanced.dpFirstUp.max, "xf")
 
         return binding.root
     }

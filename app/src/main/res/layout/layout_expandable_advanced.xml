@@ -109,37 +109,12 @@
                         android:layout_gravity="center_vertical"
                         android:text="@string/description_advanced_last_refresh" />
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                    <include
+                        android:id="@+id/dp_last_up"
+                        layout="@layout/layout_min_max_date_settings"
+                        bind:max="@{viewModel.maxLastUp}"
+                        bind:min="@{viewModel.minLastUp}" />
 
-                        <EditText
-                            android:id="@+id/dpMinLastUp"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:focusable="false"
-                            android:hint="@string/date_example"
-                            android:importantForAutofill="no"
-                            android:inputType="none"
-                            android:text="@{viewModel.minLastUp}" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tilde" />
-
-                        <EditText
-                            android:id="@+id/dpMaxLastUp"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:focusable="false"
-                            android:hint="@string/date_example"
-                            android:importantForAutofill="no"
-                            android:inputType="none"
-                            android:text="@{viewModel.maxLastUp}" />
-                    </LinearLayout>
                 </TableRow>
 
                 <TableRow>
@@ -149,37 +124,12 @@
                         android:layout_gravity="center_vertical"
                         android:text="@string/description_advanced_first_upload" />
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                    <include
+                        android:id="@+id/dp_first_up"
+                        layout="@layout/layout_min_max_date_settings"
+                        bind:max="@{viewModel.maxFirstUp}"
+                        bind:min="@{viewModel.minFirstUp}" />
 
-                        <EditText
-                            android:id="@+id/dpMinFirstUp"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:focusable="false"
-                            android:hint="@string/date_example"
-                            android:importantForAutofill="no"
-                            android:inputType="none"
-                            android:text="@{viewModel.minFirstUp}" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tilde" />
-
-                        <EditText
-                            android:id="@+id/dpMaxFirstUp"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:focusable="false"
-                            android:hint="@string/date_example"
-                            android:importantForAutofill="no"
-                            android:inputType="none"
-                            android:text="@{viewModel.maxFirstUp}" />
-                    </LinearLayout>
                 </TableRow>
             </TableLayout>
         </net.cachapa.expandablelayout.ExpandableLayout>
