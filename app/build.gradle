@@ -53,7 +53,7 @@ android {
 dependencies {
 
     def room_version = "2.2.6"
-    def lifecycle_version = "2.2.0"
+    def lifecycle_version = "2.3.0"
     def navigation_version = "2.3.3"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
