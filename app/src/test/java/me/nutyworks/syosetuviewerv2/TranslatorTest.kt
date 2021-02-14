@@ -1,15 +1,15 @@
 package me.nutyworks.syosetuviewerv2
 
+import com.google.common.truth.Truth.assertThat
 import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.network.PapagoRequester
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
-import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class TranslatorTest {
     @Test
     fun `PapagoRequester translation test`() {
-        assertEquals(PapagoRequester.request("ja-ko", "リンゴ"), "사과")
+        assertThat(PapagoRequester.request("ja-ko", "リンゴ")).isEqualTo("사과")
     }
 
     @Test
@@ -28,6 +28,6 @@ class TranslatorTest {
 
         val results: List<String> = wrappers.map { it.translated }
 
-        assertEquals(results, listOf("안녕하세요", "사과"))
+        assertThat(results).isEqualTo(listOf("안녕하세요", "사과"))
     }
 }
