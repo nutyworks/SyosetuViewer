@@ -4,4 +4,13 @@
     <style name="KeywordItem" parent="TextAppearance.AppCompat">
         <item name="android:background">@drawable/keyword_border</item>
     </style>
+
+    <style name="ExpandableLayoutTextView" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:background">?android:windowBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:elevation">6dp</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:padding">16dp</item>
+    </style>
 </resources>
