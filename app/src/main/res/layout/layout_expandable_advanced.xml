@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:orientation="vertical"
-            app:el_expanded="false">
+            app:el_expanded="true">
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -60,7 +60,7 @@
 
                 </LinearLayout>
 
-                <TableRow>
+                <TableRow android:layout_width="match_parent">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -69,6 +69,9 @@
 
                     <include
                         layout="@layout/layout_min_max_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         bind:max="@={viewModel.maxTime}"
                         bind:min="@={viewModel.minTime}" />
 
@@ -83,6 +86,9 @@
 
                     <include
                         layout="@layout/layout_min_max_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         bind:max="@={viewModel.maxLen}"
                         bind:min="@={viewModel.minLen}" />
 
@@ -97,6 +103,9 @@
 
                     <include
                         layout="@layout/layout_min_max_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         bind:max="@={viewModel.maxGlobalPoint}"
                         bind:min="@={viewModel.minGlobalPoint}" />
 
@@ -112,6 +121,9 @@
                     <include
                         android:id="@+id/dp_last_up"
                         layout="@layout/layout_min_max_date_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         bind:max="@{viewModel.maxLastUp}"
                         bind:min="@{viewModel.minLastUp}" />
 
@@ -127,6 +139,9 @@
                     <include
                         android:id="@+id/dp_first_up"
                         layout="@layout/layout_min_max_date_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         bind:max="@{viewModel.maxFirstUp}"
                         bind:min="@{viewModel.minFirstUp}" />
 

@@ -20,13 +20,12 @@
 
         <EditText
             android:id="@+id/min"
+            style="@style/DatePickerEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:focusable="false"
-            android:hint="@string/date_example"
+            android:hint="@string/description_minimum"
             android:importantForAutofill="no"
-            android:inputType="none"
             android:text="@{min}" />
 
         <TextView
@@ -36,13 +35,12 @@
 
         <EditText
             android:id="@+id/max"
+            style="@style/DatePickerEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:focusable="false"
-            android:hint="@string/date_example"
+            android:hint="@string/description_maximum"
             android:importantForAutofill="no"
-            android:inputType="none"
             android:text="@{max}" />
     </LinearLayout>
 </layout>
