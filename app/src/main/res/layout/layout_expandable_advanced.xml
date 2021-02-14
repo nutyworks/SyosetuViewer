@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="me.nutyworks.syosetuviewerv2.ui.main.fragment.search.SearchViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/ExpandableLayoutTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.toggleAdvancedExpansion()}"
+            android:text="@string/description_advanced" />
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/el_fold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:el_expanded="false"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description_advanced_type_short"
+                        android:checked="@={viewModel.requireShort}" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description_advanced_type_in_serialization"
+                        android:checked="@={viewModel.requireInSerialization}" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description_advanced_type_finished"
+                        android:checked="@={viewModel.requireFinished}" />
+
+                </LinearLayout>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_reading_time" />
+
+                    <include
+                        layout="@layout/layout_min_max_settings"
+                        bind:min="@={viewModel.minTime}"
+                        bind:max="@={viewModel.maxTime}" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_characters" />
+
+                    <include
+                        layout="@layout/layout_min_max_settings"
+                        bind:min="@={viewModel.minLen}"
+                        bind:max="@={viewModel.maxLen}" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_overall_points" />
+
+                    <include
+                        layout="@layout/layout_min_max_settings"
+                        bind:min="@={viewModel.minGlobalPoint}"
+                        bind:max="@={viewModel.maxGlobalPoint}" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_last_refresh" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <EditText
+                            android:id="@+id/dpMinLastUp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.minLastUp}"
+                            android:hint="@string/date_example"
+                            android:inputType="none"
+                            android:importantForAutofill="no"
+                            android:focusable="false" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tilde" />
+
+                        <EditText
+                            android:id="@+id/dpMaxLastUp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:text="@{viewModel.maxLastUp}"
+                            android:hint="@string/date_example"
+                            android:inputType="none"
+                            android:importantForAutofill="no" />
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/description_advanced_first_upload" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <EditText
+                            android:id="@+id/dpMinFirstUp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.minFirstUp}"
+                            android:hint="@string/date_example"
+                            android:inputType="none"
+                            android:importantForAutofill="no"
+                            android:focusable="false" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tilde" />
+
+                        <EditText
+                            android:id="@+id/dpMaxFirstUp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:text="@{viewModel.maxFirstUp}"
+                            android:hint="@string/date_example"
+                            android:inputType="none"
+                            android:importantForAutofill="no" />
+                    </LinearLayout>
+                </TableRow>
+            </TableLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
+    </LinearLayout>
+</layout>
