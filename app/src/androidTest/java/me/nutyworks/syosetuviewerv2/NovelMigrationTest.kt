@@ -25,7 +25,8 @@ class NovelMigrationTest {
     @Test
     fun migrate3To4() {
         helper.createDatabase(testDb, 3).apply {
-            execSQL("""
+            execSQL(
+                """
                 CREATE TABLE IF NOT EXISTS novels(
                     ncode TEXT PRIMARY KEY NOT NULL,
                     title TEXT NOT NULL DEFAULT '',
@@ -35,7 +36,8 @@ class NovelMigrationTest {
                     recentWatchedEpisode INT NOT NULL DEFAULT 0,
                     recentWatchedPercent FLOAT NOT NULL DEFAULT 0
                 )
-                """.trimIndent())
+                """.trimIndent()
+            )
             execSQL("""INSERT INTO novels values ('n4154fl', 'test title1', 'test translated title1', 'test writer1', '', 1, 98.5)""")
             execSQL("""INSERT INTO novels values ('n1234b', 'test title2', 'test translated title2', 'test writer2', '', 54, 1)""")
 
