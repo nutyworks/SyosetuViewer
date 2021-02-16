@@ -57,21 +57,9 @@ class NovelListFragment : Fragment() {
                 listRecyclerViewIsVisible.set(it.isNotEmpty())
             }
             dialogControlEvent.observe(viewLifecycleOwner) { showDialogAddNovel() }
-            snackBarNetworkFailEvent.observe(viewLifecycleOwner) { showNetworkFailSnackbar() }
-            snackBarInvalidNcodeEvent.observe(viewLifecycleOwner) { showInvalidNcodeSnackbar() }
             novelDeleteEvent.observe(viewLifecycleOwner) { showUndoSnackbar() }
             startNovelDetailFragmentEvent.observe(viewLifecycleOwner) { startNovelDetailFragment() }
         }
-    }
-
-    private fun showNetworkFailSnackbar() {
-        Log.i(TAG, "showNetworkFailSnackbar called")
-        Snackbar.make(mRoot, "Failed to get novel, please try again.", Snackbar.LENGTH_LONG).show()
-    }
-
-    private fun showInvalidNcodeSnackbar() {
-        Log.i(TAG, "showNetworkFailSnackbar called")
-        Snackbar.make(mRoot, "Invalid ncode, please try again.", Snackbar.LENGTH_LONG).show()
     }
 
     private fun showDialogAddNovel() {
