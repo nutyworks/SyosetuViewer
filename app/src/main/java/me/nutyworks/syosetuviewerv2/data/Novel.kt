@@ -12,6 +12,7 @@ data class Novel(
     val title: String,
     val translatedTitle: String,
     val writer: String,
+    val isR18: Boolean = false,
     var readIndexes: String = "",
     var recentWatchedEpisode: Int = 0,
     var recentWatchedPercent: Float = 0f,
@@ -27,5 +28,11 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL("ALTER TABLE novels ADD COLUMN recentWatchedEpisode INT NOT NULL DEFAULT 0")
         database.execSQL("ALTER TABLE novels ADD COLUMN recentWatchedPercent FLOAT NOT NULL DEFAULT 0")
+    }
+}
+
+val MIGRATION_3_4 = object : Migration(3, 4) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE novels ADD COLUMN isR18 INT NOT NULL DEFAULT 0")
     }
 }

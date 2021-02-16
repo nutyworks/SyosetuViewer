@@ -11,8 +11,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import me.nutyworks.syosetuviewerv2.R
+import me.nutyworks.syosetuviewerv2.databinding.ActivityMainBinding
 import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.NovelViewModel
 import me.nutyworks.syosetuviewerv2.ui.main.fragment.search.SearchViewModel
 import me.nutyworks.syosetuviewerv2.ui.main.fragment.settings.SettingsViewModel
@@ -29,14 +30,14 @@ class MainActivity : AppCompatActivity() {
     private val mSearchViewModel: SearchViewModel by viewModels()
     private val mSettingsViewModel: SettingsViewModel by viewModels()
 
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         applySelectedTheme()
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        navView.setOnNavigationItemReselectedListener { }
+        setContentView(binding.root)
+        binding.navView.setOnNavigationItemReselectedListener { }
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        binding.navView.setupWithNavController(navController)
 
         when (intent?.action) {
             Intent.ACTION_SEND -> {
@@ -78,10 +79,15 @@ class MainActivity : AppCompatActivity() {
             startNovelViewerActivityEvent.observe(this@MainActivity) { percent ->
                 startNovelViewerActivity(percent)
             }
+            snackbarText.observe(this@MainActivity, this@MainActivity::showSnackbar)
         }
         with(mSearchViewModel) {
             startSearchResultActivityEvent.observe(this@MainActivity) { startSearchResultActivity() }
         }
+    }
+
+    private fun showSnackbar(text: String) {
+        Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).show()
     }
 
     private fun startNovelViewerActivity(percent: Float) {

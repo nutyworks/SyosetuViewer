@@ -10,6 +10,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -21,9 +22,8 @@ import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.detail.NovelDetailAdapter
 import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.list.NovelListAdapter
+import me.nutyworks.syosetuviewerv2.utilities.Result
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
-import me.nutyworks.syosetuviewerv2.utilities.ValidatorException
-import org.jsoup.HttpStatusException
 
 class NovelViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -110,6 +110,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     val snackBarNetworkFailEvent = SingleLiveEvent<Void>()
     val snackBarInvalidNcodeEvent = SingleLiveEvent<Void>()
     val novelDeleteEvent = SingleLiveEvent<Void>()
+    val snackbarText = SingleLiveEvent<String>()
 
     val startNovelDetailFragmentEvent = SingleLiveEvent<Void>()
     val novelDetailFetchFinishEvent = SingleLiveEvent<Void>()
@@ -168,18 +169,13 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun insertNovel(ncode: String) {
-        GlobalScope.launch {
-            try {
-                mRepository.insertNovel(ncode)
-            } catch (e: ValidatorException) {
-                Log.w(TAG, "Novel insert failed", e)
-                withContext(Dispatchers.Main) {
-                    snackBarInvalidNcodeEvent.call()
+        viewModelScope.launch {
+            when (val result = mRepository.insertNovel(ncode)) {
+                is Result.Success -> {
+                    snackbarText.postValue("Novel added!")
                 }
-            } catch (e: HttpStatusException) {
-                Log.w(TAG, "Novel insert failed", e)
-                withContext(Dispatchers.Main) {
-                    snackBarInvalidNcodeEvent.call()
+                is Result.Failure -> {
+                    snackbarText.postValue(result.throwable.message ?: "Failed")
                 }
             }
         }
