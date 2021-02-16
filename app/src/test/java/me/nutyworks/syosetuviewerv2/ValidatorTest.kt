@@ -6,13 +6,13 @@ import org.junit.Test
 
 class ValidatorTest {
     @Test
-    fun `validator test returns success`() {
+    fun `valid ncode`() {
         NcodeValidator.validate("n1234b")
         NcodeValidator.validate("N4154FL")
     }
 
     @Test(expected = ValidatorException::class)
-    fun `validator test throws ValidatorException`() {
+    fun `invalid ncode`() {
         NcodeValidator.validate("n12341b")
     }
 }

@@ -8,12 +8,12 @@ import org.junit.Test
 
 class TranslatorTest {
     @Test
-    fun `PapagoRequester translation test`() {
+    fun `translation test`() {
         assertThat(PapagoRequester.request("ja-ko", "リンゴ")).isEqualTo("사과")
     }
 
     @Test
-    fun `PapagoRequester BulkTranslator test`() {
+    fun `bulk translator test`() {
 
         val wrappers: List<TranslationWrapper> = listOf(
             "おはようございます。",

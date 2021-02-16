@@ -10,21 +10,31 @@ import org.junit.Test
 class NarouTest {
 
     @Test
-    fun `Narou getNovel, Valid ncode, Returns true`() {
-        Narou.getNovel("n6316bn").let {
+    fun `get novel with valid ncode non-r18`() {
+        Narou.getNovel("n6316bn", false).let {
             assertThat(it.ncode).isEqualTo("n6316bn")
             assertThat(it.title).isEqualTo("転生したらスライムだった件")
             assertThat(it.writer).isEqualTo("伏瀬")
         }
     }
 
-    @Test(expected = HttpStatusException::class)
-    fun `Narou getNovel, Invalid ncode, Throws HttpStatusException`() {
-        Narou.getNovel("n1123da")
+    @Test(expected = IllegalAccessException::class)
+    fun `get novel with valid ncode r18 not over 18`() {
+        Narou.getNovel("n9504fy", false)
     }
 
     @Test
-    fun `Narou getNovelBodies, Valid ncode, Returns true`() {
+    fun `get novel with valid ncode r18 over 18`() {
+        Narou.getNovel("n9504fy", true)
+    }
+
+    @Test(expected = HttpStatusException::class)
+    fun `get novel with invalid ncode`() {
+        Narou.getNovel("n1123da", false)
+    }
+
+    @Test
+    fun `get novel bodies with valid ncode`() {
         Narou.getNovelBodies("n6316bn").let {
             assertThat(it.size).isEqualTo(316)
             assertThat(it[0].isChapter).isTrue()
@@ -33,12 +43,12 @@ class NarouTest {
     }
 
     @Test(expected = HttpStatusException::class)
-    fun `Narou getNovelBodies, Invalid ncode simple, Throws HttpStatusException`() {
+    fun `get novel bodies with invalid ncode`() {
         Narou.getNovelBodies("n1123da")
     }
 
     @Test
-    fun `Narou getNovelBody, Valid ncode valid index, Returns true`() {
+    fun `get novel body with valid ncode and valid index`() {
         Narou.getNovelBody("n6316bn", 1).let {
             assertThat(it.title.original).isEqualTo("死亡～そして転生～")
             assertThat(it.isChapter).isEqualTo(false)
@@ -51,7 +61,7 @@ class NarouTest {
     }
 
     @Test
-    fun `Narou getNovelBody, Valid ncode valid index with illustration, Returns true`() {
+    fun `get novel body with valid ncode and valid index with illustration`() {
         Narou.getNovelBody("n6316bn", 87).let {
             assertThat(it.mainTextWrappers).containsAtLeast(
                 ImageWrapper(
@@ -64,12 +74,12 @@ class NarouTest {
     }
 
     @Test(expected = HttpStatusException::class)
-    fun `Narou getNovelBody, Valid ncode invalid index, Throws HttpStatusException`() {
+    fun `get novel body with valid ncode and invalid index`() {
         Narou.getNovelBody("n6316bn", 0)
     }
 
     @Test(expected = HttpStatusException::class)
-    fun `Narou getNovelBody, Invalid ncode, Throws HttpStatusException`() {
+    fun `get novel body with invalid ncode`() {
         Narou.getNovelBody("n1123da", 1)
     }
 }
