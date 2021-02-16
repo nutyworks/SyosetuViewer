@@ -14,8 +14,9 @@ import me.nutyworks.syosetuviewerv2.network.Narou
 import me.nutyworks.syosetuviewerv2.network.Yomou
 import me.nutyworks.syosetuviewerv2.network.bulkTranslator
 import me.nutyworks.syosetuviewerv2.utilities.NcodeValidator
+import me.nutyworks.syosetuviewerv2.utilities.Result
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
-import java.net.ConnectException
+import me.nutyworks.syosetuviewerv2.utilities.ValidatorException
 
 class NovelRepository private constructor(
     application: Application
@@ -26,6 +27,7 @@ class NovelRepository private constructor(
 
         private const val PREF_NAMESPACE_GLOBAL = "PREF_NAMESPACE_GLOBAL"
         private const val PREF_THEME = "PREF_THEME"
+        private const val PREF_OVER18 = "PREF_OVER18"
 
         private const val PREF_NAMESPACE_VIEWER = "PREF_NAMESPACE_VIEWER"
         private const val PREF_TEXT_SIZE = "PREF_TEXT_SIZE"
@@ -58,7 +60,7 @@ class NovelRepository private constructor(
     val searchResults = MutableLiveData<List<YomouSearchResult>>(listOf())
     val searchResultsInsertedEvent = SingleLiveEvent<Void>()
     val isExtraLoading = ObservableBoolean(false)
-    val snackbarText = SingleLiveEvent<String>()
+    val snackbarText = MutableLiveData<String>()
 
     val novelProgressChangeEvent = SingleLiveEvent<Void>()
 
@@ -73,6 +75,8 @@ class NovelRepository private constructor(
                 putInt(PREF_THEME, field)
             }
         }
+
+    val isOver18 = ObservableBoolean(mSharedPreferencesGlobal.getBoolean(PREF_OVER18, false))
 
     private val mSharedPreferencesViewer =
         application.getSharedPreferences(PREF_NAMESPACE_VIEWER, Context.MODE_PRIVATE)
@@ -101,18 +105,20 @@ class NovelRepository private constructor(
 
     suspend fun insertNovel(novel: Novel) = mNovelEntityDao.insert(novel)
 
-    suspend fun insertNovel(ncode: String) {
-        NcodeValidator.validate(ncode)
-
-        Log.i(TAG, "insertNovel called with ncode $ncode")
-        try {
+    suspend fun insertNovel(ncode: String): Result<Novel> {
+        return try {
+            NcodeValidator.validate(ncode)
             withContext(Dispatchers.IO) {
-                val novelEntity = Narou.getNovel(ncode)
+                val novelEntity = Narou.getNovel(ncode, isOver18.get())
                 insertNovel(novelEntity)
+                Result.Success(novelEntity)
             }
-        } catch (e: ConnectException) {
-            Log.e(TAG, "Error occurred while inserting novel", e)
-            snackbarText.value = e.message
+        } catch (e: ValidatorException) {
+            Result.Failure(e)
+        } catch (e: RuntimeException) {
+            Result.Failure(e)
+        } catch (e: IllegalAccessException) {
+            Result.Failure(e)
         }
     }
 
@@ -239,6 +245,13 @@ class NovelRepository private constructor(
         this.wordWrap.set(wordWrap)
         mSharedPreferencesViewer.edit {
             putBoolean(PREF_WORD_WRAP, wordWrap)
+        }
+    }
+
+    fun setOver18(isOver18: Boolean) {
+        this.isOver18.set(isOver18)
+        mSharedPreferencesGlobal.edit {
+            putBoolean(PREF_OVER18, isOver18)
         }
     }
 }

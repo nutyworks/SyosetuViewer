@@ -14,11 +14,13 @@ class SettingsViewModel : ViewModel() {
 
     private val mRepository = NovelRepository.getInstance()
     val theme = ObservableInt(mRepository.theme)
+    val isOverR18 = mRepository.isOver18
     val event = SingleLiveEvent<SettingsFragment.Event>()
 
     fun applySettings() {
         Log.i(TAG, "applySettings ${theme.get()}")
         mRepository.theme = theme.get()
+        mRepository.setOver18(isOverR18.get())
         event.value = SettingsFragment.Event.SettingsAppliedEvent
     }
 }
