@@ -12,7 +12,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.R
@@ -127,7 +126,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         selectedNovel.set(novel)
         startNovelDetailFragmentEvent.call()
 
-        GlobalScope.launch {
+        viewModelScope.launch {
             mRepository.fetchSelectedNovelBodies(novel.ncode)
             withContext(Dispatchers.Main) {
                 novelDetailFetchFinishEvent.call()
@@ -157,7 +156,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun markAsRead(novel: Novel, index: Int) {
-        GlobalScope.launch {
+        viewModelScope.launch {
             mRepository.markAsRead(novel, index)
         }
     }
@@ -182,7 +181,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun deleteNovel(novel: Novel) {
-        GlobalScope.launch {
+        viewModelScope.launch {
             mRepository.deleteNovel(novel)
         }
     }
@@ -195,7 +194,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun undoDelete() {
-        GlobalScope.launch {
+        viewModelScope.launch {
             mRecentlyDeletedNovel?.let {
                 mRepository.insertNovel(it)
             }
@@ -206,10 +205,8 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
             Log.i(TAG, "received from sharing, $it")
 
-            """https://ncode.syosetu.com/([Nn]\d{4}[A-Za-z]{1,2})(?:/?.*)""".toRegex()
-                .matchEntire(it)?.groups?.get(1)?.value?.let { ncode ->
-                    insertNovel(ncode)
-                } ?: snackBarInvalidNcodeEvent.call()
+            """https://ncode.syosetu.com/(.+?)(?:/?.*)""".toRegex()
+                .matchEntire(it)?.groups?.get(1)?.value?.let { ncode -> insertNovel(ncode) }
         }
     }
 
