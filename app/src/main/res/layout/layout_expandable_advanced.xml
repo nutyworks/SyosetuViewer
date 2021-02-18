@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:orientation="vertical"
-            app:el_expanded="true">
+            app:el_expanded="false">
 
             <TableLayout
                 android:layout_width="match_parent"
