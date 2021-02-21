@@ -9,9 +9,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
 import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
+import me.nutyworks.syosetuviewerv2.data.wrap
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
+import java.io.IOException
 import kotlin.properties.Delegates
 
 class NovelViewerViewModel : ViewModel() {
@@ -55,8 +58,30 @@ class NovelViewerViewModel : ViewModel() {
 
     private fun fetchEpisode() {
         mViewModelScope.launch {
-            mRepository.fetchEpisode(ncode, index)
-            mainTextUpdateEvent.call()
+            try {
+                mRepository.fetchEpisode(ncode, index)
+            } catch (e: IOException) {
+                Log.e(TAG, "networking error", e)
+                novelBody.set(
+                    NovelBody(
+                        "-".wrap(),
+                        false,
+                        0,
+                        listOf("Network error has occurred while fetching episode. Please try again.".wrap())
+                    )
+                )
+            } catch (e: Exception) {
+                novelBody.set(
+                    NovelBody(
+                        "-".wrap(),
+                        false,
+                        0,
+                        listOf("Unknown error has occurred while fetching episode.".wrap())
+                    )
+                )
+            } finally {
+                mainTextUpdateEvent.call()
+            }
         }
     }
 
