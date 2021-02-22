@@ -1,9 +1,12 @@
 package me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.detail
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import me.nutyworks.syosetuviewerv2.databinding.FragmentNovelDetailBinding
@@ -60,7 +63,9 @@ class NovelDetailFragment : Fragment() {
             novelDetailFetchFinishEvent.observe(viewLifecycleOwner) {
                 detailRecyclerviewIsVisible.set(true)
                 loadingProgressBarIsVisible.set(false)
-                updateContinueButtonText()
+                Handler(Looper.getMainLooper()).postDelayed(50) {
+                    updateContinueButtonText()
+                }
             }
             novelProgressChangeEvent.observe(viewLifecycleOwner) {
                 updateContinueButtonText()
