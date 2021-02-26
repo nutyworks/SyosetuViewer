@@ -1,3 +1,6 @@
 package me.nutyworks.syosetuviewerv2.novel
 
-interface NovelChapter : NovelContent
+data class NovelChapter(
+    override val parent: NovelContent?,
+    override val name: String,
+) : NovelContent(parent, name)
