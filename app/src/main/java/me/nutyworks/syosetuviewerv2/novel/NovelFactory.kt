@@ -7,9 +7,9 @@ abstract class NovelFactory {
     companion object {
         fun getNovel(uri: String): Novel {
             val narouRegex =
-                """https?://ncode.syosetu.com/(n\d{4}[a-z]{1,2})(?:/\d+/)?""".toRegex()
+                """https?://ncode.syosetu.com/(n\d{4}[a-z]{1,2})/?(?:\d+/)?""".toRegex()
             val kakuyomuRegex =
-                """https?://kakuyomu.jp/works/(\d+)(?:/episodes/\d+)?""".toRegex()
+                """https?://kakuyomu.jp/works/(\d+)/?(?:episodes/\d+)?""".toRegex()
 
             val (provider: NovelProvider, identifier: String) = run {
                 narouRegex.matchEntire(uri)?.destructured?.let { (ncode) ->
