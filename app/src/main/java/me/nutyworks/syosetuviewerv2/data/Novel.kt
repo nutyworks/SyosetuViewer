@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
+@Deprecated("old")
 @Entity(tableName = "novels")
 data class Novel(
     @PrimaryKey @NonNull val ncode: String,
