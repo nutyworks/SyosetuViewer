@@ -1,6 +1,7 @@
 package me.nutyworks.syosetuviewerv2
 
 import com.google.common.truth.Truth.assertThat
+import me.nutyworks.syosetuviewerv2.novel.NovelEpisode
 import me.nutyworks.syosetuviewerv2.novel.NovelFactory
 import me.nutyworks.syosetuviewerv2.novel.NovelStatus
 import me.nutyworks.syosetuviewerv2.novel.kakuyomu.KakuyomuNovel
@@ -49,6 +50,11 @@ class NovelFactoryTest {
     }
 
     @Test
+    fun narouEpisodeTest() {
+        (NovelFactory.getNovel("https://ncode.syosetu.com/n5839gu/").getContents()[4] as NovelEpisode).getMainText().forEach(::println)
+    }
+
+    @Test
     fun kakuyomuTest() {
         assertThat(NovelFactory.getNovel("https://kakuyomu.jp/works/16816452218249495335"))
             .isEqualTo(
@@ -74,5 +80,15 @@ class NovelFactoryTest {
                     113861
                 )
             )
+    }
+
+    @Test
+    fun kakuyomuEpisodeTest1() {
+        (NovelFactory.getNovel("https://kakuyomu.jp/works/1177354054893198586").getContents()[4] as NovelEpisode).getMainText().forEach(::println)
+    }
+
+    @Test
+    fun kakuyomuEpisodeTest2() {
+        (NovelFactory.getNovel("https://kakuyomu.jp/works/1177354054992481156").getContents()[0] as NovelEpisode).getMainText().forEach(::println)
     }
 }
