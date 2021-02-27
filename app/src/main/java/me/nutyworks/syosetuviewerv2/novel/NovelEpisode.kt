@@ -6,7 +6,7 @@ abstract class NovelEpisode(
     open val novel: Novel,
     open val index: Any,
 ) : NovelContent(parent, name) {
-    abstract fun getPreText(): List<String>
-    abstract fun getMainText(): List<String>
-    abstract fun getPostText(): List<String>
+    abstract fun getPreText(): List<NovelEpisodeComponent>
+    abstract fun getMainText(): List<NovelEpisodeComponent>
+    abstract fun getPostText(): List<NovelEpisodeComponent>
 }
