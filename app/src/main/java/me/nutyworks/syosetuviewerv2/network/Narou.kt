@@ -6,6 +6,7 @@ import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.wrap
 import org.jsoup.Jsoup
 
+@Deprecated("old")
 object Narou {
 
     private const val TAG = "Narou"
