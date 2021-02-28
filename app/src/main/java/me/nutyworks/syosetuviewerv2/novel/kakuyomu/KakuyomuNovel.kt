@@ -1,8 +1,10 @@
 package me.nutyworks.syosetuviewerv2.novel.kakuyomu
 
+import me.nutyworks.syosetuviewerv2.novel.NovelEntity
 import me.nutyworks.syosetuviewerv2.novel.Novel
 import me.nutyworks.syosetuviewerv2.novel.NovelChapter
 import me.nutyworks.syosetuviewerv2.novel.NovelContent
+import me.nutyworks.syosetuviewerv2.novel.NovelProvider
 import me.nutyworks.syosetuviewerv2.novel.NovelStatus
 import me.nutyworks.syosetuviewerv2.novel.RootNovelContent
 import org.jsoup.Jsoup
@@ -52,4 +54,7 @@ data class KakuyomuNovel(
                 throw IllegalStateException("Error occurred while arranging novel content.")
             }
         }.drop(1)
+
+    override fun toNovelEntity(): NovelEntity =
+        NovelEntity(identifier, NovelProvider.KAKUYOMU)
 }

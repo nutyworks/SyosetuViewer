@@ -11,4 +11,5 @@ interface Novel {
     val nCharacters: Int
 
     fun getContents(): List<NovelContent>
+    fun toNovelEntity(): NovelEntity
 }
