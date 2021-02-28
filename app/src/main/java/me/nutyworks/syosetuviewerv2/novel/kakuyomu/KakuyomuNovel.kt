@@ -1,9 +1,9 @@
 package me.nutyworks.syosetuviewerv2.novel.kakuyomu
 
-import me.nutyworks.syosetuviewerv2.novel.NovelEntity
 import me.nutyworks.syosetuviewerv2.novel.Novel
 import me.nutyworks.syosetuviewerv2.novel.NovelChapter
 import me.nutyworks.syosetuviewerv2.novel.NovelContent
+import me.nutyworks.syosetuviewerv2.novel.NovelEntity
 import me.nutyworks.syosetuviewerv2.novel.NovelProvider
 import me.nutyworks.syosetuviewerv2.novel.NovelStatus
 import me.nutyworks.syosetuviewerv2.novel.RootNovelContent
