@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.viewer.NovelViewerViewModel" />
 
         <variable
             name="position"
@@ -35,9 +35,9 @@
 
         <ImageView
             android:id="@+id/image_holder"
-            android:layout_gravity="center"
-            android:contentDescription="@string/description_image"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
+            android:layout_gravity="center"
+            android:contentDescription="@string/description_image" />
     </FrameLayout>
 </layout>

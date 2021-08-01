@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.ui.novellist
+package me.nutyworks.syosetuviewerv2.ui.main.fragment.novel
 
 import android.app.Application
 import android.content.Intent
@@ -10,25 +10,24 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.SyosetuViewerApplication
-import me.nutyworks.syosetuviewerv2.adapter.NovelDetailAdapter
-import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.NovelRepository
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.detail.NovelDetailAdapter
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.list.NovelListAdapter
+import me.nutyworks.syosetuviewerv2.utilities.Result
 import me.nutyworks.syosetuviewerv2.utilities.SingleLiveEvent
-import me.nutyworks.syosetuviewerv2.utilities.ValidatorException
-import org.jsoup.HttpStatusException
 
 class NovelViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
-        private val TAG = NovelViewModel::class.simpleName
+        private const val TAG = "NovelViewModel"
     }
 
     init {
@@ -110,10 +109,12 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     val snackBarNetworkFailEvent = SingleLiveEvent<Void>()
     val snackBarInvalidNcodeEvent = SingleLiveEvent<Void>()
     val novelDeleteEvent = SingleLiveEvent<Void>()
+    val snackbarText = SingleLiveEvent<String>()
 
     val startNovelDetailFragmentEvent = SingleLiveEvent<Void>()
     val novelDetailFetchFinishEvent = SingleLiveEvent<Void>()
     val novelProgressChangeEvent = mRepository.novelProgressChangeEvent
+    val scrollToTopEvent = SingleLiveEvent<Void>()
 
     val startNovelViewerActivityEvent = SingleLiveEvent<Float>()
     val selectedEpisode = ObservableField<NovelBody>()
@@ -125,7 +126,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         selectedNovel.set(novel)
         startNovelDetailFragmentEvent.call()
 
-        GlobalScope.launch {
+        viewModelScope.launch {
             mRepository.fetchSelectedNovelBodies(novel.ncode)
             withContext(Dispatchers.Main) {
                 novelDetailFetchFinishEvent.call()
@@ -155,7 +156,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun markAsRead(novel: Novel, index: Int) {
-        GlobalScope.launch {
+        viewModelScope.launch {
             mRepository.markAsRead(novel, index)
         }
     }
@@ -167,25 +168,20 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun insertNovel(ncode: String) {
-        GlobalScope.launch {
-            try {
-                mRepository.insertNovel(ncode)
-            } catch (e: ValidatorException) {
-                Log.w(TAG, "Novel insert failed", e)
-                withContext(Dispatchers.Main) {
-                    snackBarInvalidNcodeEvent.call()
+        viewModelScope.launch {
+            when (val result = mRepository.insertNovel(ncode)) {
+                is Result.Success -> {
+                    snackbarText.postValue("Novel added!")
                 }
-            } catch (e: HttpStatusException) {
-                Log.w(TAG, "Novel insert failed", e)
-                withContext(Dispatchers.Main) {
-                    snackBarInvalidNcodeEvent.call()
+                is Result.Failure -> {
+                    snackbarText.postValue(result.throwable.message ?: "Failed")
                 }
             }
         }
     }
 
     fun deleteNovel(novel: Novel) {
-        GlobalScope.launch {
+        viewModelScope.launch {
             mRepository.deleteNovel(novel)
         }
     }
@@ -198,7 +194,7 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun undoDelete() {
-        GlobalScope.launch {
+        viewModelScope.launch {
             mRecentlyDeletedNovel?.let {
                 mRepository.insertNovel(it)
             }
@@ -209,10 +205,8 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
             Log.i(TAG, "received from sharing, $it")
 
-            """https://ncode.syosetu.com/([Nn]\d{4}[A-Za-z]{1,2})(?:/?.*)""".toRegex()
-                .matchEntire(it)?.groups?.get(1)?.value?.let { ncode ->
-                    insertNovel(ncode)
-                } ?: snackBarInvalidNcodeEvent.call()
+            """https://ncode.syosetu.com/(.+?)(?:/?.*)""".toRegex()
+                .matchEntire(it)?.groups?.get(1)?.value?.let { ncode -> insertNovel(ncode) }
         }
     }
 
@@ -221,6 +215,10 @@ class NovelViewModel(application: Application) : AndroidViewModel(application) {
         val bodies = selectedNovelBodies.value!!
         val percent = if (btnContinueType == ContinueType.NEXT) 0f else novel.recentWatchedPercent
         onEpisodeClick(bodies.indexOfFirst { it.index == btnContinueIndex }, percent)
+    }
+
+    fun scrollToTop() {
+        scrollToTopEvent.call()
     }
 }
 

@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import me.nutyworks.syosetuviewerv2.R
-import me.nutyworks.syosetuviewerv2.adapter.NovelListAdapter
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.list.NovelListAdapter
 
 class SwipeToDeleteCallback(private val mAdapter: NovelListAdapter) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {

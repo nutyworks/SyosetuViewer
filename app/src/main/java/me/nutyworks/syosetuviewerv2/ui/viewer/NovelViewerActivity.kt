@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2
+package me.nutyworks.syosetuviewerv2.ui.viewer
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,18 +8,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.postDelayed
 import me.nutyworks.syosetuviewerv2.databinding.ActivityNovelViewerBinding
-import me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel
 import kotlin.properties.Delegates
 
 class NovelViewerActivity : AppCompatActivity() {
 
     companion object {
+        private const val TAG = "NovelViewerActivity"
+
         const val EXTRA_NCODE = "me.nutyworks.syosetuviewerv2.EXTRA_NCODE"
         const val EXTRA_INDEX = "me.nutyworks.syosetuviewerv2.EXTRA_INDEX"
         const val EXTRA_LAST_INDEX = "me.nutyworks.syosetuviewerv2.EXTRA_LAST_INDEX"
         const val EXTRA_PERCENT = "me.nutyworks.syosetuviewerv2.EXTRA_PERCENT"
-
-        private const val TAG = "NovelViewerActivity"
     }
 
     private val mViewModel: NovelViewerViewModel by viewModels()

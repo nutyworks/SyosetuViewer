@@ -10,13 +10,13 @@
 
         <variable
             name="viewModel"
-            type="me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel" />
+            type="me.nutyworks.syosetuviewerv2.ui.viewer.NovelViewerViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".NovelViewerActivity">
+        tools:context=".ui.viewer.NovelViewerActivity">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/sv_content_wrapper"

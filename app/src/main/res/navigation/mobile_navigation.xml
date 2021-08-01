@@ -7,7 +7,7 @@
 
 	<fragment
 		android:id="@+id/navigation_novel_list"
-		android:name="me.nutyworks.syosetuviewerv2.ui.novellist.NovelListFragment"
+		android:name="me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.list.NovelListFragment"
 		android:label="@string/title_novel_list"
 		tools:layout="@layout/fragment_novel_list" >
 		<action
@@ -18,19 +18,19 @@
 
 	<fragment
 		android:id="@+id/navigation_novel_detail"
-		android:name="me.nutyworks.syosetuviewerv2.ui.NovelDetailFragment"
+		android:name="me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.detail.NovelDetailFragment"
 		android:label="Novel Details"
 		tools:layout="@layout/fragment_novel_detail" />
 
 	<fragment
 		android:id="@+id/navigation_search"
-		android:name="me.nutyworks.syosetuviewerv2.ui.search.SearchFragment"
+		android:name="me.nutyworks.syosetuviewerv2.ui.main.fragment.search.SearchFragment"
 		android:label="@string/title_search"
 		tools:layout="@layout/fragment_search" />
 
 	<fragment
 		android:id="@+id/navigation_settings"
-		android:name="me.nutyworks.syosetuviewerv2.ui.settings.SettingsFragment"
+		android:name="me.nutyworks.syosetuviewerv2.ui.main.fragment.settings.SettingsFragment"
 		android:label="@string/title_settings"
 		tools:layout="@layout/fragment_settings" />
 </navigation>

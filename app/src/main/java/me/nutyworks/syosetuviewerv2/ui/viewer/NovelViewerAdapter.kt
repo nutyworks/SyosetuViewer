@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.adapter
+package me.nutyworks.syosetuviewerv2.ui.viewer
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -17,7 +17,6 @@ import me.nutyworks.syosetuviewerv2.data.ImageWrapper
 import me.nutyworks.syosetuviewerv2.data.TranslationWrapper
 import me.nutyworks.syosetuviewerv2.databinding.RowImageWrapperBinding
 import me.nutyworks.syosetuviewerv2.databinding.RowTranslationWrapperBinding
-import me.nutyworks.syosetuviewerv2.ui.NovelViewerViewModel
 
 class NovelViewerAdapter(private val viewModel: NovelViewerViewModel) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

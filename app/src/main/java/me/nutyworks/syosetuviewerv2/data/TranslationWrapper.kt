@@ -8,7 +8,7 @@ data class TranslationWrapper(
     companion object {
         const val ORIGINAL = 0
         const val TRANSLATED = 1
-        private val mRepository = NovelRepository.getInstance()
+        private val mRepository by lazy { NovelRepository.getInstance() }
     }
 
     val text
