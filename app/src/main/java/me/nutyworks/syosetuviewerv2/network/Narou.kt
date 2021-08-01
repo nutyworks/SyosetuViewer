@@ -52,7 +52,7 @@ object Narou {
         }
 
     fun getNovelBody(ncode: String, index: Int): NovelBody =
-        Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").cookie("over18", "yes").get().run {
+        Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").cookie("over18", "yes").get().runCatching {
             val body = select(".novel_subtitle").eachText().first()
 
             NovelBody(
