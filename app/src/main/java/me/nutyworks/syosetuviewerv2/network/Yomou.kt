@@ -279,7 +279,7 @@ object Yomou {
             doc.select(".searchkekka_box").map { searchResult ->
                 arrayOf(
                     searchResult.select(".novel_h > a").text().wrap(), // title
-                    *writerAndNcodeRegex.find(searchResult.html())?.groupValues?.slice(1..2)
+                    *writerAndNcodeRegex.find(searchResult.html())?.destructured?.toList()
                         ?.toTypedArray() // writer, ncode
                         ?: throw IllegalStateException("Couldn't get writer or ncode"),
                     *searchResult.select("table > tbody > tr > td:first-child").text()

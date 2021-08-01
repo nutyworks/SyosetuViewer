@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.adapter
+package me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import me.nutyworks.syosetuviewerv2.R
 import me.nutyworks.syosetuviewerv2.databinding.RowChapterItemBinding
 import me.nutyworks.syosetuviewerv2.databinding.RowEpisodeItemBinding
-import me.nutyworks.syosetuviewerv2.ui.novellist.NovelViewModel
+import me.nutyworks.syosetuviewerv2.ui.main.fragment.novel.NovelViewModel
 
 class NovelDetailAdapter(private val viewModel: NovelViewModel) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

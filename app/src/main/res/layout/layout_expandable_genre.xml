@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="me.nutyworks.syosetuviewerv2.ui.main.fragment.search.SearchViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/ExpandableLayoutTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.toggleGenreExpansion()}"
+            android:text="@string/description_genre" />
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/el_fold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:el_expanded="false">
+
+            <TableLayout
+                android:id="@+id/tl_genre_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <TextView android:text="@string/description_genre_love_affair" />
+
+                    <CheckBox
+                        android:id="@+id/cb_genre_different_world"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreDifferentWorld}"
+                        android:text="@string/description_genre_different_world" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreRealWorld}"
+                        android:text="@string/description_genre_real_world" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView android:text="@string/description_genre_fantasy" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreHighFantasy}"
+                        android:text="@string/description_genre_high_fantasy" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreLowFantasy}"
+                        android:text="@string/description_genre_low_fantasy" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView android:text="@string/description_genre_literature" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genrePureLiterature}"
+                        android:text="@string/description_genre_pure_literature" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreHumanDrama}"
+                        android:text="@string/description_genre_human_drama" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:checked="@={viewModel.genreHistory}"
+                        android:text="@string/description_genre_history" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreDetective}"
+                        android:text="@string/description_genre_detective" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:checked="@={viewModel.genreHorror}"
+                        android:text="@string/description_genre_horror" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreAction}"
+                        android:text="@string/description_genre_action" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:checked="@={viewModel.genreComedy}"
+                        android:text="@string/description_genre_comedy" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView android:text="@string/description_genre_sf" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreVrGame}"
+                        android:text="@string/description_genre_vr_game" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreUniverse}"
+                        android:text="@string/description_genre_the_universe" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:checked="@={viewModel.genreSciFi}"
+                        android:text="@string/description_genre_sci_fi" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genrePanic}"
+                        android:text="@string/description_genre_panic" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView android:text="@string/description_genre_other" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreFairyTale}"
+                        android:text="@string/description_genre_fairy_tale" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genrePoetry}"
+                        android:text="@string/description_genre_poetry" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:checked="@={viewModel.genreEssay}"
+                        android:text="@string/description_genre_essay" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.genreReplay}"
+                        android:text="@string/description_genre_replay" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:checked="@={viewModel.genreOther}"
+                        android:text="@string/description_genre_other" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView android:text="@string/description_genre_non_genre" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:checked="@={viewModel.genreNonGenre}"
+                        android:text="@string/description_genre_non_genre" />
+                </TableRow>
+            </TableLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
+    </LinearLayout>
+</layout>

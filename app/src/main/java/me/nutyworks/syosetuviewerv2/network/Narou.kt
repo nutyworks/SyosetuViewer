@@ -1,28 +1,34 @@
 package me.nutyworks.syosetuviewerv2.network
 
+import me.nutyworks.syosetuviewerv2.data.IMainTextWrapper
 import me.nutyworks.syosetuviewerv2.data.ImageWrapper
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.wrap
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 
 object Narou {
 
     private const val TAG = "Narou"
 
-    fun getNovel(ncode: String): Novel =
-        Jsoup.connect("https://ncode.syosetu.com/$ncode").get().run {
+    fun getNovel(ncode: String, isOver18: Boolean): Novel =
+        Jsoup.connect("https://ncode.syosetu.com/$ncode").cookie("over18", "yes").get().run {
             val title = select(".novel_title").html()
             val writer = select(".novel_writername > a").html().let {
                 if (it.isNullOrEmpty()) select(".novel_writername").html()
                     .replace("作者：", "") else it
             }
+            val isR18 = select(".contents1").html().contains("＜R18＞")
+
+            if (isR18 && !isOver18) throw IllegalAccessException("You must be 18 or higher.")
 
             Novel(
                 ncode,
                 title,
                 PapagoRequester.request("ja-ko", title),
-                writer
+                writer,
+                isR18,
             )
         }
 
@@ -46,25 +52,28 @@ object Narou {
         }
 
     fun getNovelBody(ncode: String, index: Int): NovelBody =
-        Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").get().runCatching {
+        Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").cookie("over18", "yes").get().runCatching {
             val body = select(".novel_subtitle").eachText().first()
-            val imgRegex =
-                """<img src="(.+?)" alt="(.+?)"[\s\S]*>""".toRegex()
-            val mainTextWrappers =
-                select("#novel_honbun > p").filter {
-                    it.text().isNotBlank() || it.html().contains(imgRegex)
-                }.map {
-
-                    imgRegex.find(it.html())?.let { match ->
-                        ImageWrapper(match.groupValues[1], match.groupValues[2])
-                    } ?: it.text().wrap()
-                }
 
             NovelBody(
                 body.wrap(),
                 false,
                 index,
-                mainTextWrappers
+                getTextWrappers(this, "#novel_p > p") +
+                    getTextWrappers(this, "#novel_honbun > p") +
+                    getTextWrappers(this, "#novel_a > p")
             )
         }.getOrThrow()
+
+    private fun getTextWrappers(document: Document, cssQuery: String): List<IMainTextWrapper> {
+        val imgRegex =
+            """<img src="(.+?)" alt="(.+?)"[\s\S]*>""".toRegex()
+        return document.select(cssQuery).filter {
+            it.text().isNotBlank() || it.html().contains(imgRegex)
+        }.map {
+            imgRegex.find(it.html())?.let { match ->
+                ImageWrapper(match.groupValues[1], match.groupValues[2])
+            } ?: it.text().wrap()
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.ui.settings
+package me.nutyworks.syosetuviewerv2.ui.main.fragment.settings
 
 import android.util.Log
 import androidx.databinding.ObservableInt
@@ -14,11 +14,13 @@ class SettingsViewModel : ViewModel() {
 
     private val mRepository = NovelRepository.getInstance()
     val theme = ObservableInt(mRepository.theme)
+    val isOverR18 = mRepository.isOver18
     val event = SingleLiveEvent<SettingsFragment.Event>()
 
     fun applySettings() {
         Log.i(TAG, "applySettings ${theme.get()}")
         mRepository.theme = theme.get()
-        event.value = SettingsFragment.Event.SETTINGS_APPLIED
+        mRepository.setOver18(isOverR18.get())
+        event.value = SettingsFragment.Event.SettingsAppliedEvent
     }
 }

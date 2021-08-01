@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="min"
+            type="String" />
+
+        <variable
+            name="max"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <EditText
+            android:id="@+id/min"
+            style="@style/DatePickerEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/description_minimum"
+            android:importantForAutofill="no"
+            android:text="@{min}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tilde" />
+
+        <EditText
+            android:id="@+id/max"
+            style="@style/DatePickerEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/description_maximum"
+            android:importantForAutofill="no"
+            android:text="@{max}" />
+    </LinearLayout>
+</layout>

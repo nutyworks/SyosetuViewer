@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.adapter
+package me.nutyworks.syosetuviewerv2.ui
 
 import android.graphics.Typeface
 import android.util.DisplayMetrics

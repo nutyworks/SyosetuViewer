@@ -1,4 +1,4 @@
-package me.nutyworks.syosetuviewerv2.ui.search
+package me.nutyworks.syosetuviewerv2.ui.main.fragment.search
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -17,7 +17,7 @@ import me.nutyworks.syosetuviewerv2.databinding.FragmentSearchBinding
 class SearchFragment : Fragment() {
 
     companion object {
-        private val TAG = SearchFragment::class.simpleName
+        private const val TAG = "SearchFragment"
     }
 
     private val mViewModel: SearchViewModel by activityViewModels()
@@ -43,10 +43,10 @@ class SearchFragment : Fragment() {
         mViewModel.genreExpansionToggleEvent.observe(viewLifecycleOwner) { toggleGenreExpansion() }
         mViewModel.advancedExpansionToggleEvent.observe(viewLifecycleOwner) { toggleAdvancedExpansion() }
 
-        setDatePickerListener(binding.dpMinLastUp, "nl")
-        setDatePickerListener(binding.dpMaxLastUp, "xl")
-        setDatePickerListener(binding.dpMinFirstUp, "nf")
-        setDatePickerListener(binding.dpMaxFirstUp, "xf")
+        setDatePickerListener(binding.expandableAdvanced.dpLastUp.min, "nl")
+        setDatePickerListener(binding.expandableAdvanced.dpLastUp.max, "xl")
+        setDatePickerListener(binding.expandableAdvanced.dpFirstUp.min, "nf")
+        setDatePickerListener(binding.expandableAdvanced.dpFirstUp.max, "xf")
 
         return binding.root
     }
@@ -74,10 +74,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun toggleGenreExpansion() {
-        binding.elFoldGenre.toggle()
+        binding.expandableGenre.elFold.toggle()
     }
 
     private fun toggleAdvancedExpansion() {
-        binding.elFoldAdvanced.toggle()
+        binding.expandableAdvanced.elFold.toggle()
     }
 }
