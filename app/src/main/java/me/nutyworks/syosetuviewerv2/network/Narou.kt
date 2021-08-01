@@ -1,10 +1,12 @@
 package me.nutyworks.syosetuviewerv2.network
 
+import me.nutyworks.syosetuviewerv2.data.IMainTextWrapper
 import me.nutyworks.syosetuviewerv2.data.ImageWrapper
 import me.nutyworks.syosetuviewerv2.data.Novel
 import me.nutyworks.syosetuviewerv2.data.NovelBody
 import me.nutyworks.syosetuviewerv2.data.wrap
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 
 object Narou {
 
@@ -48,23 +50,26 @@ object Narou {
     fun getNovelBody(ncode: String, index: Int): NovelBody =
         Jsoup.connect("https://ncode.syosetu.com/$ncode/$index").get().runCatching {
             val body = select(".novel_subtitle").eachText().first()
-            val imgRegex =
-                """<img src="(.+?)" alt="(.+?)"[\s\S]*>""".toRegex()
-            val mainTextWrappers =
-                select("#novel_honbun > p").filter {
-                    it.text().isNotBlank() || it.html().contains(imgRegex)
-                }.map {
-
-                    imgRegex.find(it.html())?.let { match ->
-                        ImageWrapper(match.groupValues[1], match.groupValues[2])
-                    } ?: it.text().wrap()
-                }
 
             NovelBody(
                 body.wrap(),
                 false,
                 index,
-                mainTextWrappers
+                getTextWrappers(this, "#novel_p > p") +
+                    getTextWrappers(this, "#novel_honbun > p") +
+                    getTextWrappers(this, "#novel_a > p")
             )
         }.getOrThrow()
+
+    private fun getTextWrappers(document: Document, cssQuery: String): List<IMainTextWrapper> {
+        val imgRegex =
+            """<img src="(.+?)" alt="(.+?)"[\s\S]*>""".toRegex()
+        return document.select(cssQuery).filter {
+            it.text().isNotBlank() || it.html().contains(imgRegex)
+        }.map {
+            imgRegex.find(it.html())?.let { match ->
+                ImageWrapper(match.groupValues[1], match.groupValues[2])
+            } ?: it.text().wrap()
+        }
+    }
 }
