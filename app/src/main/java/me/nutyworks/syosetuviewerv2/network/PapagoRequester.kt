@@ -14,7 +14,7 @@ import javax.crypto.spec.SecretKeySpec
 
 object PapagoRequester {
     private val mDeviceId = UUID.randomUUID()
-    private const val mKey = "v1.6.6_b84eb7dae4"
+    private const val mKey = "v1.6.9_0f9c783dcc"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://papago.naver.com/apis/")
@@ -43,8 +43,7 @@ object PapagoRequester {
         ).execute().body()?.translatedText
             ?.replace("&lt;", "<")
             ?.replace("&gt;", ">")
-            ?.replace("&amp;", "&")
-            ?.replace(" - 사설컬럼()", "") ?: ""
+            ?.replace("&amp;", "&") ?: ""
     }
 
     private fun generateAuthorizationToken(timestamp: Long): String {
