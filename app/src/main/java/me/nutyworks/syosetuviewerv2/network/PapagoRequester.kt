@@ -14,7 +14,7 @@ import javax.crypto.spec.SecretKeySpec
 
 object PapagoRequester {
     private val mDeviceId = UUID.randomUUID()
-    private const val mKey = "v1.6.9_0f9c783dcc"
+    private const val mKey = "v1.7.2_9d7a38d925"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://papago.naver.com/apis/")
